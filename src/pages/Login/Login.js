@@ -3,6 +3,7 @@ import { Button, Form, Input, ConfigProvider, Space, Select } from "antd";
 import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
+import Large_SubmitButton from "../../components/Button/Large_SubmitButton";
 
 import styles from "./login.module.css";
 import { colors } from "../../assets/colors";
@@ -16,6 +17,8 @@ const onFinishFailed = (errorInfo) => {
 };
 
 const Login = () => {
+  const submitForm = () => {};
+
   return (
     <div>
       <PageTitle title="Login" />
@@ -82,26 +85,15 @@ const Login = () => {
           <br />
           <br />
           <br />
-          <ConfigProvider
-            theme={{
-              token: {
-                colorPrimary: colors.yiu_dark_blue_light,
-                colorPrimaryHover: colors.yiu_dark_blue,
-              },
-            }}
-          >
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                block={true}
-                size="large"
-                style={{ height: 50 }}
-              >
-                LOGIN
-              </Button>
-            </Form.Item>
-          </ConfigProvider>
+
+          <Form.Item>
+            <Large_SubmitButton
+              name="LOGIN"
+              bgColor={colors.yiu_dark_blue_light}
+              bgColor_hover={colors.yiu_dark_blue}
+              onClick={submitForm}
+            />
+          </Form.Item>
         </Form>
       </div>
     </div>

@@ -13,14 +13,17 @@ const Join_Input = (props) => {
     <Form.Item
       label={<span className={styles.label}>{props.label}</span>}
       name={props.name}
-      rules={[
-        {
-          // required: true,
-          message: props.message,
-        },
-      ]}
+      rules={props.rules}
     >
-      <Input prefix={props.icon} placeholder={props.placeholder} size="large" />
+      <Input
+        id={props.id}
+        prefix={props.icon}
+        value={props.value}
+        placeholder={props.placeholder}
+        size="large"
+        onChange={props.onChange}
+        maxLength={props.maxLength}
+      />
     </Form.Item>
   );
 };

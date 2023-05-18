@@ -1,4 +1,4 @@
-export const question = [
+export const questions = [
   {
     value: "1",
     label: "가장 인상깊게 읽은 책은?",
