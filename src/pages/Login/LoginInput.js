@@ -1,17 +1,15 @@
 import React from "react";
 import { Button, Form, Input, ConfigProvider, Space, Select } from "antd";
-import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
 
-import styles from "./join.module.css";
+import styles from "./login.module.css";
 import { colors } from "../../assets/colors";
-import { question } from "../../assets/string/question";
 
-const Join_Input = (props) => {
+const LoginInput = (props) => {
   return (
     <Form.Item
-      label={<span className={styles.label}>{props.label}</span>}
+      // label={<span className={styles.label}>{props.label}</span>}
       name={props.name}
       rules={props.rules}
     >
@@ -23,9 +21,10 @@ const Join_Input = (props) => {
         size="large"
         onChange={props.onChange}
         maxLength={props.maxLength}
+        type={props.type}
       />
     </Form.Item>
   );
 };
 
-export default Join_Input;
+export default LoginInput;

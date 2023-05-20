@@ -1,9 +1,17 @@
 import { GET_MAIN, JOIN, LOGIN } from "../types";
+import { data_notice } from "../../assets/data/notice";
+import { data_community } from "../../assets/data/community";
+import { data_plan, plan } from "../../assets/data/plan";
 
 import axios from "axios";
 
 // 메인 데이터 가져오기
 export function getMain() {
+  const data = {
+    notice: data_notice,
+    community: data_community,
+    plan: data_plan,
+  };
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_GET_MAIN,
@@ -22,12 +30,14 @@ export function getMain() {
 
   return {
     type: GET_MAIN,
-    payload: request,
+    // payload: request,
+    payload: data,
   };
 }
 
 // 회원가입
 export function join(data) {
+  console.log("action - data: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_JOIN,
@@ -37,13 +47,14 @@ export function join(data) {
     data: {
       name: data.name,
       email: data.email,
-      pwd: data.pwd,
+      pwd: data.pwd1,
       question: data.question,
       answer: data.answer,
     },
   })
     .then((response) => {
-      return response.data;
+      console.log("회원가입 성공");
+      return true;
     })
     .catch((err) => {
       console.log("회원가입 에러", err);

@@ -8,3 +8,12 @@
   font-size: 1.2em;
   font-weight: bold;
 }
+
+.subBtn {
+  color: black;
+  font-weight: bold;
+}
+
+.subBtn:hover {
+  cursor: pointer;
+}

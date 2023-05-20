@@ -1,18 +1,15 @@
 import React from "react";
-import { Row, Col, Calendar, theme, Table, List, Card } from "antd";
+
+import { Row, Col, Calendar, Table, List } from "antd";
 import ContentBox from "./ContentBox";
 
 import { notice_columns_main } from "../../assets/string/notice_columns";
-import { data_notice } from "../../assets/data/notice";
-import { data_community } from "../../assets/data/community";
 
 const onPanelChange = (value, mode) => {
   console.log(value.format("YYYY-MM-DD"), mode);
 };
 
 const MainContent = (props) => {
-  const { token } = theme.useToken();
-
   return (
     <div style={{ marginLeft: 100, marginRight: 100 }}>
       <Row gutter={16}>
@@ -24,7 +21,7 @@ const MainContent = (props) => {
             content={
               <Table
                 columns={notice_columns_main}
-                dataSource={data_notice}
+                dataSource={props.data_notice}
                 size="middle"
                 pagination={{ hideOnSinglePage: true }}
               />
@@ -42,7 +39,7 @@ const MainContent = (props) => {
                 <h3>2023-05-13-토</h3>
                 <List
                   itemLayout="horizontal"
-                  dataSource={data_community}
+                  dataSource={props.data_community}
                   renderItem={(item, index) => (
                     <div style={{ borderRadius: 10 }}>
                       <h3>{item.writer}</h3>
@@ -78,4 +75,5 @@ const MainContent = (props) => {
     </div>
   );
 };
+
 export default MainContent;

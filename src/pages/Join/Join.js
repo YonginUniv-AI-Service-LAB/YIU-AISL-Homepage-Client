@@ -1,19 +1,13 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Form,
-  Input,
-  ConfigProvider,
-  Space,
-  Select,
-  Alert,
-  message,
-} from "antd";
-import { LockOutlined, UserOutlined, MailOutlined } from "@ant-design/icons";
+import { Form, message } from "antd";
+
+// 리덕스 사용
+import { useDispatch } from "react-redux";
+import { join } from "../../store/actions/main_actions";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
 import Large_SubmitButton from "../../components/Button/Large_SubmitButton";
-import Join_Input from "./Join_Input";
+import JoinInput from "./JoinInput";
 
 import styles from "./join.module.css";
 import { colors } from "../../assets/colors";
@@ -21,8 +15,11 @@ import { questions } from "../../assets/string/question";
 import ValidationRules from "../../utils/ValidationRules";
 
 const Join = () => {
+  const dispatch = useDispatch();
+
   const [messageApi, contextHolder] = message.useMessage();
 
+  // 에러메세지 함수
   const error = (data) => {
     console.log("왜 안되냐?", data);
     messageApi.open({
@@ -31,15 +28,7 @@ const Join = () => {
     });
   };
 
-  const [valid, setValid] = useState({
-    validId: true,
-    validName: true,
-    validEmail: true,
-    validCertification: true,
-    validPassword: true,
-    validConfirmPassword: true,
-  });
-
+  // 회원가입 폼
   const [form, setForm] = useState({
     name: {
       value: "",
@@ -79,10 +68,10 @@ const Join = () => {
     question: {
       value: 0,
       type: "select",
-      rules: {
-        isRequired: true,
-      },
-      valid: false,
+      // rules: {
+      //   isRequired: true,
+      // },
+      valid: true,
     },
     answer: {
       value: "",
@@ -96,73 +85,66 @@ const Join = () => {
     },
   });
 
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+  // 텍스트인풋 업데이트
+  const onChange = (e) => {
+    console.log("===============================");
+    console.log(e.target.id, e.target.value);
+
+    setForm((prevState) => ({
+      ...prevState,
+      [e.target.id]: {
+        ...prevState[e.target.id],
+        value: e.target.value,
+      },
+    }));
   };
 
-  // 텍스트인풋 값 업데이트
-  const updateInput = (e) => {
-    console.log("name: ", e.target.id);
-    console.log("value: ", e.target.value);
-    if (e.target.value !== undefined || e.target.value != " ") {
-      let formCopy = form;
-      formCopy[e.target.id].value = e.target.value;
-      let rules = formCopy[e.target.id].rules;
-      let valid = ValidationRules(e.target.value, rules, formCopy);
-      formCopy[e.target.id].valid = valid;
-      console.log(valid);
-      if (valid === true) setForm(formCopy);
-      // this.setState({
-      //   form: formCopy
-      // })
-      // if(name == 'password' && this.state.form.passwordConfirm.valid == true){
-      //   this.setState({
-      //     ...this.state,
-      //     form: {
-      //       ...this.state.form,
-      //       passwordConfirm: {
-      //         ...this.state.form.passwordConfirm,
-      //         valid: false
-      //       }
-      //     }
-      //   })
-      // }
-    } else {
-      console.log("공백이지롱");
-      error("공백은 입력할 수 없습니다");
-    }
+  // 텍스트인풋-셀렉트(question) 업데이트
+  const onChangeSelect = (data) => {
+    console.log(data);
+    const nextForm = {
+      ...form,
+      question: {
+        ...["question"],
+        value: data,
+      },
+    };
+    setForm(nextForm);
+
+    console.log(form.question);
   };
 
+  // 유효성 검사
   const checkFormValid = () => {
+    let checkValid = true;
+    let falseForm = [];
+
     for (let i in form) {
+      console.log(i, form[i].value);
       let rules = form[i].rules;
       let valid = ValidationRules(form[i].value, rules, form);
       form[i].valid = valid;
-      console.log(valid, form[i].valid);
+      console.log("=====", form[i].valid, "=====");
+      if (form[i].valid === false || form[i].value === "") {
+        checkValid = false;
+        falseForm.push(i);
+      }
     }
-    // for문 => 현재 값 유효성 검사 => 유효성 통과하면 true, 불통과하면 false
 
-    // let isFormValid = true;
-    // let FORM = {};
-    // const formCopy = form;
+    console.log("checkValid: ", checkValid);
+    console.log("falseForm: ", falseForm);
 
-    // for (let key in formCopy) {
-    //   console.log(key);
-    //   isFormValid = isFormValid && formCopy[key].value;
-    //   FORM[key] = formCopy[key].value;
-    // }
-    // console.log(isFormValid);
-    // if (isFormValid) setForm(FORM);
-    // else {
-    //   error("조건에 맞는 값을 입력해주세요.");
-    // }
+    if (checkValid === true) submitForm();
+    else {
+      error("조건에 맞는 값을 입력해주세요.");
+    }
   };
 
-  // 폼 유효성 검사 확인 완료 => API요청
-  const submitForm = () => {};
+  // 유효성 검사 확인 완료 => API요청
+  const submitForm = () => {
+    console.log("통과");
+    dispatch(join(form));
+  };
 
   return (
     <div>
@@ -176,130 +158,99 @@ const Join = () => {
             minWidth: 500,
             maxWidth: 600,
           }}
-          // initialValues={{
-          //   remember: true,
-          // }}
-          onFinish={checkFormValid}
-          onFinishFailed={onFinishFailed}
           autoComplete="off"
           layout="vertical"
+          onFinish={checkFormValid}
         >
-          <Join_Input
+          <JoinInput
             label="Name"
             id="name"
             name="name"
-            value={form.name}
-            placeholder="Please input your name"
-            icon={<UserOutlined style={{ marginRight: 5 }} />}
-            rules={[
-              // {
-              //   validater: checkValid()
-              // },
-              {
-                // required: true,
-                // message: props.message,
-              },
-            ]}
-            onChange={updateInput}
+            value={form.name.value}
+            placeholder="2~4자 이름 입력    예) 홍길동"
+            onChange={(e) => {
+              onChange(e);
+            }}
             minLength={2}
             maxLength={4}
           />
 
-          <Form.Item
-            label={<span className={styles.label}>Email</span>}
+          <JoinInput
+            label="Email"
+            id="email"
             name="email"
-            rules={[
-              {
-                // required: true,
-                message: "Please input your email!",
-              },
-            ]}
-          >
-            <Input
-              prefix={<MailOutlined style={{ marginRight: 5 }} />}
-              placeholder="Please input your email"
-              size="large"
-            />
-          </Form.Item>
-          <Form.Item
-            label={<span className={styles.label}>Password</span>}
-            name="password1"
-            rules={[
-              {
-                // required: true,
-                message: "Please input your Password!",
-              },
-            ]}
-          >
-            <Input
-              prefix={<LockOutlined style={{ marginRight: 5 }} />}
-              type="password"
-              placeholder="Please input your password"
-              size="large"
-            />
-          </Form.Item>
-          <Form.Item
-            label={<span className={styles.label}>Password Confirm</span>}
-            name="password2"
-            rules={[
-              {
-                // required: true,
-                message: "Please input your Password!",
-              },
-            ]}
-          >
-            <Input
-              prefix={<LockOutlined style={{ marginRight: 5 }} />}
-              type="password"
-              placeholder="Please re-enter your password"
-              size="large"
-            />
-          </Form.Item>
+            value={form.email.value}
+            placeholder="이메일 입력    예) abc@naver.com"
+            onChange={(e) => {
+              onChange(e);
+            }}
+            minLength={4}
+            maxLength={320}
+          />
 
-          {/* <Form.Item
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item> */}
-          <Form.Item
-            label={
-              <span className={styles.label}>
-                Identity verification question
-              </span>
-            }
+          <JoinInput
+            label="Password"
+            id="pwd1"
+            name="pwd1"
+            value={form.pwd1.value}
+            placeholder="영어+문자+숫자 포함 8~20자"
+            onChange={(e) => {
+              onChange(e);
+            }}
+            minLength={8}
+            maxLength={20}
+            type="password"
+          />
+
+          <JoinInput
+            label="Password Confirm"
+            id="pwd2"
+            name="pwd2"
+            value={form.pwd2.value}
+            placeholder="비밀번호 재입력"
+            onChange={(e) => {
+              onChange(e);
+            }}
+            minLength={8}
+            maxLength={20}
+            type="password"
+          />
+
+          <JoinInput
+            select={true}
+            label="Identity verification question"
+            id="question"
             name="question"
-          >
-            <Select
-              defaultValue="가장 인상깊게 읽은 책은?"
-              options={questions}
-              size="large"
-            />
-          </Form.Item>
+            options={questions}
+            value={form.question.value}
+            defaultValue={questions[0]}
+            onChange={(e) => {
+              onChangeSelect(e);
+            }}
+          />
 
-          <Form.Item
-            label={<span className={styles.label}>Answer</span>}
+          <JoinInput
+            label="Answer"
+            id="answer"
             name="answer"
-          >
-            <Input
-              required={true}
-              placeholder="Please input your answer to the identity verification question."
-              size="large"
-            />
-          </Form.Item>
+            value={form.answer.value}
+            placeholder="질문에 대한 답변 입력"
+            onChange={(e) => {
+              onChange(e);
+            }}
+            minLength={1}
+            maxLength={100}
+          />
+
           <br />
           <br />
           <br />
+
           <Form.Item>
             <Large_SubmitButton
               name="JOIN"
               bgColor={colors.yiu_dark_blue_light}
               bgColor_hover={colors.yiu_dark_blue}
-              // onClick={submitForm}
             />
           </Form.Item>
         </Form>
