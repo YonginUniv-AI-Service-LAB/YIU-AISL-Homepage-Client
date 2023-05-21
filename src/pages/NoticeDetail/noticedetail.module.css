@@ -1,7 +1,33 @@
-.table_container {
-  margin: 0 10em;
+.contents_container {
+  margin: 0 20em;
 }
 
-.table_row:hover {
-  cursor: pointer;
+.actionBtn_container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.notice_info {
+  margin: -1em auto;
+}
+
+.notice_info_left {
+}
+
+.notice_info_right {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.notice_contents {
+  font-size: 1.2em;
+  font-weight: 500;
+  white-space: pre-wrap;
+}
+
+.notice_img {
+  display: flex;
+  justify-content: center;
 }

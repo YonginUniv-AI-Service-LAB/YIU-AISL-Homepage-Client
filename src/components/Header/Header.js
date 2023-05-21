@@ -56,21 +56,21 @@ const Header = () => {
               }}
             >
               <Dropdown menu={{ items }} placement="bottom">
-                <Button type="text" size="large" href="./intro">
+                <Button type="text" size="large" href="/intro">
                   Introduce
                 </Button>
               </Dropdown>
             </ConfigProvider>
-            <HeaderNavBtn type={"text"} text="Notice" href="./notice" />
-            <HeaderNavBtn type={"text"} text="Community" href="./community" />
+            <HeaderNavBtn type={"text"} text="Notice" href="/notice" />
+            <HeaderNavBtn type={"text"} text="Community" href="/community" />
           </Space>
         </Col>
 
         {/* 로그인&회원가입 */}
         <Col span={4}>
           <Space>
-            <HeaderNavBtn type={"text"} text="Login" href="./login" />
-            <HeaderNavBtn type={"text"} text="Join" href="./join" />
+            <HeaderNavBtn type={"text"} text="Login" href="/login" />
+            <HeaderNavBtn type={"text"} text="Join" href="/join" />
           </Space>
         </Col>
       </Row>
@@ -124,26 +124,26 @@ export default Header;
 //         <Collapse isOpen={isOpen} navbar>
 //           <Nav className="ml-auto" navbar>
 //             <NavItem>
-//               <NavLink href="./intro">Intro</NavLink>
+//               <NavLink href="/intro">Intro</NavLink>
 //             </NavItem>
 //             <NavItem>
-//               <NavLink href="./notice">Notice </NavLink>
+//               <NavLink href="/notice">Notice </NavLink>
 //             </NavItem>
 //             <UncontrolledDropdown nav inNavbar>
 //               <DropdownToggle nav caret>
 //                 Community
 //               </DropdownToggle>
 //               <DropdownMenu right>
-//                 <DropdownItem href="./board">게시판</DropdownItem>
-//                 <DropdownItem href="./album">앨범</DropdownItem>
+//                 <DropdownItem href="/board">게시판</DropdownItem>
+//                 <DropdownItem href="/album">앨범</DropdownItem>
 //                 <DropdownItem divider />
 //               </DropdownMenu>
 //             </UncontrolledDropdown>
 //             <NavItem>
-//               <NavLink href="./login">로그인</NavLink>
+//               <NavLink href="/login">로그인</NavLink>
 //             </NavItem>
 //             <NavItem>
-//               <NavLink href="./join">회원가입</NavLink>
+//               <NavLink href="/join">회원가입</NavLink>
 //             </NavItem>
 //           </Nav>
 //         </Collapse>

@@ -21,8 +21,8 @@ import Login from "./pages/Login/Login";
 import Join from "./pages/Join/Join";
 import Community from "./pages/Community/Community";
 import Notice from "./pages/Notice/Notice";
-import NoticeDetail from "./pages/NoticeDetail/Notice";
-import NoticeCreate from "./pages/NoticeCreate/Notice";
+import NoticeDetail from "./pages/NoticeDetail/NoticeDetail";
+import NoticeForm from "./pages/NoticeForm/NoticeForm";
 
 function App() {
   return (
@@ -30,16 +30,17 @@ function App() {
       <ScrollToTop />
       <Layout>
         <Routes>
-          <Route path="/*" element={<Main />} />
-          <Route path="/album" element={<Album />} />
-          <Route path="/finduserinfo" element={<FindUserInfo />} />
-          <Route path="/intro" element={<Intro />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/join" element={<Join />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/notice" element={<Notice />} />
-          <Route path="/notice/detail" element={<NoticeDetail />} />
-          <Route path="/notice/create" element={<NoticeCreate />} />
+          <Route exact path="/*" element={<Main />} />
+          <Route exact path="/album" element={<Album />} />
+          <Route exact path="/finduserinfo" element={<FindUserInfo />} />
+          <Route exact path="/intro" element={<Intro />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/join" element={<Join />} />
+          <Route exact path="/community" element={<Community />} />
+          <Route exact path="/notice" element={<Notice />} />
+          <Route exact path="/notice/detail" element={<NoticeDetail />} />
+          <Route exact path="/notice/create" element={<NoticeForm />} />
+          <Route exact path="/notice/update" element={<NoticeForm />} />
         </Routes>
       </Layout>
     </BrowserRouter>

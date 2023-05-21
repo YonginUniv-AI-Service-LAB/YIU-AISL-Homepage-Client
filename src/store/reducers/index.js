@@ -7,9 +7,9 @@ import Community from "./community_reducer";
 
 const rootReducer = combineReducers({
   Main,
-  // User,
-  // Notice,
-  // Community,
+  User,
+  Notice,
+  Community,
 });
 
 export default rootReducer;

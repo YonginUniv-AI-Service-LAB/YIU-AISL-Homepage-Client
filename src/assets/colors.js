@@ -3,4 +3,10 @@ export const colors = {
   yiu_main_light: "#195a62",
   yiu_dark_blue: "#00205b",
   yiu_dark_blue_light: "#19366b",
+
+  grey_dark: "#2a3037",
+  grey_mid: "#868e96",
+  grey_light: "#dee2e6",
+
+  red_soft: "#E06666",
 };

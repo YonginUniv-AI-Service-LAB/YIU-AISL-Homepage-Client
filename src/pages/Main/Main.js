@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // 리덕스
-import { connect } from "react-redux";
 import { useDispatch, useSelector } from "react-redux";
 import { getMain } from "../../store/actions/main_actions";
 
@@ -29,9 +28,6 @@ const Main = (props) => {
   // 데이터 불러오기
   useEffect(() => {
     dispatch(getMain());
-    console.log("notice: ", notice);
-    // console.log("getMain 결과");
-    // console.log(notice, community, plan);
   }, []);
 
   return (
@@ -53,10 +49,4 @@ const Main = (props) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  notice: state.Main.notice,
-  community: state.Main.community,
-  plan: state.Main.plan,
-});
-
-export default connect(mapStateToProps)(Main);
+export default Main;

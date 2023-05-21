@@ -5,6 +5,8 @@ import {
   DELETE_NOTICE,
 } from "../types";
 
+import { data_notice } from "../../assets/data/notice";
+
 import axios from "axios";
 
 // 공지사항 가져오기
@@ -27,24 +29,27 @@ export function getNotice() {
 
   return {
     type: GET_NOTICE,
-    payload: request,
+    // payload: request,
+    payload: data_notice,
   };
 }
 
 // 공지사항 생성
 // multi form data 형식으로 변경해야함!!!!!!!!!!!!
-export function createNotice(data) {
+export function createNotice(data, img) {
+  const formData = new FormData();
+  formData.append("title", data.title);
+  formData.append("contents", data.contents);
+  formData.append("img", img);
+  console.log("액션에서 img: ", img);
+
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_CREATE_NOTICE,
     header: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "multipart/form-data",
     },
-    data: {
-      title: data.title,
-      contents: data.contents,
-      img: data.img,
-    },
+    data: formData,
   })
     .then((response) => {
       return response.data;
@@ -61,20 +66,20 @@ export function createNotice(data) {
 }
 
 // 공지사항 수정
-// multi form data 형식으로 변경해야함!!!!!!!!!!!!
-export function updateNotice(data) {
+export function updateNotice(data, img) {
+  const formData = new FormData();
+  formData.append("title", data.title);
+  formData.append("contents", data.contents);
+  formData.append("img", img);
+  console.log("액션에서 img: ", img);
+
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_UPDATE_NOTICE,
     header: {
-      "Content-Type": "application/x-www-form-urlencoded",
+      "Content-Type": "multipart/form-data",
     },
-    data: {
-      noticeid: data.noticeid,
-      title: data.title,
-      contents: data.contents,
-      img: data.img,
-    },
+    data: formData,
   })
     .then((response) => {
       return response.data;
@@ -92,6 +97,7 @@ export function updateNotice(data) {
 
 // 공지사항 삭제
 export function deleteNotice(data) {
+  console.log("액션 데이터: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_DELETE_NOTICE,
@@ -99,7 +105,7 @@ export function deleteNotice(data) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      noticeid: data.noticeid,
+      noticeid: data,
     },
   })
     .then((response) => {

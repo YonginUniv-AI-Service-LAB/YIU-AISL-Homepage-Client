@@ -27,7 +27,7 @@ const Login = () => {
     });
   };
 
-  // 회원가입 폼
+  // 로그인 폼
   const [form, setForm] = useState({
     email: {
       value: "",
