@@ -1,5 +1,6 @@
 .contents_container {
   margin: 0 20em;
+  min-height: 50em;
 }
 
 .actionBtn_container {

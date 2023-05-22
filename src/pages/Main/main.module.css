@@ -19,3 +19,16 @@
   align-self: center;
   margin: 0 auto;
 }
+
+.post_container {
+  /* border: 1px #868e96 solid; */
+  background-color: #fcece7;
+  border-radius: 10px;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-bottom: 1em;
+}
+
+.like_btn {
+  margin-bottom: 1em;
+}

@@ -14,7 +14,8 @@ export default function (state = {}, action) {
     case GET_COMMUNITY:
       return {
         ...state,
-        get_community: action.payload || false,
+        plan: action.payload.plan || false,
+        post: action.payload.post || false,
       };
     case CREATE_PLAN:
       return {

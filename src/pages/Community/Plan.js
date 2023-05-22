@@ -1,44 +1,94 @@
 import React, { useEffect, useState } from "react";
+// 리덕스
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getCommunity,
+  createPlan,
+  updatePlan,
+  deletePlan,
+} from "../../store/actions/community_actions";
+
+import {
+  Card,
+  Row,
+  Col,
+  Button,
+  List,
+  Dropdown,
+  Modal,
+  Popconfirm,
+} from "antd";
+import { PlusOutlined, MenuOutlined } from "@ant-design/icons";
 import VirtualList from "rc-virtual-list";
+
+import dayjs from "dayjs";
 import styles from "./community.module.css";
 import { data_plan } from "../../assets/data/plan";
-
-import { Card, Row, Col, Button, List, Dropdown, Space } from "antd";
-import { PlusOutlined, MenuOutlined } from "@ant-design/icons";
 
 // 섹션 높이 지정
 const ContainerHeight = 300;
 
-// 일정 편집 버튼(수정, 삭제)
-const items = [
-  {
-    key: "1",
-    label: (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.antgroup.com"
-      >
-        일정 수정
-      </a>
-    ),
-  },
-  {
-    key: "2",
-    label: (
-      <a
-        target="_blank"
-        rel="noopener noreferrer"
-        href="https://www.aliyun.com"
-      >
-        일정 삭제
-      </a>
-    ),
-  },
-];
-
 const CommunityPlan = (props) => {
-  const [data, setData] = useState(data_plan);
+  const dispatch = useDispatch();
+  const plan = useSelector((state) => state.Community.plan);
+
+  // 일정 편집 버튼(수정, 삭제)
+  const items = [
+    {
+      key: "1",
+      label: (
+        <Button
+          type="link"
+          block={true}
+          onClick={() => {
+            setType("update");
+            showModal();
+          }}
+        >
+          일정 수정
+        </Button>
+      ),
+    },
+    {
+      key: "2",
+      label: (
+        <Button
+          type="link"
+          block={true}
+          onClick={() => {
+            setType("delete");
+            showModal();
+          }}
+        >
+          일정 삭제
+        </Button>
+      ),
+    },
+  ];
+
+  const [type, setType] = useState("create");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [date, setDate] = useState(() => dayjs(new Date()));
+
+  // Plan 폼
+  const [form, setForm] = useState({
+    date: {
+      value: date,
+      type: "textInput",
+      rules: {
+        isRequired: true,
+      },
+      valid: false,
+    },
+    contents: {
+      value: "",
+      type: "textInput",
+      rules: {
+        isRequired: true,
+      },
+      valid: false,
+    },
+  });
 
   const onScroll = (e) => {
     if (
@@ -46,6 +96,13 @@ const CommunityPlan = (props) => {
       ContainerHeight
     ) {
     }
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -59,8 +116,10 @@ const CommunityPlan = (props) => {
           <Button
             color="#868e96"
             icon={<PlusOutlined />}
-            onClick={props.plusPlan}
-            onScroll={onScroll}
+            onClick={() => {
+              setType("create");
+              showModal();
+            }}
           />
         </Col>
       </Row>
@@ -69,7 +128,7 @@ const CommunityPlan = (props) => {
         <Col span={19}>
           <Card>
             <VirtualList
-              data={data}
+              data={props.data}
               height={ContainerHeight}
               itemHeight={47}
               itemKey="key"
@@ -93,6 +152,26 @@ const CommunityPlan = (props) => {
           </Card>
         </Col>
       </Row>
+      <Modal
+        title={
+          type === "create"
+            ? "새로운 일정"
+            : type === "update"
+            ? "일정 수정"
+            : "일정 삭제"
+        }
+        open={isModalOpen}
+        okText={
+          type === "create" ? "생성" : type === "update" ? "수정" : "삭제"
+        }
+        cancelText={"취소"}
+        onOk={handleOk}
+        onCancel={() => setIsModalOpen(false)}
+      >
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+      </Modal>
     </div>
   );
 };

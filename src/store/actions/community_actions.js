@@ -8,11 +8,18 @@ import {
   DELETE_POST,
   LIKE,
 } from "../types";
-
 import axios from "axios";
+
+import { data_community } from "../../assets/data/community";
+import { data_plan } from "../../assets/data/plan";
 
 // 커뮤니티 가져오기
 export function getCommunity() {
+  const data = {
+    plan: data_plan,
+    post: data_community,
+  };
+  console.log("액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_GET_COMMUNITY,
@@ -31,7 +38,7 @@ export function getCommunity() {
 
   return {
     type: GET_COMMUNITY,
-    payload: request,
+    payload: data,
   };
 }
 
@@ -91,7 +98,7 @@ export function updatePlan(data) {
 }
 
 // 일정 삭제
-export function deleteNotice(data) {
+export function deletePlan(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_DELETE_PLAN,

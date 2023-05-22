@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import dayjs from "dayjs";
 
-import { Row, Col, Calendar, Table, List } from "antd";
+import { Row, Col, Calendar, Table, List, Button } from "antd";
+import VirtualList from "rc-virtual-list";
+import { LikeOutlined } from "@ant-design/icons";
 import ContentBox from "./ContentBox";
 
 import { notice_columns_main } from "../../assets/string/notice_columns";
+import styles from "./main.module.css";
 
 const onPanelChange = (value, mode) => {
   console.log(value.format("YYYY-MM-DD"), mode);
 };
 
+const ContainerHeight = 330;
+
 const MainContent = (props) => {
+  const [today, setToday] = useState(() => dayjs(new Date()));
+
   return (
     <div style={{ marginLeft: 100, marginRight: 100 }}>
       <Row gutter={16}>
@@ -36,26 +44,36 @@ const MainContent = (props) => {
             onClick={() => props.onClick("./community")}
             content={
               <div>
-                <h3>2023-05-13-토</h3>
-                <List
-                  itemLayout="horizontal"
-                  dataSource={props.data_community}
-                  renderItem={(item, index) => (
-                    <div style={{ borderRadius: 10 }}>
-                      <h3>{item.writer}</h3>
-                      <p>{item.contents}</p>
-                    </div>
-                    // <List.Item>
-                    //   <h3>{item.writer}</h3>
-                    //   <p>{item.contents}</p>
-                    //   {/* <Card title={item.writer}>{item.contents}</Card> */}
-                    //   {/* <List.Item.Meta
-                    //     title={<a href="https://ant.design">{item.writer}</a>}
-                    //     description={item.contents}
-                    //   /> */}
-                    // </List.Item>
+                <h3>{`${today?.format("YYYY-MM-DD")}`}</h3>
+                <VirtualList
+                  data={props.data_community}
+                  height={ContainerHeight}
+                  itemHeight={47}
+                  itemKey="key"
+                >
+                  {(item) => (
+                    <List.Item key={item.key} className={styles.post_container}>
+                      <Row align={"middle"} justify={"space-between"}>
+                        <Col>
+                          <div>
+                            <h4> {item.writer}</h4>
+                            <p>{item.contents}</p>
+                          </div>
+                        </Col>
+                        {/* <h3 style={{}}>⦁ {item.contents}</h3> */}
+                      </Row>
+                      <Button
+                        type="text"
+                        icon={<LikeOutlined />}
+                        className={styles.like_btn}
+                        block={true}
+                        disabled={false}
+                      >
+                        100
+                      </Button>
+                    </List.Item>
                   )}
-                />
+                </VirtualList>
               </div>
             }
           />
