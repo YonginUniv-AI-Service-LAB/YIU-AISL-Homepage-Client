@@ -12,6 +12,7 @@ import {
 export default function (state = {}, action) {
   switch (action.type) {
     case GET_COMMUNITY:
+      console.log("리듀서: ", action.payload);
       return {
         ...state,
         plan: action.payload.plan || false,

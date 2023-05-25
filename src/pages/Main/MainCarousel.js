@@ -10,7 +10,7 @@ const MainCarousel = () => (
   <Carousel
     showThumbs={false}
     showStatus={false}
-    autoPlay={true}
+    // autoPlay={true}
     infiniteLoop={true}
     className={styles.carousel_container}
     width={"100%"}
