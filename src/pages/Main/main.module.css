@@ -15,7 +15,7 @@
 
 .carousel_img {
   height: 35em;
-  object-fit: contain;
+  object-fit: cover;
   align-self: center;
   margin: 0 auto;
 }

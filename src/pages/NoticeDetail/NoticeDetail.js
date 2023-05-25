@@ -93,6 +93,7 @@ const NoticeDetail = () => {
         <p className={styles.notice_contents}>{location.state.contents}</p>
         <br />
         <br />
+        <br />
         <div className={styles.notice_img}>
           <Image width={"70%"} src={location.state.img} />
         </div>
