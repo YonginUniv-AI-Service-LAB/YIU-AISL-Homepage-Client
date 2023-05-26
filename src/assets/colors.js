@@ -9,4 +9,9 @@ export const colors = {
   grey_light: "#dee2e6",
 
   red_soft: "#E06666",
+
+  plan: "#ACC8E0",
+  plan_bg: "#e4edf5",
+  post: "#F4B6A3",
+  post_bg: "#fcece7",
 };

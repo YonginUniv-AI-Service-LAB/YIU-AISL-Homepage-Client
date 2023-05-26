@@ -16,6 +16,8 @@ export const CHANGE_PWD = "Change_Pwd";
 // /notice
 // 공지사항 불러오기
 export const GET_NOTICE = "Get_Notice";
+// 공지사항 상세 불러오기
+export const GET_NOTICE_DETAIL = "Get_Notice_Detail";
 // 공지사항 생성
 export const CREATE_NOTICE = "Create_Notice";
 // 공지사항 수정

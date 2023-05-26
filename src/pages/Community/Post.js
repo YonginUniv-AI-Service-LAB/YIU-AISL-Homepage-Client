@@ -12,25 +12,42 @@ import {
 import {
   Card,
   Space,
-  Input,
-  Button,
   Row,
   Col,
+  Button,
   List,
   Dropdown,
   Modal,
+  Popconfirm,
+  Form,
+  Input,
+  message,
 } from "antd";
 import VirtualList from "rc-virtual-list";
-import { MoreOutlined, LikeOutlined } from "@ant-design/icons";
+import { MoreOutlined, LikeOutlined, PlusOutlined } from "@ant-design/icons";
 
 import dayjs from "dayjs";
 import styles from "./community.module.css";
-import { data_community } from "../../assets/data/community";
+import { colors } from "../../assets/colors";
+import ValidationRules from "../../utils/ValidationRules";
 
 // 섹션 높이 지정
 const ContainerHeight = 400;
 
 const CommunityPost = (props) => {
+  const dispatch = useDispatch();
+
+  const { TextArea } = Input;
+  const [messageApi, contextHolder] = message.useMessage();
+
+  // 에러메세지 함수
+  const error = (data) => {
+    console.log("왜 안되냐?", data);
+    messageApi.open({
+      type: "error",
+      content: data,
+    });
+  };
   // 게시글 편집 버튼(수정, 삭제)
   const items = [
     {
@@ -64,99 +81,306 @@ const CommunityPost = (props) => {
       ),
     },
   ];
-  const [contents, setContents] = useState("");
 
-  const [type, setType] = useState("update");
+  const [type, setType] = useState("create");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [date, setDate] = useState(() => dayjs(new Date()));
 
-  const onScroll = (e) => {
-    if (
-      e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
-      ContainerHeight
-    ) {
-    }
-  };
+  // Post 폼
+  const [form, setForm] = useState({
+    postid: {
+      value: 0,
+      type: "textInput",
+      rules: {
+        // isRequired: true,
+      },
+      valid: false,
+    },
+    writer: {
+      value: "",
+      type: "textInput",
+      rules: {
+        isRequired: true,
+      },
+      valid: false,
+    },
+    contents: {
+      value: "",
+      type: "textInput",
+      rules: {
+        isRequired: true,
+      },
+      valid: false,
+    },
+  });
 
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const handleOk = () => {
+
+  // 버튼 클릭에 따른 데이터 세팅
+  const setData = (data) => {
+    if (data) {
+      setForm((prevState) => ({
+        ...prevState,
+        postid: {
+          ...prevState.postid,
+          value: data.postid,
+        },
+        writer: {
+          ...prevState.date,
+          value: data.writer,
+        },
+        contents: {
+          ...prevState.contents,
+          value: data.contents,
+        },
+      }));
+      console.log("form: ", form);
+      showModal();
+    } else {
+      setForm((prevState) => ({
+        ...prevState,
+        postid: {
+          ...prevState.postid,
+          value: 0,
+        },
+        writer: {
+          ...prevState.date,
+          value: "",
+        },
+        contents: {
+          ...prevState.contents,
+          value: "",
+        },
+      }));
+      console.log("form: ", form);
+      showModal();
+    }
+  };
+
+  // 텍스트인풋 업데이트
+  const onChange = (e) => {
+    console.log("===============================");
+    console.log(e.target.id, e.target.value);
+
+    setForm((prevState) => ({
+      ...prevState,
+      [e.target.id]: {
+        ...prevState[e.target.id],
+        value: e.target.value,
+      },
+    }));
+  };
+
+  // 유효성 검사
+  const checkFormValid = () => {
+    let checkValid = true;
+    let falseForm = [];
+
+    if (type === "create") {
+      let rules = form["contents"].rules;
+      let valid = ValidationRules(form["contents"].value, rules, form);
+      form["contents"].valid = valid;
+      console.log("valid: ", form["contents"].valid);
+      if (form["contents"].valid === false || form["contents"].value === "") {
+        checkValid = false;
+      }
+    } else {
+      for (let i in form) {
+        console.log("=====", i, form[i].value, "=====");
+        console.log("rules: ", form[i].rules);
+        let rules = form[i].rules;
+        let valid = ValidationRules(form[i].value, rules, form);
+        form[i].valid = valid;
+        console.log("valid: ", form[i].valid);
+        if (form[i].valid === false || form[i].value === "") {
+          checkValid = false;
+          falseForm.push(i);
+        }
+      }
+    }
+
+    console.log("checkValid: ", checkValid);
+    console.log("falseForm: ", falseForm);
+
+    if (checkValid) {
+      submitForm();
+    } else {
+      error("조건에 맞는 값을 입력해주세요.");
+    }
+  };
+
+  // 유효성 검사 확인 완료 => 공지사항 생성 API요청
+  const submitForm = () => {
+    console.log("통과: ", type);
+    if (type === "create") dispatch(createPost(form));
+    else if (type === "update") dispatch(updatePost(form));
+    else if (type === "delete") dispatch(deletePost(form.postid));
     setIsModalOpen(false);
+  };
+
+  const clickLikeBtn = (data) => {
+    console.log("좋아용: ", data);
+    const likeForm = {
+      writer: "sss",
+      postid: data,
+    };
+    dispatch(like(likeForm));
   };
 
   return (
     <div>
-      <h1 className={styles.section_title}>Community</h1>
+      {/* 섹션 타이틀 */}
+      <Row align={"middle"}>
+        <Col span={8}>
+          <h1 className={styles.section_title}>Post</h1>
+        </Col>
+        <Col span={7} offset={9}>
+          <Button
+            color="#868e96"
+            icon={<PlusOutlined />}
+            onClick={() => {
+              setData();
+              setType("create");
+              showModal();
+            }}
+          />
+        </Col>
+      </Row>
       <Row>
         <Col span={19}>
           <Card>
-            <VirtualList
-              data={props.data}
-              height={ContainerHeight}
-              itemHeight={47}
-              itemKey="key"
-            >
-              {(item) => (
-                <List.Item key={item.key} className={styles.post_container}>
-                  <Row align={"middle"} justify={"space-between"}>
-                    <Col>
-                      <div>
-                        <h4> {item.writer}</h4>
-                        <p>{item.contents}</p>
-                      </div>
-                    </Col>
-                    <Col>
-                      <Dropdown
-                        menu={{
-                          items,
-                        }}
-                        placement="bottom"
+            {props.no == true ? (
+              <h3 style={{ textAlign: "center" }}>글이 없습니다</h3>
+            ) : (
+              <VirtualList
+                data={props.data}
+                height={ContainerHeight}
+                itemHeight={0}
+                itemKey="key"
+              >
+                {(item) =>
+                  props.date == item.createdAt.substring(0, 10) ? (
+                    <List.Item key={item.key} className={styles.post_container}>
+                      <Row align={"middle"} justify={"space-between"}>
+                        <Col>
+                          <div style={{ padding: 10 }}>
+                            <h4>{item.writer}</h4>
+                            <p style={{ fontWeight: "bold" }}>
+                              {item.contents}
+                            </p>
+                          </div>
+                        </Col>
+                        <Col>
+                          <Dropdown
+                            menu={{
+                              onClick: () => setData(item),
+                              items,
+                            }}
+                            placement="bottom"
+                          >
+                            <Button
+                              className={styles.community_btn}
+                              type="text"
+                              icon={<MoreOutlined />}
+                              style={{ textAlign: "center" }}
+                            ></Button>
+                          </Dropdown>
+                        </Col>
+                        {/* <h3 style={{}}>⦁ {item.contents}</h3> */}
+                      </Row>
+                      <Button
+                        type="text"
+                        icon={<LikeOutlined />}
+                        className={styles.like_btn}
+                        block={true}
+                        onClick={() => clickLikeBtn(item.postid)}
                       >
-                        <Button
-                          className={styles.community_btn}
-                          type="text"
-                          icon={<MoreOutlined />}
-                          style={{ textAlign: "center" }}
-                        ></Button>
-                      </Dropdown>
-                    </Col>
-                    {/* <h3 style={{}}>⦁ {item.contents}</h3> */}
-                  </Row>
-                  <Button
-                    type="text"
-                    icon={<LikeOutlined />}
-                    className={styles.like_btn}
-                    block={true}
-                  >
-                    100
-                  </Button>
-                </List.Item>
-              )}
-            </VirtualList>
-            <Space.Compact style={{ width: "100%", marginTop: 30 }}>
-              <Input placeholder="글을 작성해보세요." onChange={setContents} />
+                        &nbsp;
+                        {item.likers.length > 0 ? item.likers.length : null}
+                      </Button>
+                    </List.Item>
+                  ) : (
+                    <></>
+                  )
+                }
+              </VirtualList>
+            )}
+            {/* <Space.Compact style={{ width: "100%", marginTop: 30 }}>
+              <Input
+                id="contents"
+                placeholder="글을 작성해보세요."
+                onChange={onChange}
+              />
               <Button
                 type="primary"
                 style={{ backgroundColor: "#fcece7", color: "#2a3037" }}
+                onClick={() => {
+                  setType("create");
+                  checkFormValid();
+                }}
               >
                 작성
               </Button>
-            </Space.Compact>
+            </Space.Compact> */}
           </Card>
         </Col>
       </Row>
+
+      {/* 모달 */}
       <Modal
-        title={type === "update" ? "게시글 수정" : "게시글 삭제"}
+        title={
+          type === "create"
+            ? "게시글 작성"
+            : type === "update"
+            ? "게시글 수정"
+            : "게시글 삭제"
+        }
         open={isModalOpen}
-        okText={type === "update" ? "수정" : "삭제"}
+        okText={
+          type === "create" ? "작성" : type === "update" ? "수정" : "삭제"
+        }
         cancelText={"취소"}
-        onOk={handleOk}
+        onOk={() => (type === "delete" ? submitForm() : checkFormValid())}
         onCancel={() => setIsModalOpen(false)}
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <div>
+          <Form
+            name="basic"
+            colon={false}
+            autoComplete="off"
+            layout="vertical"
+            // onFinish={checkFormValid}
+          >
+            <h3 style={{ textAlign: "center" }}>{form.writer.value}</h3>
+
+            {type === "delete" ? (
+              <p
+                style={{
+                  fontWeight: "bold",
+                  backgroundColor: colors.post_bg,
+                  padding: 10,
+                  borderRadius: 7,
+                }}
+              >
+                {form.contents.value}
+              </p>
+            ) : (
+              <TextArea
+                id="contents"
+                value={form.contents.value}
+                defaultValue={form.contents.value}
+                placeholder={"내용 입력"}
+                onChange={onChange}
+                style={{ resize: "none" }}
+                rows={10}
+              />
+            )}
+            <br />
+            <br />
+          </Form>
+        </div>
       </Modal>
     </div>
   );

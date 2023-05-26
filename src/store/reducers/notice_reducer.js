@@ -1,5 +1,6 @@
 import {
   GET_NOTICE,
+  GET_NOTICE_DETAIL,
   CREATE_NOTICE,
   UPDATE_NOTICE,
   DELETE_NOTICE,
@@ -11,6 +12,11 @@ export default function (state = {}, action) {
       return {
         ...state,
         notice: action.payload || false,
+      };
+    case GET_NOTICE_DETAIL:
+      return {
+        ...state,
+        notice_detail: action.payload || false,
       };
     case CREATE_NOTICE:
       return {
