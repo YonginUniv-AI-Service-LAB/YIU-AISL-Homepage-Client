@@ -17,6 +17,7 @@ import Main from "./pages/Main/Main";
 import Album from "./pages/Album/Album";
 import FindUserInfo from "./pages/FindUserInfo/FindUserInfo";
 import Intro from "./pages/Intro/Intro";
+import Members from "./pages/Intro/Members";
 import Login from "./pages/Login/Login";
 import Join from "./pages/Join/Join";
 import Community from "./pages/Community/Community";
@@ -34,6 +35,7 @@ function App() {
           <Route exact path="/album" element={<Album />} />
           <Route exact path="/finduserinfo" element={<FindUserInfo />} />
           <Route exact path="/intro" element={<Intro />} />
+          <Route exact path="/intro/members" element={<Members />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/join" element={<Join />} />
           <Route exact path="/community" element={<Community />} />

@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Button,
   Dropdown,
@@ -16,25 +17,34 @@ const DropdownItemStyle = {
   padding: 10,
 };
 
-const items = [
-  {
-    key: "1",
-    label: "AIServiceLab",
-    style: DropdownItemStyle,
-  },
-  {
-    key: "2",
-    label: "Professor",
-    style: DropdownItemStyle,
-  },
-  {
-    key: "3",
-    label: "Student",
-    style: DropdownItemStyle,
-  },
-];
-
 const Header = () => {
+  const navigate = useNavigate();
+
+  const items = [
+    {
+      key: "1",
+      label: "AIServiceLab",
+      style: DropdownItemStyle,
+    },
+    {
+      key: "2",
+      label: "Professors",
+      style: DropdownItemStyle,
+      onClick: () => {
+        // setMembers("professors");
+        navigate("/intro/members", { state: "professors" });
+      },
+    },
+    {
+      key: "3",
+      label: "Students",
+      style: DropdownItemStyle,
+      onClick: () => {
+        navigate("/intro/members", { state: "students" });
+      },
+    },
+  ];
+
   return (
     <div>
       <Row align={"middle"} justify={"space-evenly"}>
