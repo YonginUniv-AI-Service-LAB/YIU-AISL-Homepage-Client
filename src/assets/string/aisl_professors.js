@@ -1,4 +1,4 @@
-export const aisl_professor = [
+export const aisl_professors = [
   {
     name: "이완주",
     office: 7203,

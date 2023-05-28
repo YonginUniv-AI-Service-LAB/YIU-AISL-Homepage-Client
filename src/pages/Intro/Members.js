@@ -1,7 +1,12 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { Tabs } from "antd";
+
 import PageTitle from "../../components/PageTitle/PageTitle";
+import Professors from "./Professors";
+import Students from "./Students";
+
+import { colors } from "../../assets/colors";
 
 const Members = () => {
   const location = useLocation();
@@ -9,13 +14,13 @@ const Members = () => {
   const items = [
     {
       key: 1,
-      label: "Professors",
-      children: "Professors",
+      label: <h2>Professors</h2>,
+      children: <Professors />,
     },
     {
       key: 2,
-      label: "Students",
-      children: "Students",
+      label: <h2>Students</h2>,
+      children: <Students />,
     },
   ];
 
@@ -30,8 +35,9 @@ const Members = () => {
         items={items}
         size="large"
         type="line"
+        tabBarGutter={100}
         // onClick={(e) => console.log("e: ", e)}
-      />
+      ></Tabs>
     </div>
   );
 };

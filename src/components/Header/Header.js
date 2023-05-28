@@ -25,6 +25,10 @@ const Header = () => {
       key: "1",
       label: "AIServiceLab",
       style: DropdownItemStyle,
+      onClick: () => {
+        // setMembers("professors");
+        navigate("/intro");
+      },
     },
     {
       key: "2",

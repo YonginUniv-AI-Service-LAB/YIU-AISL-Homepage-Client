@@ -1,4 +1,4 @@
-export const aisl_student = [
+export const aisl_students = [
   {
     name: "오하림",
     email: "wjlee@yongin.ac.kr",
