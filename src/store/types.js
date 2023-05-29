@@ -16,14 +16,14 @@ export const CHANGE_PWD = "Change_Pwd";
 // /notice
 // 공지사항 불러오기
 export const GET_NOTICE = "Get_Notice";
-// 공지사항 상세 불러오기
-export const GET_NOTICE_DETAIL = "Get_Notice_Detail";
 // 공지사항 생성
 export const CREATE_NOTICE = "Create_Notice";
 // 공지사항 수정
 export const UPDATE_NOTICE = "Upload_Notice";
 // 공지사항 삭제
 export const DELETE_NOTICE = "Delete_Notice";
+// 공지사항 조회수 업데이트
+export const PLUS_NOTICE_VIEW = "Plus_Notice_View";
 
 // /community
 // 커뮤니티 불러오기

@@ -1,9 +1,9 @@
 import {
   GET_NOTICE,
-  GET_NOTICE_DETAIL,
   CREATE_NOTICE,
   UPDATE_NOTICE,
   DELETE_NOTICE,
+  PLUS_NOTICE_VIEW,
 } from "../types";
 
 export default function (state = {}, action) {
@@ -12,11 +12,6 @@ export default function (state = {}, action) {
       return {
         ...state,
         notice: action.payload || false,
-      };
-    case GET_NOTICE_DETAIL:
-      return {
-        ...state,
-        notice_detail: action.payload || false,
       };
     case CREATE_NOTICE:
       return {
@@ -32,6 +27,11 @@ export default function (state = {}, action) {
       return {
         ...state,
         delete_notice: action.payload || false,
+      };
+    case PLUS_NOTICE_VIEW:
+      return {
+        ...state,
+        plus_notice_view: action.payload || false,
       };
     default:
       return state;

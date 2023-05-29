@@ -32,7 +32,9 @@ const Main = (props) => {
 
   return (
     <div>
-      {console.log("props.page: ", page)}
+      {console.log(
+        `${process.env.REACT_APP_API_URL}${process.env.REACT_APP_JOIN}`
+      )}
       <Container style={{ marginTop: 100, marginBottom: 100 }}>
         <MainCarousel />
         <MainIntro />

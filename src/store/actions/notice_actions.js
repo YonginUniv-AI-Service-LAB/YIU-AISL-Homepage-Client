@@ -1,9 +1,9 @@
 import {
   GET_NOTICE,
-  GET_NOTICE_DETAIL,
   CREATE_NOTICE,
   UPDATE_NOTICE,
   DELETE_NOTICE,
+  PLUS_NOTICE_VIEW,
 } from "../types";
 
 import { data_notice } from "../../assets/data/notice";
@@ -30,33 +30,6 @@ export function getNotice() {
 
   return {
     type: GET_NOTICE,
-    // payload: request,
-    payload: data_notice,
-  };
-}
-
-// 공지사항 상세정보 가져오기 => GET
-export function getNoticeDetail(data) {
-  const request = axios({
-    method: "POST",
-    url: process.env.REACT_APP_GET_NOTICE_DETAIL,
-    header: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    data: {
-      noticeid: data,
-    },
-  })
-    .then((response) => {
-      return response.data;
-    })
-    .catch((err) => {
-      console.log("공지사항 상세정보 에러", err);
-      return false;
-    });
-
-  return {
-    type: GET_NOTICE_DETAIL,
     // payload: request,
     payload: data_notice,
   };
@@ -147,5 +120,32 @@ export function deleteNotice(data) {
   return {
     type: DELETE_NOTICE,
     payload: request,
+  };
+}
+
+// 공지사항 조회수 업데이트
+export function plusNoticeView(data) {
+  const request = axios({
+    method: "POST",
+    url: process.env.REACT_APP_PLUS_NOTICE_VIEW,
+    header: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data: {
+      noticeid: data,
+    },
+  })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      console.log("공지사항 조회수 업데이트 에러", err);
+      return false;
+    });
+
+  return {
+    type: PLUS_NOTICE_VIEW,
+    // payload: request,
+    payload: null,
   };
 }

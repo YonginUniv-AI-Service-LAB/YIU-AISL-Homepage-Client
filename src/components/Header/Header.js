@@ -32,21 +32,30 @@ const Header = () => {
     },
     {
       key: "2",
-      label: "Professors",
+      label: "Members",
       style: DropdownItemStyle,
       onClick: () => {
         // setMembers("professors");
-        navigate("/intro/members", { state: "professors" });
+        navigate("/intro/members");
       },
     },
-    {
-      key: "3",
-      label: "Students",
-      style: DropdownItemStyle,
-      onClick: () => {
-        navigate("/intro/members", { state: "students" });
-      },
-    },
+    // {
+    //   key: "2",
+    //   label: "Professors",
+    //   style: DropdownItemStyle,
+    //   onClick: () => {
+    //     // setMembers("professors");
+    //     navigate("/intro/members", { state: "professors" });
+    //   },
+    // },
+    // {
+    //   key: "3",
+    //   label: "Students",
+    //   style: DropdownItemStyle,
+    //   onClick: () => {
+    //     navigate("/intro/members", { state: "students" });
+    //   },
+    // },
   ];
 
   return (

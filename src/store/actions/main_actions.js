@@ -38,18 +38,26 @@ export function getMain() {
 // 회원가입
 export function join(data) {
   console.log("action - data: ", data);
+  let dd = {
+    name: data.name.value,
+    email: data.email.value,
+    pwd: data.pwd1.value,
+    question: data.question.value,
+    answer: data.answer.value,
+  };
+  console.log("dd: ", dd);
   const request = axios({
     method: "POST",
-    url: process.env.REACT_APP_JOIN,
+    url: "http://localhost:3000/join",
     header: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      name: data.name,
-      email: data.email,
-      pwd: data.pwd1,
-      question: data.question,
-      answer: data.answer,
+      name: data.name.value,
+      email: data.email.value,
+      pwd: data.pwd1.value,
+      question: data.question.value,
+      answer: data.answer.value,
     },
   })
     .then((response) => {
