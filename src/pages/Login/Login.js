@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/actions/main_actions";
 
 import { Form, Row, Col, message } from "antd";
@@ -15,7 +16,9 @@ import ValidationRules from "../../utils/ValidationRules";
 
 const Login = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const loginResult = useSelector((state) => state.Main.login);
   const [messageApi, contextHolder] = message.useMessage();
 
   // 에러메세지 함수
@@ -95,6 +98,14 @@ const Login = () => {
     console.log("통과");
     dispatch(login(form));
   };
+
+  useEffect(() => {
+    console.log("loginResult", loginResult);
+    if (loginResult === true) navigate("/");
+    else if (loginResult === 400) error(`입력되지 않은 값이 있습니다.`);
+    else if (loginResult === 401)
+      error(`이메일 또는 비밀번호가 일치하지 않습니다!`);
+  }, [loginResult]);
 
   return (
     <div>

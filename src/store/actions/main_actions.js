@@ -66,6 +66,7 @@ export function join(data) {
 
 // 로그인
 export function login(data) {
+  console.log("로그인 액션: ", data.email.value, data.pwd.value);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_LOGIN,
@@ -73,16 +74,16 @@ export function login(data) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      email: data.email,
-      pwd: data.pwd,
+      email: data.email.value,
+      pwd: data.pwd.value,
     },
   })
     .then((response) => {
-      return response.data;
+      return true;
     })
     .catch((err) => {
       console.log("로그인 에러", err);
-      return false;
+      return err.response.data;
     });
 
   return {
