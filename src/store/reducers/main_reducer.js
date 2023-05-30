@@ -16,6 +16,7 @@ export default function (state = {}, action) {
         plan: action.payload.plan || false,
       };
     case JOIN:
+      console.log("리듀서: ", action.payload);
       return {
         ...state,
         join: action.payload || false,

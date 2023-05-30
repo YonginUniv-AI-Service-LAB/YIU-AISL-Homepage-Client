@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Form, message } from "antd";
 
 // 리덕스 사용
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { join } from "../../store/actions/main_actions";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
@@ -16,7 +17,10 @@ import ValidationRules from "../../utils/ValidationRules";
 
 const Join = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const joinResult = useSelector((state) => state.Main.join);
+  const [emailCheck, setEmailCheck] = useState(true);
   const [messageApi, contextHolder] = message.useMessage();
 
   // 에러메세지 함수
@@ -66,7 +70,7 @@ const Join = () => {
       valid: false,
     },
     question: {
-      value: 0,
+      value: 1,
       type: "select",
       // rules: {
       //   isRequired: true,
@@ -78,8 +82,6 @@ const Join = () => {
       type: "textInput",
       rules: {
         isRequired: true,
-        minLength: 2,
-        maxLength: 4,
       },
       valid: false,
     },
@@ -141,10 +143,22 @@ const Join = () => {
   };
 
   // 유효성 검사 확인 완료 => API요청
-  const submitForm = () => {
+  const submitForm = async () => {
     console.log("통과");
     dispatch(join(form));
   };
+
+  useEffect(() => {
+    console.log("joinResult", joinResult);
+    if (joinResult === 409) setEmailCheck(false);
+    else setEmailCheck(true);
+  }, [joinResult]);
+
+  useEffect(() => {
+    if (emailCheck === true && joinResult === true) navigate("/login");
+    else if (emailCheck === false)
+      error(`이미 존재하는 이메일입니다.\n다른 이메일을 입력하세요.`);
+  }, [emailCheck]);
 
   return (
     <div>

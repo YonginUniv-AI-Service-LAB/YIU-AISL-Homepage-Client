@@ -37,18 +37,9 @@ export function getMain() {
 
 // 회원가입
 export function join(data) {
-  console.log("action - data: ", data);
-  let dd = {
-    name: data.name.value,
-    email: data.email.value,
-    pwd: data.pwd1.value,
-    question: data.question.value,
-    answer: data.answer.value,
-  };
-  console.log("dd: ", dd);
   const request = axios({
     method: "POST",
-    url: "http://localhost:3000/join",
+    url: process.env.REACT_APP_API_URL + process.env.REACT_APP_JOIN,
     header: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
@@ -61,12 +52,10 @@ export function join(data) {
     },
   })
     .then((response) => {
-      console.log("회원가입 성공");
       return true;
     })
     .catch((err) => {
-      console.log("회원가입 에러", err);
-      return false;
+      return err.response.status;
     });
 
   return {
