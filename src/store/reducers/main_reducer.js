@@ -1,4 +1,4 @@
-import { GET_MAIN, LOGIN, JOIN } from "../types";
+import { GET_MAIN, LOGIN, LOGOUT, JOIN } from "../types";
 // import {data_community} from '../../assets/data/community';
 
 // const initialState = {
@@ -25,6 +25,11 @@ export default function (state = {}, action) {
       return {
         ...state,
         login: action.payload || false,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        logout: action.payload || false,
       };
     default:
       return state;

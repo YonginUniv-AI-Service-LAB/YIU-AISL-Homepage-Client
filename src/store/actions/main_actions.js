@@ -1,4 +1,4 @@
-import { GET_MAIN, JOIN, LOGIN } from "../types";
+import { GET_MAIN, JOIN, LOGIN, LOGOUT } from "../types";
 import { data_notice_main } from "../../assets/data/notice";
 import { data_community_main } from "../../assets/data/community";
 import { data_plan } from "../../assets/data/plan";
@@ -69,7 +69,7 @@ export function login(data) {
   console.log("로그인 액션: ", data.email.value, data.pwd.value);
   const request = axios({
     method: "POST",
-    url: process.env.REACT_APP_LOGIN,
+    url: process.env.REACT_APP_API_URL + process.env.REACT_APP_LOGIN,
     header: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
@@ -88,6 +88,29 @@ export function login(data) {
 
   return {
     type: LOGIN,
+    payload: request,
+  };
+}
+
+// 로그아웃
+export function logout(data) {
+  const request = axios({
+    method: "POST",
+    url: process.env.REACT_APP_API_URL + process.env.REACT_APP_LOGOUT,
+    header: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  })
+    .then((response) => {
+      return true;
+    })
+    .catch((err) => {
+      console.log("로그아웃 에러", err);
+      return err.response.data;
+    });
+
+  return {
+    type: LOGOUT,
     payload: request,
   };
 }

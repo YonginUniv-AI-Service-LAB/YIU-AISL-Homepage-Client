@@ -94,7 +94,7 @@ const Login = () => {
   };
 
   // 유효성 검사 확인 완료 => API요청
-  const submitForm = () => {
+  const submitForm = async () => {
     console.log("통과");
     dispatch(login(form));
   };
@@ -102,9 +102,10 @@ const Login = () => {
   useEffect(() => {
     console.log("loginResult", loginResult);
     if (loginResult === true) navigate("/");
-    else if (loginResult === 400) error(`입력되지 않은 값이 있습니다.`);
+    else if (loginResult === 400)
+      error(`입력한 이메일과 비밀번호를 확인해주세요!`);
     else if (loginResult === 401)
-      error(`이메일 또는 비밀번호가 일치하지 않습니다!`);
+      error(`이메일과 비밀번호가 일치하지 않습니다!`);
   }, [loginResult]);
 
   return (

@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../store/actions/main_actions";
+
 import {
   Button,
   Dropdown,
@@ -19,6 +23,7 @@ const DropdownItemStyle = {
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const items = [
     {
@@ -88,13 +93,25 @@ const Header = () => {
             <HeaderNavBtn type={"text"} text="Community" href="/community" />
           </Space>
         </Col>
-
+        {console.log(sessionStorage.getItem("userid"))}
         {/* 로그인&회원가입 */}
         <Col span={4}>
-          <Space>
-            <HeaderNavBtn type={"text"} text="Login" href="/login" />
-            <HeaderNavBtn type={"text"} text="Join" href="/join" />
-          </Space>
+          {sessionStorage.getItem("userid") ? (
+            <Space>
+              <HeaderNavBtn type={"text"} text="Login" href="/login" />
+              <HeaderNavBtn type={"text"} text="Join" href="/join" />
+            </Space>
+          ) : (
+            <Space>
+              <HeaderNavBtn type={"text"} text="Login" href="/login" />
+              <HeaderNavBtn type={"text"} text="Join" href="/join" />
+            </Space>
+            // <HeaderNavBtn
+            //   type={"text"}
+            //   text="Logout"
+            //   onClick={() => dispatch(logout())}
+            // />
+          )}
         </Col>
       </Row>
     </div>

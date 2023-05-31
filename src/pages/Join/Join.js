@@ -154,21 +154,20 @@ const Join = () => {
 
   useEffect(() => {
     console.log("joinResult", joinResult);
-    if (joinResult == true) setEmailCheck(true);
+    if (joinResult === true) setPageChange(true);
     else if (joinResult === 409) setEmailCheck(false);
   }, [joinResult]);
 
   useEffect(() => {
-    if (emailCheck === true && joinResult === true) setPageChange(true);
-    else if (emailCheck === false) error(`이미 가입한 이메일입니다.`);
+    if (emailCheck == false) error(`이미 가입한 이메일입니다.`);
   }, [emailCheck]);
 
   return (
     <div>
       {contextHolder}
       <PageTitle title="Join" />
-      {pageChange === false ? (
-        <JoinComplete onClick={() => navigate("/login")} />
+      {pageChange === true ? (
+        <JoinComplete onClick={() => navigate("/login", { replace: true })} />
       ) : (
         <div className={styles.form_container}>
           <Form

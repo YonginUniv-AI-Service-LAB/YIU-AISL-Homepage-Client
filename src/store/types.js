@@ -4,6 +4,8 @@ export const GET_MAIN = "Get_Main";
 export const JOIN = "Join";
 // 로그인
 export const LOGIN = "Login";
+// 로그인
+export const LOGOUT = "Logout";
 
 // /user
 // 이메일 찾기

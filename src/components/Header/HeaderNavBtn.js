@@ -15,6 +15,7 @@ const HeaderNavBtn = (props) => {
         type={props.type ? props.type : "text"}
         href={props.href}
         style={props.style}
+        onClick={props.onClick}
       >
         {props.text}
       </Button>
