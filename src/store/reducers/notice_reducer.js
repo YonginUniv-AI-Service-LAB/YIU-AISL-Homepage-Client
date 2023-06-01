@@ -3,7 +3,7 @@ import {
   CREATE_NOTICE,
   UPDATE_NOTICE,
   DELETE_NOTICE,
-  PLUS_NOTICE_VIEW,
+  GET_NOTICE_DETAIL,
 } from "../types";
 
 export default function (state = {}, action) {
@@ -28,10 +28,10 @@ export default function (state = {}, action) {
         ...state,
         delete_notice: action.payload || false,
       };
-    case PLUS_NOTICE_VIEW:
+    case GET_NOTICE_DETAIL:
       return {
         ...state,
-        plus_notice_view: action.payload || false,
+        detail: action.payload || false,
       };
     default:
       return state;

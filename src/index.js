@@ -14,6 +14,7 @@ import { BrowserRouter } from "react-router-dom";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { createStore, applyMiddleware, compose } from "redux";
+import axios from "axios";
 import { Provider } from "react-redux";
 import promiseMiddleware from "redux-promise";
 import reducers from "./store/reducers";
@@ -25,6 +26,8 @@ const createStoreWithMiddleware = createStore(
   composeEnhancers(applyMiddleware(promiseMiddleware))
 );
 
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+// axios.defaults.withCredentials = true;
 // console.log("스토어의 상태: ", createStoreWithMiddleware.getState());
 ReactDOM.render(
   <React.StrictMode>

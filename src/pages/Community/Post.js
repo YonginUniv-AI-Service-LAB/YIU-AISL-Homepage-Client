@@ -42,12 +42,20 @@ const CommunityPost = (props) => {
 
   // 에러메세지 함수
   const error = (data) => {
-    console.log("왜 안되냐?", data);
     messageApi.open({
       type: "error",
       content: data,
     });
   };
+
+  // 완료메세지 함수
+  const complete = (data) => {
+    messageApi.open({
+      type: "success",
+      content: data,
+    });
+  };
+
   // 게시글 편집 버튼(수정, 삭제)
   const items = [
     {
@@ -211,26 +219,69 @@ const CommunityPost = (props) => {
     }
   };
 
-  // 유효성 검사 확인 완료 => 공지사항 생성 API요청
+  // 유효성 검사 확인 완료 =>  API요청
   const submitForm = () => {
-    console.log("통과: ", type);
-    if (type === "create") dispatch(createPost(form));
-    else if (type === "update") dispatch(updatePost(form));
-    else if (type === "delete") dispatch(deletePost(form.postid));
-    setIsModalOpen(false);
+    console.log(type);
+    let result;
+    let status = false;
+    switch (type) {
+      case "create":
+        result = dispatch(createPost(form));
+        if (result.payload === true) {
+          status = true;
+          complete("게시글이 생성되었습니다!");
+        } else ResFunc(result.payload);
+        break;
+      case "update":
+        result = dispatch(updatePost(form));
+        if (result.payload === true) {
+          status = true;
+          complete("게시글이 수정되었습니다!");
+        } else ResFunc(result.payload);
+        break;
+      case "delete":
+        result = dispatch(deletePost(form));
+        if (result.payload === true) {
+          status = true;
+          complete("게시글이 삭제되었습니다!");
+        } else ResFunc(result.payload);
+        break;
+      default:
+        break;
+    }
+    if (status === true) setIsModalOpen(false);
+  };
+
+  const ResFunc = (res) => {
+    switch (res) {
+      case 400:
+        error("입력한 값을 확인해주세요.");
+        break;
+      case 403:
+        error("접근 권한이 없습니다.");
+        break;
+      case 404:
+        error("이미 삭제된 게시글입니다.");
+        break;
+      case 500:
+        error("관리자에게 문의해주세요.");
+        break;
+      default:
+        break;
+    }
   };
 
   const clickLikeBtn = (data) => {
     console.log("좋아용: ", data);
-    const likeForm = {
-      writer: "sss",
-      postid: data,
-    };
-    dispatch(like(likeForm));
+    let result = dispatch(like(form.postid.value));
+    if (result.payload === 201) complete("게시글에 공감했습니다!");
+    else if (result.payload === 204) complete("게시글 공감을 취소했습니다!");
+    else ResFunc(result.payload);
   };
 
   return (
     <div>
+      {contextHolder}
       {/* 섹션 타이틀 */}
       <Row align={"middle"}>
         <Col span={8}>
@@ -291,6 +342,7 @@ const CommunityPost = (props) => {
                         {/* <h3 style={{}}>⦁ {item.contents}</h3> */}
                       </Row>
                       <Button
+                        // disabled={true}
                         type="text"
                         icon={<LikeOutlined />}
                         className={styles.like_btn}

@@ -25,7 +25,7 @@ export const UPDATE_NOTICE = "Upload_Notice";
 // 공지사항 삭제
 export const DELETE_NOTICE = "Delete_Notice";
 // 공지사항 조회수 업데이트
-export const PLUS_NOTICE_VIEW = "Plus_Notice_View";
+export const GET_NOTICE_DETAIL = "Get_Notice_Detail";
 
 // /community
 // 커뮤니티 불러오기

@@ -37,7 +37,7 @@ const Professors = () => {
               }
             >
               <Meta
-                title={item.name}
+                title={`${item.name} 교수`}
                 description={
                   <>
                     <p>{item.office}</p>

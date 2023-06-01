@@ -15,7 +15,8 @@ import ScrollToTop from "./scrollTop";
 import Layout from "./pages/Layout/Layout";
 import Main from "./pages/Main/Main";
 import Album from "./pages/Album/Album";
-import FindUserInfo from "./pages/FindUserInfo/FindUserInfo";
+import ForgotEmail from "./pages/ForgotEmail/ForgotEmail";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Intro from "./pages/Intro/Intro";
 import Members from "./pages/Intro/Members";
 import Login from "./pages/Login/Login";
@@ -33,7 +34,8 @@ function App() {
         <Routes>
           <Route exact path="/*" element={<Main />} />
           <Route exact path="/album" element={<Album />} />
-          <Route exact path="/finduserinfo" element={<FindUserInfo />} />
+          <Route exact path="/forgotemail" element={<ForgotEmail />} />
+          <Route exact path="/forgotpassword" element={<ForgotPassword />} />
           <Route exact path="/intro" element={<Intro />} />
           <Route exact path="/intro/members" element={<Members />} />
           <Route exact path="/login" element={<Login />} />

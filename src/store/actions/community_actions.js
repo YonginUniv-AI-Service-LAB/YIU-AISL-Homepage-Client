@@ -21,7 +21,7 @@ export function getCommunity() {
   };
   console.log("액션: ", data);
   const request = axios({
-    method: "POST",
+    method: "GET",
     url: process.env.REACT_APP_GET_COMMUNITY,
     header: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -33,7 +33,7 @@ export function getCommunity() {
     })
     .catch((err) => {
       console.log("커뮤니티 에러", err);
-      return false;
+      return err.response.status;
     });
 
   return {
@@ -44,6 +44,11 @@ export function getCommunity() {
 
 // 일정 생성
 export function createPlan(data) {
+  console.log(
+    "일정생성 액션: ",
+    data.date.value.format("YYYY-MM-DD"),
+    data.contents.value
+  );
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_CREATE_PLAN,
@@ -51,16 +56,16 @@ export function createPlan(data) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      date: data.date,
-      contents: data.contents,
+      date: data.date.value.format("YYYY-MM-DD"),
+      contents: data.contents.value,
     },
   })
     .then((response) => {
-      return response.data;
+      return true;
     })
     .catch((err) => {
       console.log("일정 생성 에러", err);
-      return false;
+      return err.response.status;
     });
 
   return {
@@ -78,17 +83,17 @@ export function updatePlan(data) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      planid: data.planid,
-      date: data.date,
-      contents: data.contents,
+      planid: data.planid.value,
+      date: data.date.value,
+      contents: data.contents.value,
     },
   })
     .then((response) => {
-      return response.data;
+      return true;
     })
     .catch((err) => {
       console.log("일정 수정 에러", err);
-      return false;
+      return err.response.status;
     });
 
   return {
@@ -106,15 +111,15 @@ export function deletePlan(data) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      id: data.planid,
+      id: data,
     },
   })
     .then((response) => {
-      return response.data;
+      return true;
     })
     .catch((err) => {
       console.log("일정 삭제 에러", err);
-      return false;
+      return err.response.status;
     });
 
   return {
@@ -132,15 +137,15 @@ export function createPost(data) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      contents: data.contents,
+      contents: data.contents.value,
     },
   })
     .then((response) => {
-      return response.data;
+      return true;
     })
     .catch((err) => {
       console.log("게시글 생성 에러", err);
-      return false;
+      return err.response.status;
     });
 
   return {
@@ -158,16 +163,16 @@ export function updatePost(data) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      postid: data.postid,
-      contents: data.contents,
+      postid: data.postid.value,
+      contents: data.contents.value,
     },
   })
     .then((response) => {
-      return response.data;
+      return true;
     })
     .catch((err) => {
       console.log("게시글 수정 에러", err);
-      return false;
+      return err.response.status;
     });
 
   return {
@@ -185,15 +190,15 @@ export function deletePost(data) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      postid: data.postid,
+      postid: data,
     },
   })
     .then((response) => {
-      return response.data;
+      return true;
     })
     .catch((err) => {
       console.log("게시글 삭제 에러", err);
-      return false;
+      return err.response.status;
     });
 
   return {
@@ -211,7 +216,7 @@ export function like(data) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      postid: data.postid,
+      postid: data,
     },
   })
     .then((response) => {
@@ -219,7 +224,7 @@ export function like(data) {
     })
     .catch((err) => {
       console.log("게시글 공감 에러", err);
-      return false;
+      return err.response.status;
     });
 
   return {

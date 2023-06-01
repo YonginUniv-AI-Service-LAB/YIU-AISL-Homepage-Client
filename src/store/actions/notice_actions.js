@@ -3,17 +3,17 @@ import {
   CREATE_NOTICE,
   UPDATE_NOTICE,
   DELETE_NOTICE,
-  PLUS_NOTICE_VIEW,
+  GET_NOTICE_DETAIL,
 } from "../types";
 
-import { data_notice } from "../../assets/data/notice";
+import { data_notice, data_notice_detail } from "../../assets/data/notice";
 
 import axios from "axios";
 
 // 공지사항 가져오기
 export function getNotice() {
   const request = axios({
-    method: "POST",
+    method: "GET",
     url: process.env.REACT_APP_GET_NOTICE,
     header: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -39,8 +39,8 @@ export function getNotice() {
 // multi form data 형식으로 변경해야함!!!!!!!!!!!!
 export function createNotice(data, img) {
   const formData = new FormData();
-  formData.append("title", data.title);
-  formData.append("contents", data.contents);
+  formData.append("title", data.title.value);
+  formData.append("contents", data.contents.value);
   formData.append("img", img);
   console.log("액션에서 img: ", img);
 
@@ -62,15 +62,16 @@ export function createNotice(data, img) {
 
   return {
     type: CREATE_NOTICE,
-    payload: request,
+    payload: 1,
   };
 }
 
 // 공지사항 수정
 export function updateNotice(data, img) {
   const formData = new FormData();
-  formData.append("title", data.title);
-  formData.append("contents", data.contents);
+  formData.append("noticeid", data.noticeid.value);
+  formData.append("title", data.title.value);
+  formData.append("contents", data.contents.value);
   formData.append("img", img);
   console.log("액션에서 img: ", img);
 
@@ -83,7 +84,7 @@ export function updateNotice(data, img) {
     data: formData,
   })
     .then((response) => {
-      return response.data;
+      return true;
     })
     .catch((err) => {
       console.log("공지사항 수정 에러", err);
@@ -123,8 +124,8 @@ export function deleteNotice(data) {
   };
 }
 
-// 공지사항 조회수 업데이트
-export function plusNoticeView(data) {
+// 공지사항 상세보기
+export function getNoticeDetail(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_PLUS_NOTICE_VIEW,
@@ -139,13 +140,13 @@ export function plusNoticeView(data) {
       return response.data;
     })
     .catch((err) => {
-      console.log("공지사항 조회수 업데이트 에러", err);
+      console.log("공지사항 상세보기 에러", err);
       return false;
     });
 
   return {
-    type: PLUS_NOTICE_VIEW,
+    type: GET_NOTICE_DETAIL,
     // payload: request,
-    payload: null,
+    payload: data_notice_detail,
   };
 }

@@ -5,7 +5,7 @@ import { PlusOutlined } from "@ant-design/icons";
 
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
-import { getNotice } from "../../store/actions/notice_actions";
+import { getNotice, getNoticeDetail } from "../../store/actions/notice_actions";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
 
@@ -19,6 +19,7 @@ const Notice = () => {
   // 리덕스
   const dispatch = useDispatch();
   const data = useSelector((state) => state.Notice.notice);
+  const plusViewResult = useSelector((state) => state.Notice.plus_notice_view);
 
   // 데이터 불러오기
   useEffect(() => {
@@ -41,7 +42,7 @@ const Notice = () => {
             color="#868e96"
             icon={<PlusOutlined />}
             onClick={() =>
-              navigate("/notice/create", { state: { type: "Create" } })
+              navigate("/notice/create", { state: { type: "create" } })
             }
           />
         </div>
@@ -54,7 +55,7 @@ const Notice = () => {
           onRow={(record, rowIndex) => {
             return {
               onClick: (event) => {
-                navigate("/notice/detail", { state: record });
+                navigate("/notice/detail", { state: record.noticeid });
               }, // click row
               onDoubleClick: (event) => {}, // double click row
               onContextMenu: (event) => {}, // right button click row

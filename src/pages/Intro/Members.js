@@ -29,7 +29,7 @@ const Members = () => {
       {console.log(location.state)}
       <PageTitle title="Members" />
       <Tabs
-        defaultActiveKey={location.state === "professors" ? 1 : 2}
+        defaultActiveKey={1}
         // activeKey={location.state === "professors" ? 1 : 2}
         centered
         items={items}

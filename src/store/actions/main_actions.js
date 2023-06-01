@@ -7,13 +7,8 @@ import axios from "axios";
 
 // 메인 데이터 가져오기
 export function getMain() {
-  const data = {
-    notice: data_notice_main,
-    community: data_community_main,
-    plan: data_plan,
-  };
   const request = axios({
-    method: "POST",
+    method: "GET",
     url: process.env.REACT_APP_GET_MAIN,
     header: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -24,14 +19,14 @@ export function getMain() {
       return response.data;
     })
     .catch((err) => {
-      console.log("메인 데이터 에러", err);
+      console.log("메인 데이터 에러", err.response.status);
       return false;
     });
 
   return {
     type: GET_MAIN,
     // payload: request,
-    payload: data,
+    payload: request,
   };
 }
 
@@ -39,7 +34,7 @@ export function getMain() {
 export function join(data) {
   const request = axios({
     method: "POST",
-    url: process.env.REACT_APP_API_URL + process.env.REACT_APP_JOIN,
+    url: process.env.REACT_APP_JOIN,
     header: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
@@ -69,7 +64,7 @@ export function login(data) {
   console.log("로그인 액션: ", data.email.value, data.pwd.value);
   const request = axios({
     method: "POST",
-    url: process.env.REACT_APP_API_URL + process.env.REACT_APP_LOGIN,
+    url: process.env.REACT_APP_LOGIN,
     header: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
@@ -79,11 +74,12 @@ export function login(data) {
     },
   })
     .then((response) => {
+      console.log("로그인 성공 결과: ", response);
       return true;
     })
     .catch((err) => {
       console.log("로그인 에러", err);
-      return err.response.data;
+      return err.response.status;
     });
 
   return {
@@ -94,9 +90,10 @@ export function login(data) {
 
 // 로그아웃
 export function logout(data) {
+  console.log("로그아웃 액션");
   const request = axios({
     method: "POST",
-    url: process.env.REACT_APP_API_URL + process.env.REACT_APP_LOGOUT,
+    url: process.env.REACT_APP_LOGOUT,
     header: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
@@ -106,7 +103,7 @@ export function logout(data) {
     })
     .catch((err) => {
       console.log("로그아웃 에러", err);
-      return err.response.data;
+      return err.response.status;
     });
 
   return {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { createNotice, updateNotice } from "../../store/actions/notice_actions";
 import { useLocation } from "react-router-dom";
 
@@ -18,14 +19,24 @@ const NoticeForm = () => {
   // 공지사항 목록 페이지로부터 받은 데이터
   // create => 공지사항 생성 / update => 공지사항 수정
   const location = useLocation();
+  const navigate = useNavigate();
 
   // textArea 사용하기 위한 선언
   const { TextArea } = Input;
 
   // 공지사항 폼
   const [form, setForm] = useState({
+    noticeid: {
+      value:
+        location.state.type === "update" ? location.state.data.noticeid : 0,
+      type: "textInput",
+      // rules: {
+      //   isRequired: true,
+      // },
+      valid: false,
+    },
     title: {
-      value: location.state.type === "Update" ? location.state.data.title : "",
+      value: location.state.type === "update" ? location.state.data.title : "",
       type: "textInput",
       rules: {
         isRequired: true,
@@ -34,7 +45,7 @@ const NoticeForm = () => {
     },
     contents: {
       value:
-        location.state.type === "Update" ? location.state.data.contents : "",
+        location.state.type === "update" ? location.state.data.contents : "",
       type: "textInput",
       rules: {
         isRequired: true,
@@ -42,6 +53,9 @@ const NoticeForm = () => {
       valid: false,
     },
   });
+
+  const ResCreate = useSelector((state) => state.Notice.create_notice);
+  const ResUpdate = useSelector((state) => state.Notice.update_notice);
 
   const convertURLtoFile = async (url) => {
     const response = await fetch(url);
@@ -54,7 +68,8 @@ const NoticeForm = () => {
   };
 
   useEffect(() => {
-    if (location.state.type === "Update") {
+    console.log("가져온 데이터: ", location.state);
+    if (location.state.type === "update") {
       const result = convertURLtoFile(location.state.data.img);
       console.log("이미지 변환 결과: ", result);
       // handleChange({
@@ -89,9 +104,16 @@ const NoticeForm = () => {
 
   // 에러메세지 함수
   const error = (data) => {
-    console.log("왜 안되냐?", data);
     messageApi.open({
       type: "error",
+      content: data,
+    });
+  };
+
+  // 완료메세지 함수
+  const complete = (data) => {
+    messageApi.open({
+      type: "success",
       content: data,
     });
   };
@@ -202,24 +224,59 @@ const NoticeForm = () => {
     console.log("falseForm: ", falseForm);
 
     if (checkValid) {
-      if (location.state.type === "Create") submitCreateForm();
-      else if (location.state.type === "Update") submitUpdateForm();
-      else submitCreateForm();
+      submitForm();
     } else {
       error("조건에 맞는 값을 입력해주세요.");
     }
   };
 
-  // 유효성 검사 확인 완료 => 공지사항 생성 API요청
-  const submitCreateForm = () => {
-    console.log("통과");
-    dispatch(createNotice(form, fileList[0]));
+  // 유효성 검사 확인 완료 =>  API요청
+  const submitForm = () => {
+    console.log(location.state.type);
+    let result;
+    let status = false;
+    switch (location.state.type) {
+      case "create":
+        result = dispatch(createNotice(form, fileList[0]));
+        if (result.payload !== false) {
+          status = true;
+          complete("공지사항이 생성되었습니다!");
+          navigate("/notice/detail", { replace: true, state: ResCreate });
+        } else ResFunc(result.payload);
+        break;
+      case "update":
+        result = dispatch(updateNotice(form, fileList[0]));
+        if (result.payload === true) {
+          status = true;
+          complete("공지사항이 수정되었습니다!");
+          navigate(-1, {
+            replace: true,
+            state: form.noticeid.value,
+          });
+        } else ResFunc(result.payload);
+        break;
+      default:
+        break;
+    }
   };
 
-  // 유효성 검사 확인 완료 => 공지사항 수정 API요청
-  const submitUpdateForm = () => {
-    console.log("통과");
-    dispatch(createNotice(form, fileList[0]));
+  const ResFunc = (res) => {
+    switch (res) {
+      case 400:
+        error("입력한 값을 확인해주세요.");
+        break;
+      case 403:
+        error("접근 권한이 없습니다.");
+        break;
+      case 404:
+        error("이미 삭제된 일정입니다.");
+        break;
+      case 500:
+        error("관리자에게 문의해주세요.");
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -276,7 +333,9 @@ const NoticeForm = () => {
             extra="이미지 파일만 업로드 가능"
           >
             <Upload
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              beforeUpload={() => false}
+              // customRequest={}
               listType="picture-card"
               fileList={fileList}
               onPreview={handlePreview}
@@ -308,7 +367,7 @@ const NoticeForm = () => {
 
           <Form.Item>
             <Large_SubmitButton
-              name={location.state.type === "Create" ? "COMPLETE" : "UPDATE"}
+              name={location.state.type === "create" ? "COMPLETE" : "UPDATE"}
               bgColor={colors.yiu_dark_blue_light}
               bgColor_hover={colors.yiu_dark_blue}
             />

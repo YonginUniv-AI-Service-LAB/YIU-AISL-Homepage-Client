@@ -38,11 +38,22 @@ const CommunityPlan = (props) => {
   const { TextArea } = Input;
   const [messageApi, contextHolder] = message.useMessage();
 
+  const ResCreate = useSelector((state) => state.Community.create_plan);
+  const ResUpdate = useSelector((state) => state.Community.update_plan);
+  const ResDelete = useSelector((state) => state.Community.delete_plan);
+
   // 에러메세지 함수
   const error = (data) => {
-    console.log("왜 안되냐?", data);
     messageApi.open({
       type: "error",
+      content: data,
+    });
+  };
+
+  // 완료메세지 함수
+  const complete = (data) => {
+    messageApi.open({
+      type: "success",
       content: data,
     });
   };
@@ -196,21 +207,64 @@ const CommunityPlan = (props) => {
     if (checkValid) {
       submitForm();
     } else {
-      error("조건에 맞는 값을 입력해주세요.");
+      error("내용을 입력해주세요.");
     }
   };
 
-  // 유효성 검사 확인 완료 => 공지사항 생성 API요청
+  // 유효성 검사 확인 완료 =>  API요청
   const submitForm = () => {
-    console.log("통과");
-    if (type === "create") dispatch(createPlan(form));
-    else if (type === "update") dispatch(updatePlan(form));
-    else if (type === "delete") dispatch(deletePlan(form.planid));
-    setIsModalOpen(false);
+    let result;
+    let status = false;
+    switch (type) {
+      case "create":
+        result = dispatch(createPlan(form));
+        if (result.payload === true) {
+          status = true;
+          complete("일정이 생성되었습니다!");
+        } else ResFunc(result.payload);
+        break;
+      case "update":
+        result = dispatch(updatePlan(form));
+        if (result.payload === true) {
+          status = true;
+          complete("일정이 수정되었습니다!");
+        } else ResFunc(result.payload);
+        break;
+      case "delete":
+        result = dispatch(deletePlan(form));
+        if (result.payload === true) {
+          status = true;
+          complete("일정이 삭제되었습니다!");
+        } else ResFunc(result.payload);
+        break;
+      default:
+        break;
+    }
+    if (status === true) setIsModalOpen(false);
+  };
+
+  const ResFunc = (res) => {
+    switch (res) {
+      case 400:
+        error("입력한 값을 확인해주세요.");
+        break;
+      case 403:
+        error("접근 권한이 없습니다.");
+        break;
+      case 404:
+        error("이미 삭제된 일정입니다.");
+        break;
+      case 500:
+        error("관리자에게 문의해주세요.");
+        break;
+      default:
+        break;
+    }
   };
 
   return (
     <div>
+      {contextHolder}
       {/* 섹션 타이틀 */}
       <Row align={"middle"}>
         <Col span={8}>

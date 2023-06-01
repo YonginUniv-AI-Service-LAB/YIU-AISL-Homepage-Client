@@ -96,17 +96,18 @@ const Login = () => {
   // 유효성 검사 확인 완료 => API요청
   const submitForm = async () => {
     console.log("통과");
-    dispatch(login(form));
+    let result = dispatch(login(form));
+    console.log("로그인 result: ", result.payload);
   };
 
-  useEffect(() => {
-    console.log("loginResult", loginResult);
-    if (loginResult === true) navigate("/");
-    else if (loginResult === 400)
-      error(`입력한 이메일과 비밀번호를 확인해주세요!`);
-    else if (loginResult === 401)
-      error(`이메일과 비밀번호가 일치하지 않습니다!`);
-  }, [loginResult]);
+  // useEffect(() => {
+  //   console.log("loginResult", loginResult);
+  //   if (loginResult === true) navigate("/");
+  //   else if (loginResult === 400)
+  //     error(`입력한 이메일과 비밀번호를 확인해주세요!`);
+  //   else if (loginResult === 401)
+  //     error(`이메일과 비밀번호가 일치하지 않습니다!`);
+  // }, [loginResult]);
 
   return (
     <div>
@@ -166,11 +167,11 @@ const Login = () => {
                 span={12}
                 style={{ display: "flex", justifyContent: "flex-end" }}
               >
-                <a href="./finduserinfo" className={styles.subBtn}>
+                <a href="./forgotemail" className={styles.subBtn}>
                   이메일 찾기
                 </a>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <a href="./finduserinfo" className={styles.subBtn}>
+                <a href="./forgotpassword" className={styles.subBtn}>
                   비밀번호 찾기
                 </a>
               </Col>
@@ -182,7 +183,7 @@ const Login = () => {
 
           <Form.Item>
             <Large_SubmitButton
-              name="LOGIN"
+              name="로그인"
               bgColor={colors.yiu_dark_blue_light}
               bgColor_hover={colors.yiu_dark_blue}
             />

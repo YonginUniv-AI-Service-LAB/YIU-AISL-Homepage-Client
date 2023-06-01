@@ -1,33 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Form, message } from "antd";
+import React, { useState } from "react";
+import { Button, Form, Input, ConfigProvider, Select, message } from "antd";
+import { MailOutlined } from "@ant-design/icons";
 
-// 리덕스 사용
-import { useDispatch, useSelector } from "react-redux";
-import { join } from "../../store/actions/main_actions";
-
+import ChangePassword from "./ChangePassword";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import Large_SubmitButton from "../../components/Button/Large_SubmitButton";
-import JoinInput from "./JoinInput";
-import JoinComplete from "./JoinComplete";
-
-import styles from "./join.module.css";
+import { useDispatch } from "react-redux";
+import { findPwd, changePwd } from "../../store/actions/user_actions";
+import styles from "./forgotpassword.module.css";
 import { colors } from "../../assets/colors";
 import { questions } from "../../assets/string/question";
 import ValidationRules from "../../utils/ValidationRules";
+import TextInput from "../../components/TextInput/TextInput";
+import Large_SubmitButton from "../../components/Button/Large_SubmitButton";
 
-const Join = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+const onFinish = (values) => {
+  console.log("Success:", values);
+};
+const onFinishFailed = (errorInfo) => {
+  console.log("Failed:", errorInfo);
+};
 
-  const joinResult = useSelector((state) => state.Main.join);
-
-  const [emailCheck, setEmailCheck] = useState(true);
-  const [pageChange, setPageChange] = useState(false);
-
+const ForgotPassword = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
-  // 에러메세지 함수
+  const [complete, setComplete] = useState(false);
+
   const error = (data) => {
     console.log("왜 안되냐?", data);
     messageApi.open({
@@ -36,7 +33,9 @@ const Join = () => {
     });
   };
 
-  // 회원가입 폼
+  const dispatch = useDispatch();
+
+  // 폼
   const [form, setForm] = useState({
     name: {
       value: "",
@@ -53,23 +52,6 @@ const Join = () => {
       rules: {
         isRequired: true,
         isEmail: true,
-      },
-      valid: false,
-    },
-    pwd1: {
-      value: "",
-      type: "textInput",
-      rules: {
-        isRequired: true,
-        checkPassword: true,
-      },
-      valid: false,
-    },
-    pwd2: {
-      value: "",
-      type: "textInput",
-      rules: {
-        passwordConfirm: "pwd1",
       },
       valid: false,
     },
@@ -126,21 +108,21 @@ const Join = () => {
     let falseForm = [];
 
     for (let i in form) {
-      console.log(i, form[i].value);
+      console.log("=====", i, form[i].value, "=====");
+      console.log("rules: ", form[i].rules);
       let rules = form[i].rules;
       let valid = ValidationRules(form[i].value, rules, form);
       form[i].valid = valid;
-      console.log("=====", form[i].valid, "=====");
+      console.log("valid: ", form[i].valid);
       if (form[i].valid === false || form[i].value === "") {
         checkValid = false;
         falseForm.push(i);
       }
     }
-
     console.log("checkValid: ", checkValid);
     console.log("falseForm: ", falseForm);
 
-    if (checkValid === true) submitForm();
+    if (checkValid) submitForm();
     else {
       error("조건에 맞는 값을 입력해주세요.");
     }
@@ -149,59 +131,18 @@ const Join = () => {
   // 유효성 검사 확인 완료 => API요청
   const submitForm = () => {
     console.log("통과");
-    let result = dispatch(join(form));
-    console.log("result: ", result.payload);
-    // switch (result.payload) {
-    //   case true:
-    //     setPageChange(true);
-    //     break;
-    //   case 400:
-    //     error(`입력되지 않은 값이 있습니다!`);
-    //     break;
-    //   case 409:
-    //     error(`이미 가입한 이메일입니다.`);
-    //     break;
-    //   case 500:
-    //     error(`관리자에게 문의해주세요.`);
-    //     break;
-    //   default:
-    //     break;
-    // }
+    let result = dispatch(findPwd(form));
+    if (result.payload === 200) setComplete(true);
+    else if (result.payload === 401)
+      complete("회원 정보를 다시 입력해 주세요ㅜㅜ");
+    else error("잠시 후에 다시 시도해주세요");
   };
-
-  useEffect(() => {
-    console.log("joinResult", joinResult);
-    switch (joinResult) {
-      case true:
-        setPageChange(true);
-        break;
-      case 400:
-        error(`입력되지 않은 값이 있습니다!`);
-        break;
-      case 409:
-        error(`이미 가입한 이메일입니다.`);
-        break;
-      case 500:
-        error(`관리자에게 문의해주세요.`);
-        break;
-      default:
-        break;
-    }
-    // if (joinResult === true) setPageChange(true);
-    // else if (joinResult === 409) setEmailCheck(false);
-  }, [joinResult]);
-
-  // useEffect(() => {
-  //   if (emailCheck == false) error(`이미 가입한 이메일입니다.`);
-  // }, [emailCheck]);
 
   return (
     <div>
       {contextHolder}
-      <PageTitle title="Join" />
-      {pageChange === true ? (
-        <JoinComplete onClick={() => navigate("/login", { replace: true })} />
-      ) : (
+      <PageTitle title="비밀번호 변경하기" />
+      {complete === false ? (
         <div className={styles.form_container}>
           <Form
             name="basic"
@@ -210,11 +151,16 @@ const Join = () => {
               minWidth: 500,
               maxWidth: 600,
             }}
+            // initialValues={{
+            //   remember: true,
+            // }}
+            // onFinish={onFinish}
+            onFinish={() => checkFormValid()}
+            onFinishFailed={onFinishFailed}
             autoComplete="off"
             layout="vertical"
-            onFinish={checkFormValid}
           >
-            <JoinInput
+            <TextInput
               label="Name"
               id="name"
               name="name"
@@ -227,7 +173,7 @@ const Join = () => {
               maxLength={4}
             />
 
-            <JoinInput
+            <TextInput
               label="Email"
               id="email"
               name="email"
@@ -240,35 +186,7 @@ const Join = () => {
               maxLength={320}
             />
 
-            <JoinInput
-              label="Password"
-              id="pwd1"
-              name="pwd1"
-              value={form.pwd1.value}
-              placeholder="영어+문자+숫자 포함 8~20자"
-              onChange={(e) => {
-                onChange(e);
-              }}
-              minLength={8}
-              maxLength={20}
-              type="password"
-            />
-
-            <JoinInput
-              label="Password Confirm"
-              id="pwd2"
-              name="pwd2"
-              value={form.pwd2.value}
-              placeholder="비밀번호 재입력"
-              onChange={(e) => {
-                onChange(e);
-              }}
-              minLength={8}
-              maxLength={20}
-              type="password"
-            />
-
-            <JoinInput
+            <TextInput
               select={true}
               label="Identity verification question"
               id="question"
@@ -281,7 +199,7 @@ const Join = () => {
               }}
             />
 
-            <JoinInput
+            <TextInput
               label="Answer"
               id="answer"
               name="answer"
@@ -300,16 +218,18 @@ const Join = () => {
 
             <Form.Item>
               <Large_SubmitButton
-                name="회원가입"
+                name="비밀번호 변경"
                 bgColor={colors.yiu_dark_blue_light}
                 bgColor_hover={colors.yiu_dark_blue}
               />
             </Form.Item>
           </Form>
         </div>
+      ) : (
+        <ChangePassword />
       )}
     </div>
   );
 };
 
-export default Join;
+export default ForgotPassword;
