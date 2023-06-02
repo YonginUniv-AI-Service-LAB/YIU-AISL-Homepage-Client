@@ -17,11 +17,11 @@ export function findEmail(data) {
     },
   })
     .then((response) => {
-      return response.data;
+      return true;
     })
     .catch((err) => {
       console.log("이메일 찾기 에러", err);
-      return false;
+      return err.response.status;
     });
 
   return {
@@ -46,11 +46,11 @@ export function findPwd(data) {
     },
   })
     .then((response) => {
-      return response.data;
+      return true;
     })
     .catch((err) => {
       console.log("비밀번호 찾기 에러", err);
-      return false;
+      return err.response.status;
     });
 
   return {
@@ -73,11 +73,11 @@ export function changePwd(data) {
     },
   })
     .then((response) => {
-      return response.data;
+      return true;
     })
     .catch((err) => {
       console.log("비밀번호 재설정 에러", err);
-      return false;
+      return err.response.status;
     });
 
   return {

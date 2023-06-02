@@ -4,7 +4,7 @@ import { MailOutlined } from "@ant-design/icons";
 
 import ChangePassword from "./ChangePassword";
 import PageTitle from "../../components/PageTitle/PageTitle";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { findPwd, changePwd } from "../../store/actions/user_actions";
 import styles from "./forgotpassword.module.css";
 import { colors } from "../../assets/colors";
@@ -18,8 +18,10 @@ const ForgotPassword = () => {
 
   const [complete, setComplete] = useState(false);
 
+  const FPResult = useSelector((state) => state.User.findpwd);
+  const CPResult = useSelector((state) => state.User.changepwd);
+
   const errorMsg = (data) => {
-    console.log("유저 정보가 존재하지 않습니다.", data);
     messageApi.open({
       type: "error",
       content: data,
@@ -27,12 +29,12 @@ const ForgotPassword = () => {
   };
 
   const completeMsg = (data) => {
-    console.log("유저 정보가 존재하지 않습니다.", data);
     messageApi.open({
-      type: "error",
+      type: "success",
       content: data,
     });
   };
+
   const dispatch = useDispatch();
 
   // 폼

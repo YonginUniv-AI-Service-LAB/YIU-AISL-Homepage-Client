@@ -65,7 +65,7 @@ export function login(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_LOGIN,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
@@ -78,8 +78,12 @@ export function login(data) {
       return true;
     })
     .catch((err) => {
-      console.log("로그인 에러", err.response.status);
-      return err.response.status;
+      if (err && err.response) {
+        console.log("로그인 에러: ", err.response.status);
+        return err.response.status;
+      }
+      console.log("알 수 없는 에러");
+      return null;
     });
 
   return {

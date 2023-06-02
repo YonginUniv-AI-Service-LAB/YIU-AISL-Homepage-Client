@@ -5,7 +5,7 @@ export default function (state = {}, action) {
     case FIND_EMAIL:
       return {
         ...state,
-        find_eamil: action.payload || false,
+        find_email: action.payload || false,
       };
     case FIND_PWD:
       return {

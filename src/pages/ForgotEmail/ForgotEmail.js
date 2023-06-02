@@ -4,7 +4,7 @@ import { MailOutlined } from "@ant-design/icons";
 
 // import ChangePassword from './ChangePassword'
 import PageTitle from "../../components/PageTitle/PageTitle";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   findPwd,
   changePwd,
@@ -17,20 +17,14 @@ import ValidationRules from "../../utils/ValidationRules";
 import TextInput from "../../components/TextInput/TextInput";
 import Large_SubmitButton from "../../components/Button/Large_SubmitButton";
 
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
-
 const ForgotEmail = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const [complete, setComplete] = useState(true);
 
+  const FEResult = useSelector((state) => state.User.findemail);
+
   const errorMsg = (data) => {
-    console.log("유저 정보가 존재하지 않습니다.", data);
     messageApi.open({
       type: "error",
       content: data,
@@ -38,9 +32,8 @@ const ForgotEmail = () => {
   };
 
   const completeMsg = (data) => {
-    console.log("유저 정보가 존재하지 않습니다.", data);
     messageApi.open({
-      type: "error",
+      type: "success",
       content: data,
     });
   };
@@ -128,12 +121,28 @@ const ForgotEmail = () => {
 
   // 유효성 검사 확인 완료 => API요청
   const submitForm = () => {
-    console.log("통과");
-    let result = dispatch(findEmail(form));
-    if (result.payload === 200) setComplete(true);
-    else if (result.payload === 401)
-      completeMsg("회원 정보를 다시 입력해주세요 ㅜㅜ");
-    else errorMsg("잠시 후에 다시 시도해주세요");
+    dispatch(findEmail(form))
+      .then((res) => {
+        console.log("res: ", res);
+        switch (res.payload) {
+          case true:
+            setComplete(true);
+            break;
+          case 400:
+            errorMsg(`입력하신 정보를 확인해주세요.`);
+            break;
+          case 401:
+            errorMsg(`회원정보가 일치하지 않습니다.`);
+            break;
+          case 500:
+            errorMsg(`관리자에게 문의해주세요.`);
+          default:
+            break;
+        }
+      })
+      .catch((err) => {
+        errorMsg(`잠시 후에 다시 시도해주세요.`);
+      });
   };
 
   return (
@@ -149,7 +158,6 @@ const ForgotEmail = () => {
             maxWidth: 600,
           }}
           onFinish={checkFormValid}
-          onFinishFailed={onFinishFailed}
           autoComplete="off"
           layout="vertical"
         >

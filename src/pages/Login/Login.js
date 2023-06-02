@@ -98,12 +98,15 @@ const Login = () => {
           case 401:
             errorMsg(`이메일과 비밀번호가 일치하지 않습니다!`);
             break;
+          case 500:
+            errorMsg(`관리자에게 문의해주세요.`);
+            break;
           default:
             break;
         }
       })
       .catch((err) => {
-        console.log("에러: ", err);
+        errorMsg(`잠시 후에 다시 시도해주세요.`);
       });
   };
 
