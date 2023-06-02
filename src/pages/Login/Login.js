@@ -22,8 +22,7 @@ const Login = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   // 에러메세지 함수
-  const error = (data) => {
-    console.log("왜 안되냐?", data);
+  const errorMsg = (data) => {
     messageApi.open({
       type: "error",
       content: data,
@@ -54,9 +53,6 @@ const Login = () => {
 
   // 텍스트인풋 업데이트
   const onChange = (e) => {
-    console.log("===============================");
-    console.log(e.target.id, e.target.value);
-
     setForm((prevState) => ({
       ...prevState,
       [e.target.id]: {
@@ -72,42 +68,42 @@ const Login = () => {
     let falseForm = [];
 
     for (let i in form) {
-      console.log("=====", i, form[i].value, "=====");
-      console.log("rules: ", form[i].rules);
       let rules = form[i].rules;
       let valid = ValidationRules(form[i].value, rules, form);
       form[i].valid = valid;
-      console.log("valid: ", form[i].valid);
       if (form[i].valid === false || form[i].value === "") {
         checkValid = false;
         falseForm.push(i);
       }
     }
 
-    console.log("checkValid: ", checkValid);
-    console.log("falseForm: ", falseForm);
-
     if (checkValid) submitForm();
     else {
-      error("조건에 맞는 값을 입력해주세요.");
+      errorMsg("조건에 맞는 값을 입력해주세요.");
     }
   };
 
   // 유효성 검사 확인 완료 => API요청
-  const submitForm = async () => {
-    console.log("통과");
+  const submitForm = () => {
     let result = dispatch(login(form));
-    console.log("로그인 result: ", result.payload);
   };
 
-  // useEffect(() => {
-  //   console.log("loginResult", loginResult);
-  //   if (loginResult === true) navigate("/");
-  //   else if (loginResult === 400)
-  //     error(`입력한 이메일과 비밀번호를 확인해주세요!`);
-  //   else if (loginResult === 401)
-  //     error(`이메일과 비밀번호가 일치하지 않습니다!`);
-  // }, [loginResult]);
+  useEffect(() => {
+    console.log("loginResult", loginResult);
+    switch (loginResult) {
+      case true:
+        navigate("/");
+        break;
+      case 400:
+        errorMsg(`입력한 이메일과 비밀번호를 확인해주세요!`);
+        break;
+      case 401:
+        errorMsg(`이메일과 비밀번호가 일치하지 않습니다!`);
+        break;
+      default:
+        break;
+    }
+  }, [loginResult]);
 
   return (
     <div>

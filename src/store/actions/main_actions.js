@@ -74,11 +74,11 @@ export function login(data) {
     },
   })
     .then((response) => {
-      console.log("로그인 성공 결과: ", response);
+      console.log("로그인 성공 결과: ", response.data);
       return true;
     })
     .catch((err) => {
-      console.log("로그인 에러", err);
+      console.log("로그인 에러", err.response.status);
       return err.response.status;
     });
 

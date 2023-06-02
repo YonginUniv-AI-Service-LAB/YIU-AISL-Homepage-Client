@@ -20,94 +20,20 @@ const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 
-// const ForgotPassword = () => {
-
-//   const dispatch = useDispatch();
-
-//   const [messageApi, contextHolder] = message.useMessage();
-//     // 에러메세지 함수
-//     const error = (data) => {
-//       console.log("왜 안되냐?", data);
-//       messageApi.open({
-//         type: "error",
-//         content: data,
-//       });
-//     };
-
-//   // 로그인 폼
-// const [form, setForm] = useState({
-//   email: {
-//     value: "",
-//     type: "textInput",
-//     rules: {
-//       isRequired: true,
-//       isEmail: true,
-//     },
-//     valid: false,
-//   },
-//   pwd: {
-//     value: "",
-//     type: "textInput",
-//     rules: {
-//       isRequired: true,
-//       checkPassword: true,
-//     },
-//     valid: false,
-//   },
-// });
-
-//  // 텍스트인풋 업데이트
-//  const onChange = (e) => {
-//   console.log("===============================");
-//   console.log(e.target.id, e.target.value);
-
-//   setForm((prevState) => ({
-//     ...prevState,
-//     [e.target.id]: {
-//       ...prevState[e.target.id],
-//       value: e.target.value,
-//     },
-//   }));
-// };
-
-//  // 유효성 검사
-//  const checkFormValid = () => {
-//   let checkValid = true;
-//   let falseForm = [];
-
-//   for (let i in form) {
-//     console.log("=====", i, form[i].value, "=====");
-//     console.log("rules: ", form[i].rules);
-//     let rules = form[i].rules;
-//     let valid = ValidationRules(form[i].value, rules, form);
-//     form[i].valid = valid;
-//     console.log("valid: ", form[i].valid);
-//     if (form[i].valid === false || form[i].value === "") {
-//       checkValid = false;
-//       falseForm.push(i);
-//     }
-//   }
-//   console.log("checkValid: ", checkValid);
-//   console.log("falseForm: ", falseForm);
-
-//   if (checkValid) submitForm();
-//   else {
-//     error("조건에 맞는 값을 입력해주세요.");
-//   }
-// };
-
-// // 유효성 검사 확인 완료 => API요청
-// const submitForm = () => {
-//   console.log("통과");
-//   dispatch(ForgotPassword(form));
-// };
-
 const ForgotEmail = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const [complete, setComplete] = useState(true);
 
-  const error = (data) => {
+  const errorMsg = (data) => {
+    console.log("유저 정보가 존재하지 않습니다.", data);
+    messageApi.open({
+      type: "error",
+      content: data,
+    });
+  };
+
+  const completeMsg = (data) => {
     console.log("유저 정보가 존재하지 않습니다.", data);
     messageApi.open({
       type: "error",
@@ -206,7 +132,7 @@ const ForgotEmail = () => {
 
     if (checkValid) submitForm();
     else {
-      error("조건에 맞는 값을 입력해주세요.");
+      errorMsg("조건에 맞는 값을 입력해주세요.");
     }
   };
 
@@ -218,7 +144,7 @@ const ForgotEmail = () => {
     if (result.payload === 200) setComplete(true);
     else if (result.payload === 401)
       complete("회원 정보를 다시 입력해주세요 ㅜㅜ");
-    else error("잠시 후에 다시 시도해주세요");
+    else errorMsg("잠시 후에 다시 시도해주세요");
   };
 
   return (
