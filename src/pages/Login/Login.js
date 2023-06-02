@@ -79,31 +79,33 @@ const Login = () => {
 
     if (checkValid) submitForm();
     else {
-      errorMsg("조건에 맞는 값을 입력해주세요.");
+      errorMsg("이메일과 비밀번호를 모두 입력해주세요.");
     }
   };
 
   // 유효성 검사 확인 완료 => API요청
   const submitForm = () => {
-    let result = dispatch(login(form));
+    dispatch(login(form))
+      .then((res) => {
+        console.log("res: ", res);
+        switch (res.payload) {
+          case true:
+            navigate("/");
+            break;
+          case 400:
+            errorMsg(`입력한 이메일과 비밀번호를 확인해주세요!`);
+            break;
+          case 401:
+            errorMsg(`이메일과 비밀번호가 일치하지 않습니다!`);
+            break;
+          default:
+            break;
+        }
+      })
+      .catch((err) => {
+        console.log("에러: ", err);
+      });
   };
-
-  useEffect(() => {
-    console.log("loginResult", loginResult);
-    switch (loginResult) {
-      case true:
-        navigate("/");
-        break;
-      case 400:
-        errorMsg(`입력한 이메일과 비밀번호를 확인해주세요!`);
-        break;
-      case 401:
-        errorMsg(`이메일과 비밀번호가 일치하지 않습니다!`);
-        break;
-      default:
-        break;
-    }
-  }, [loginResult]);
 
   return (
     <div>

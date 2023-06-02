@@ -13,26 +13,26 @@ import ValidationRules from "../../utils/ValidationRules";
 import TextInput from "../../components/TextInput/TextInput";
 import Large_SubmitButton from "../../components/Button/Large_SubmitButton";
 
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
-
 const ForgotPassword = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const [complete, setComplete] = useState(false);
 
-  const error = (data) => {
-    console.log("왜 안되냐?", data);
+  const errorMsg = (data) => {
+    console.log("유저 정보가 존재하지 않습니다.", data);
     messageApi.open({
       type: "error",
       content: data,
     });
   };
 
+  const completeMsg = (data) => {
+    console.log("유저 정보가 존재하지 않습니다.", data);
+    messageApi.open({
+      type: "error",
+      content: data,
+    });
+  };
   const dispatch = useDispatch();
 
   // 폼
@@ -108,8 +108,6 @@ const ForgotPassword = () => {
     let falseForm = [];
 
     for (let i in form) {
-      console.log("=====", i, form[i].value, "=====");
-      console.log("rules: ", form[i].rules);
       let rules = form[i].rules;
       let valid = ValidationRules(form[i].value, rules, form);
       form[i].valid = valid;
@@ -119,12 +117,10 @@ const ForgotPassword = () => {
         falseForm.push(i);
       }
     }
-    console.log("checkValid: ", checkValid);
-    console.log("falseForm: ", falseForm);
 
     if (checkValid) submitForm();
     else {
-      error("조건에 맞는 값을 입력해주세요.");
+      errorMsg("조건에 맞는 값을 입력해주세요.");
     }
   };
 
@@ -135,7 +131,7 @@ const ForgotPassword = () => {
     if (result.payload === 200) setComplete(true);
     else if (result.payload === 401)
       complete("회원 정보를 다시 입력해 주세요ㅜㅜ");
-    else error("잠시 후에 다시 시도해주세요");
+    else errorMsg("잠시 후에 다시 시도해주세요");
   };
 
   return (
@@ -151,12 +147,7 @@ const ForgotPassword = () => {
               minWidth: 500,
               maxWidth: 600,
             }}
-            // initialValues={{
-            //   remember: true,
-            // }}
-            // onFinish={onFinish}
-            onFinish={() => checkFormValid()}
-            onFinishFailed={onFinishFailed}
+            onFinish={checkFormValid}
             autoComplete="off"
             layout="vertical"
           >

@@ -5,7 +5,11 @@ import { MailOutlined } from "@ant-design/icons";
 // import ChangePassword from './ChangePassword'
 import PageTitle from "../../components/PageTitle/PageTitle";
 import { useDispatch } from "react-redux";
-import { findPwd, changePwd } from "../../store/actions/user_actions";
+import {
+  findPwd,
+  changePwd,
+  findEmail,
+} from "../../store/actions/user_actions";
 import styles from "./forgotemail.module.css";
 import { colors } from "../../assets/colors";
 import { questions } from "../../assets/string/question";
@@ -54,21 +58,12 @@ const ForgotEmail = () => {
       },
       valid: false,
     },
-    // email: {
-    //   value: "",
-    //   type: "textInput",
-    //   rules: {
-    //     isRequired: true,
-    //     isEmail: true,
-    //   },
-    //   valid: false,
-    // },
     question: {
       value: 1,
       type: "select",
-      // rules: {
-      //   isRequired: true,
-      // },
+      rules: {
+        isRequired: true,
+      },
       valid: true,
     },
     answer: {
@@ -116,19 +111,14 @@ const ForgotEmail = () => {
     let falseForm = [];
 
     for (let i in form) {
-      console.log("=====", i, form[i].value, "=====");
-      console.log("rules: ", form[i].rules);
       let rules = form[i].rules;
       let valid = ValidationRules(form[i].value, rules, form);
       form[i].valid = valid;
-      console.log("valid: ", form[i].valid);
       if (form[i].valid === false || form[i].value === "") {
         checkValid = false;
         falseForm.push(i);
       }
     }
-    console.log("checkValid: ", checkValid);
-    console.log("falseForm: ", falseForm);
 
     if (checkValid) submitForm();
     else {
@@ -139,11 +129,10 @@ const ForgotEmail = () => {
   // 유효성 검사 확인 완료 => API요청
   const submitForm = () => {
     console.log("통과");
-    dispatch(findPwd(form));
-    let result = dispatch(findPwd(form));
+    let result = dispatch(findEmail(form));
     if (result.payload === 200) setComplete(true);
     else if (result.payload === 401)
-      complete("회원 정보를 다시 입력해주세요 ㅜㅜ");
+      completeMsg("회원 정보를 다시 입력해주세요 ㅜㅜ");
     else errorMsg("잠시 후에 다시 시도해주세요");
   };
 
@@ -159,11 +148,7 @@ const ForgotEmail = () => {
             minWidth: 500,
             maxWidth: 600,
           }}
-          // initialValues={{
-          //   remember: true,
-          // }}
-          // onFinish={onFinish}
-          onFinish={() => checkFormValid()}
+          onFinish={checkFormValid}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
           layout="vertical"
