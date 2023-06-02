@@ -18,8 +18,10 @@ const Main = (props) => {
   // 리덕스
   const dispatch = useDispatch();
   const notice = useSelector((state) => state.Main.notice);
-  const community = useSelector((state) => state.Main.community);
+  const post = useSelector((state) => state.Main.post);
   const plan = useSelector((state) => state.Main.plan);
+
+  const [calendarData, setCalendarDate] = useState([]);
 
   // 페이지 이동
   const navigate = useNavigate();
@@ -30,6 +32,41 @@ const Main = (props) => {
     dispatch(getMain());
   }, []);
 
+  useEffect(() => {
+    if (notice != undefined && post != undefined && plan != undefined) {
+      getList();
+    }
+  }, [notice, plan, post]);
+
+  // 날짜별로 데이터 분류
+  const getList = () => {
+    let result = {};
+
+    // plan 데이터 분류
+    for (let i of plan) {
+      const date = i.date.substring(0, 10);
+      if (result.hasOwnProperty(date)) {
+        result[date].push(i);
+      } else {
+        result[date] = [];
+        result[date].push(i);
+      }
+    }
+
+    // post 데이터 분류
+    // for (let j of post) {
+    //   const date = j.createdAt.substring(0, 10);
+    //   if (result.hasOwnProperty(date)) {
+    //     result[date].push(j);
+    //   } else {
+    //     result[date] = [];
+    //     result[date].push(j);
+    //   }
+    // }
+
+    setCalendarDate(result); // 데이터 최종 업데이트
+  };
+
   return (
     <div>
       <Container style={{ marginTop: 100, marginBottom: 100 }}>
@@ -39,8 +76,9 @@ const Main = (props) => {
           <MainContent
             onClick={(page) => navigate(page)}
             data_notice={notice}
-            data_community={community}
+            data_post={post}
             data_plan={plan}
+            data_calendar={calendarData}
           />
         </Slide>
       </Container>

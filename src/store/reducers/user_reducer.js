@@ -5,12 +5,12 @@ export default function (state = {}, action) {
     case FIND_EMAIL:
       return {
         ...state,
-        find_email: action.payload || false,
+        findemail: action.payload || false,
       };
     case FIND_PWD:
       return {
         ...state,
-        find_pwd: action.payload || false,
+        findpwd: action.payload || false,
       };
     case CHANGE_PWD:
       return {

@@ -23,7 +23,7 @@ export function getCommunity() {
   const request = axios({
     method: "GET",
     url: process.env.REACT_APP_GET_COMMUNITY,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {},
@@ -52,7 +52,7 @@ export function createPlan(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_CREATE_PLAN,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
@@ -79,7 +79,7 @@ export function updatePlan(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_UPDATE_PLAN,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
@@ -107,7 +107,7 @@ export function deletePlan(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_DELETE_PLAN,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
@@ -133,7 +133,7 @@ export function createPost(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_CREATE_POST,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
@@ -159,7 +159,7 @@ export function updatePost(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_UPDATE_POST,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
@@ -186,7 +186,7 @@ export function deletePost(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_DELETE_POST,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
@@ -212,7 +212,7 @@ export function like(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_LIKE,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {

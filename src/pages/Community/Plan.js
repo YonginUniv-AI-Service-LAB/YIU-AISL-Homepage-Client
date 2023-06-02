@@ -43,7 +43,7 @@ const CommunityPlan = (props) => {
   const ResDelete = useSelector((state) => state.Community.delete_plan);
 
   // 에러메세지 함수
-  const error = (data) => {
+  const errorMsg = (data) => {
     messageApi.open({
       type: "error",
       content: data,
@@ -51,7 +51,7 @@ const CommunityPlan = (props) => {
   };
 
   // 완료메세지 함수
-  const complete = (data) => {
+  const completeMsg = (data) => {
     messageApi.open({
       type: "success",
       content: data,
@@ -207,35 +207,49 @@ const CommunityPlan = (props) => {
     if (checkValid) {
       submitForm();
     } else {
-      error("내용을 입력해주세요.");
+      errorMsg("내용을 입력해주세요.");
     }
   };
 
   // 유효성 검사 확인 완료 =>  API요청
   const submitForm = () => {
-    let result;
     let status = false;
     switch (type) {
       case "create":
-        result = dispatch(createPlan(form));
-        if (result.payload === true) {
-          status = true;
-          complete("일정이 생성되었습니다!");
-        } else ResFunc(result.payload);
+        dispatch(createPlan(form))
+          .then((res) => {
+            if (res.payload === true) {
+              status = true;
+              completeMsg("일정이 생성되었습니다!");
+            } else ResFunc(res.payload);
+          })
+          .catch((err) => {
+            errorMsg(`잠시 후에 다시 시도해주세요.`);
+          });
         break;
       case "update":
-        result = dispatch(updatePlan(form));
-        if (result.payload === true) {
-          status = true;
-          complete("일정이 수정되었습니다!");
-        } else ResFunc(result.payload);
+        dispatch(updatePlan(form))
+          .then((res) => {
+            if (res.payload === true) {
+              status = true;
+              completeMsg("일정이 수정되었습니다!");
+            } else ResFunc(res.payload);
+          })
+          .catch((err) => {
+            errorMsg(`잠시 후에 다시 시도해주세요.`);
+          });
         break;
       case "delete":
-        result = dispatch(deletePlan(form));
-        if (result.payload === true) {
-          status = true;
-          complete("일정이 삭제되었습니다!");
-        } else ResFunc(result.payload);
+        dispatch(deletePlan(form))
+          .then((res) => {
+            if (res.payload === true) {
+              status = true;
+              completeMsg("일정이 삭제되었습니다!");
+            } else ResFunc(res.payload);
+          })
+          .catch((err) => {
+            errorMsg(`잠시 후에 다시 시도해주세요.`);
+          });
         break;
       default:
         break;
@@ -246,16 +260,16 @@ const CommunityPlan = (props) => {
   const ResFunc = (res) => {
     switch (res) {
       case 400:
-        error("입력한 값을 확인해주세요.");
+        errorMsg("입력한 값을 확인해주세요.");
         break;
       case 403:
-        error("접근 권한이 없습니다.");
+        errorMsg("접근 권한이 없습니다.");
         break;
       case 404:
-        error("이미 삭제된 일정입니다.");
+        errorMsg("이미 삭제된 일정입니다.");
         break;
       case 500:
-        error("관리자에게 문의해주세요.");
+        errorMsg("관리자에게 문의해주세요.");
         break;
       default:
         break;

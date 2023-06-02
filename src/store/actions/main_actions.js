@@ -10,12 +10,13 @@ export function getMain() {
   const request = axios({
     method: "GET",
     url: process.env.REACT_APP_GET_MAIN,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {},
   })
     .then((response) => {
+      console.log("데이터: ", response.data);
       return response.data;
     })
     .catch((err) => {
@@ -35,7 +36,7 @@ export function join(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_JOIN,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
@@ -50,6 +51,7 @@ export function join(data) {
       return true;
     })
     .catch((err) => {
+      console.log("회원가입 에러: ", err.response.status);
       return err.response.status;
     });
 
@@ -78,12 +80,8 @@ export function login(data) {
       return true;
     })
     .catch((err) => {
-      if (err && err.response) {
-        console.log("로그인 에러: ", err.response.status);
-        return err.response.status;
-      }
-      console.log("알 수 없는 에러");
-      return null;
+      console.log("로그인 에러: ", err.response.status);
+      return err.response.status;
     });
 
   return {
@@ -98,7 +96,7 @@ export function logout(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_LOGOUT,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
   })

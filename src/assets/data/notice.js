@@ -1,8 +1,7 @@
-export const data_notice_detail = [
-  {
-    noticeid: "1",
-    title: "바퀴자국 프로젝트",
-    contents: `오늘 [바퀴자국] 프로젝트 진행하고 있는 경찰행정학과 이수영님과 프로젝트 진행 관련해서 미팅하고 왔습니다.
+export const data_notice_detail = {
+  noticeid: "1",
+  title: "바퀴자국 프로젝트",
+  contents: `오늘 [바퀴자국] 프로젝트 진행하고 있는 경찰행정학과 이수영님과 프로젝트 진행 관련해서 미팅하고 왔습니다.
 
     1.	개발 기간: 6월 ~ 10월 말까지 완성 후 배포
     
@@ -21,12 +20,11 @@ export const data_notice_detail = [
     ②	주마다 한번 혹은, 달마다 한번은 이수영님과 함께 진행사항 관련해서 얘기를 나눌 예정입니다.
     
     관련해서 생각 있으신분들은 저한테 내일(22일, 월요일)까지 말씀해주세요. 개발 일정이 생각보다 타이트해서 아마 하게 된다면 엄청 바쁘겠지만 실력은 금방 늘지 않을까 싶습니다. 프로젝트 관련해서 자세한건 내일 이완주 교수님과 얘기 나눠볼 예정입니다.`,
-    writer: "안병준",
-    views: "10",
-    createdAt: "2023-05-21",
-    img: "https://cdn.pixabay.com/photo/2014/04/05/11/40/poster-316690_960_720.jpg",
-  },
-];
+  writer: "안병준",
+  views: "10",
+  createdAt: "2023-05-21",
+  img: "https://cdn.pixabay.com/photo/2014/04/05/11/40/poster-316690_960_720.jpg",
+};
 
 export const data_notice_main = [
   {

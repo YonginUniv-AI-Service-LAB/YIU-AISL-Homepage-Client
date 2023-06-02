@@ -11,9 +11,9 @@ export default function (state = {}, action) {
     case GET_MAIN:
       return {
         ...state,
-        notice: action.payload.notice || false,
-        community: action.payload.community || false,
-        plan: action.payload.plan || false,
+        notice: action.payload.notice || [],
+        post: action.payload.post || [],
+        plan: action.payload.plan || [],
       };
     case JOIN:
       console.log("리듀서: ", action.payload);

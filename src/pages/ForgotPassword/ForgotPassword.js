@@ -13,7 +13,7 @@ import ValidationRules from "../../utils/ValidationRules";
 import TextInput from "../../components/TextInput/TextInput";
 import Large_SubmitButton from "../../components/Button/Large_SubmitButton";
 
-const ForgotPassword = () => {
+const ForgotPassword = (props) => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const [complete, setComplete] = useState(false);
@@ -128,12 +128,28 @@ const ForgotPassword = () => {
 
   // 유효성 검사 확인 완료 => API요청
   const submitForm = () => {
-    console.log("통과");
-    let result = dispatch(findPwd(form));
-    if (result.payload === 200) setComplete(true);
-    else if (result.payload === 401)
-      complete("회원 정보를 다시 입력해 주세요ㅜㅜ");
-    else errorMsg("잠시 후에 다시 시도해주세요");
+    dispatch(findPwd(form))
+      .then((res) => {
+        console.log("res: ", res);
+        switch (res.payload) {
+          case true:
+            setComplete(true);
+            break;
+          case 400:
+            errorMsg(`입력하신 정보를 확인해주세요.`);
+            break;
+          case 401:
+            errorMsg(`회원정보가 일치하지 않습니다.`);
+            break;
+          case 500:
+            errorMsg(`관리자에게 문의해주세요.`);
+          default:
+            break;
+        }
+      })
+      .catch((err) => {
+        errorMsg(`잠시 후에 다시 시도해주세요.`);
+      });
   };
 
   return (
@@ -219,7 +235,7 @@ const ForgotPassword = () => {
           </Form>
         </div>
       ) : (
-        <ChangePassword />
+        <ChangePassword toLoginPage={() => console.log("변경 완료")} />
       )}
     </div>
   );

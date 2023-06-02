@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 
-import { Row, Col, Calendar, Table, List, Button } from "antd";
+import { Row, Col, Calendar, Table, List, Button, Badge } from "antd";
 import VirtualList from "rc-virtual-list";
 import { LikeOutlined } from "@ant-design/icons";
 import ContentBox from "./ContentBox";
 
 import { notice_columns_main } from "../../assets/string/notice_columns";
 import styles from "./main.module.css";
+import { colors } from "../../assets/colors";
 
 const onPanelChange = (value, mode) => {
   console.log(value.format("YYYY-MM-DD"), mode);
@@ -18,8 +19,37 @@ const ContainerHeight = 330;
 const MainContent = (props) => {
   const [today, setToday] = useState(() => dayjs(new Date()));
 
+  // 달력에 데이터 업데이트
+  const renderCell = (data) => {
+    let cntPlan = 0;
+    let cntPost = 0;
+    for (let i in props.data_calendar) {
+      if (i == data.format("YYYY-MM-DD")) {
+        for (let j of props.data[i]) {
+          if (j.hasOwnProperty("planid")) cntPlan++;
+          else if (j.hasOwnProperty("postid")) cntPost++;
+        }
+      }
+    }
+    return (
+      <>
+        {cntPlan > 0 ? (
+          <Badge
+            count={cntPlan}
+            color={colors.plan}
+            style={{ marginRight: 10 }}
+          />
+        ) : null}
+        {cntPost > 0 ? <Badge count={cntPost} color={colors.post} /> : null}
+      </>
+    );
+  };
+
   return (
     <div style={{ marginLeft: 100, marginRight: 100 }}>
+      {console.log("받음: ", props.data_notice)}
+      {console.log("받음: ", props.data_community)}
+      {console.log("받음: ", props.data_plan)}
       <Row gutter={16}>
         {/* 메인 - 공지사항 */}
         <Col span={8}>
@@ -44,9 +74,11 @@ const MainContent = (props) => {
             onClick={() => props.onClick("./community")}
             content={
               <div>
-                <h3>{`${today?.format("YYYY-MM-DD")}`}</h3>
+                <h3 style={{ textAlign: "center" }}>{`${today?.format(
+                  "YYYY-MM-DD"
+                )}`}</h3>
                 <VirtualList
-                  data={props.data_community}
+                  data={props.data_post}
                   height={ContainerHeight}
                   itemHeight={47}
                   itemKey="key"
@@ -62,15 +94,24 @@ const MainContent = (props) => {
                         </Col>
                         {/* <h3 style={{}}>⦁ {item.contents}</h3> */}
                       </Row>
-                      <Button
+                      {/* <Button
                         type="text"
                         icon={<LikeOutlined />}
                         className={styles.like_btn}
                         block={true}
                         disabled={false}
                       >
-                        100
-                      </Button>
+                        {item.likers.length}
+                      </Button> */}
+                      <span
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          paddingBottom: 15,
+                        }}
+                      >
+                        <LikeOutlined /> {item.likers.length}
+                      </span>
                     </List.Item>
                   )}
                 </VirtualList>
@@ -85,7 +126,11 @@ const MainContent = (props) => {
             title="Calendar"
             onClick={() => props.onClick("./community")}
             content={
-              <Calendar fullscreen={false} onPanelChange={onPanelChange} />
+              <Calendar
+                fullscreen={false}
+                onPanelChange={onPanelChange}
+                // cellRender={renderCell}
+              />
             }
           />
         </Col>

@@ -41,7 +41,7 @@ const CommunityPost = (props) => {
   const [messageApi, contextHolder] = message.useMessage();
 
   // 에러메세지 함수
-  const error = (data) => {
+  const errorMsg = (data) => {
     messageApi.open({
       type: "error",
       content: data,
@@ -49,7 +49,7 @@ const CommunityPost = (props) => {
   };
 
   // 완료메세지 함수
-  const complete = (data) => {
+  const completeMsg = (data) => {
     messageApi.open({
       type: "success",
       content: data,
@@ -215,7 +215,7 @@ const CommunityPost = (props) => {
     if (checkValid) {
       submitForm();
     } else {
-      error("조건에 맞는 값을 입력해주세요.");
+      errorMsg("조건에 맞는 값을 입력해주세요.");
     }
   };
 
@@ -226,25 +226,40 @@ const CommunityPost = (props) => {
     let status = false;
     switch (type) {
       case "create":
-        result = dispatch(createPost(form));
-        if (result.payload === true) {
-          status = true;
-          complete("게시글이 생성되었습니다!");
-        } else ResFunc(result.payload);
+        dispatch(createPost(form))
+          .then((res) => {
+            if (res.payload === true) {
+              status = true;
+              completeMsg("게시글이 생성되었습니다!");
+            } else ResFunc(res.payload);
+          })
+          .catch((err) => {
+            errorMsg(`잠시 후에 다시 시도해주세요.`);
+          });
         break;
       case "update":
-        result = dispatch(updatePost(form));
-        if (result.payload === true) {
-          status = true;
-          complete("게시글이 수정되었습니다!");
-        } else ResFunc(result.payload);
+        dispatch(updatePost(form))
+          .then((res) => {
+            if (res.payload === true) {
+              status = true;
+              completeMsg("게시글이 수정되었습니다!");
+            } else ResFunc(res.payload);
+          })
+          .catch((err) => {
+            errorMsg(`잠시 후에 다시 시도해주세요.`);
+          });
         break;
       case "delete":
-        result = dispatch(deletePost(form));
-        if (result.payload === true) {
-          status = true;
-          complete("게시글이 삭제되었습니다!");
-        } else ResFunc(result.payload);
+        dispatch(deletePost(form))
+          .then((res) => {
+            if (res.payload === true) {
+              status = true;
+              completeMsg("게시글이 삭제되었습니다!");
+            } else ResFunc(res.payload);
+          })
+          .catch((err) => {
+            errorMsg(`잠시 후에 다시 시도해주세요.`);
+          });
         break;
       default:
         break;
@@ -255,16 +270,16 @@ const CommunityPost = (props) => {
   const ResFunc = (res) => {
     switch (res) {
       case 400:
-        error("입력한 값을 확인해주세요.");
+        errorMsg("입력한 값을 확인해주세요.");
         break;
       case 403:
-        error("접근 권한이 없습니다.");
+        errorMsg("접근 권한이 없습니다.");
         break;
       case 404:
-        error("이미 삭제된 게시글입니다.");
+        errorMsg("이미 삭제된 게시글입니다.");
         break;
       case 500:
-        error("관리자에게 문의해주세요.");
+        errorMsg("관리자에게 문의해주세요.");
         break;
       default:
         break;
@@ -273,10 +288,16 @@ const CommunityPost = (props) => {
 
   const clickLikeBtn = (data) => {
     console.log("좋아용: ", data);
-    let result = dispatch(like(form.postid.value));
-    if (result.payload === 201) complete("게시글에 공감했습니다!");
-    else if (result.payload === 204) complete("게시글 공감을 취소했습니다!");
-    else ResFunc(result.payload);
+    dispatch(like(form.postid.value))
+      .then((res) => {
+        if (res.payload === 201) completeMsg("게시글에 공감했습니다.");
+        else if (res.payload === 204)
+          completeMsg("게시글 공감을 취소했습니다.");
+        else ResFunc(res.payload);
+      })
+      .catch((err) => {
+        errorMsg(`잠시 후에 다시 시도해주세요.`);
+      });
   };
 
   return (

@@ -19,10 +19,12 @@ const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 
-const ChangePassword = () => {
+const ChangePassword = (props) => {
   const [messageApi, contextHolder] = message.useMessage();
 
-  const error = (data) => {
+  const [complete, setComplete] = useState(false);
+
+  const errorMsg = (data) => {
     console.log("왜 안되냐?", data);
     messageApi.open({
       type: "error",
@@ -30,9 +32,9 @@ const ChangePassword = () => {
     });
   };
 
-  const complete = (data) => {
+  const completeMsg = (data) => {
     messageApi.open({
-      type: "비밀번호가 변경 되었습니다.",
+      type: "success",
       content: data,
     });
   };
@@ -111,18 +113,34 @@ const ChangePassword = () => {
 
     if (checkValid) submitForm();
     else {
-      error("조건에 맞게 입력 해주세요.");
+      errorMsg("조건에 맞게 입력 해주세요.");
     }
   };
 
   // 유효성 검사 확인 완료 => API요청
   const submitForm = () => {
-    console.log("비밀 번호를 변경 하겠습니다.");
-    let result = dispatch(findPwd(form));
-    if (result.payload === 200) complete("비밀 번호 변경!!");
-    else if (result.payload === 401)
-      complete("비밀 번호를 다시 입력해주세요 ㅜㅜ");
-    else error("잠시 후에 다시 시도해주세요");
+    dispatch(changePwd(form))
+      .then((res) => {
+        console.log("res: ", res);
+        switch (res.payload) {
+          case true:
+            props.toLoginPage();
+            break;
+          case 400:
+            errorMsg(`입력하신 정보를 확인해주세요.`);
+            break;
+          case 401:
+            errorMsg(`회원정보가 일치하지 않습니다.`);
+            break;
+          case 500:
+            errorMsg(`관리자에게 문의해주세요.`);
+          default:
+            break;
+        }
+      })
+      .catch((err) => {
+        errorMsg(`잠시 후에 다시 시도해주세요.`);
+      });
   };
 
   return (

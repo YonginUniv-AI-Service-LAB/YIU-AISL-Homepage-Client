@@ -28,7 +28,7 @@ const Join = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   // 에러메세지 함수
-  const error = (data) => {
+  const errorMsg = (data) => {
     console.log("왜 안되냐?", data);
     messageApi.open({
       type: "error",
@@ -142,58 +142,37 @@ const Join = () => {
 
     if (checkValid === true) submitForm();
     else {
-      error("조건에 맞는 값을 입력해주세요.");
+      errorMsg("조건에 맞는 값을 입력해주세요.");
     }
   };
 
   // 유효성 검사 확인 완료 => API요청
   const submitForm = () => {
     console.log("통과");
-    let result = dispatch(join(form));
-    console.log("result: ", result.payload);
-    // switch (result.payload) {
-    //   case true:
-    //     setPageChange(true);
-    //     break;
-    //   case 400:
-    //     error(`입력되지 않은 값이 있습니다!`);
-    //     break;
-    //   case 409:
-    //     error(`이미 가입한 이메일입니다.`);
-    //     break;
-    //   case 500:
-    //     error(`관리자에게 문의해주세요.`);
-    //     break;
-    //   default:
-    //     break;
-    // }
+    dispatch(join(form))
+      .then((res) => {
+        console.log("res: ", res);
+        switch (res.payload) {
+          case true:
+            setPageChange(true);
+            break;
+          case 400:
+            errorMsg(`입력되지 않은 값이 있습니다!`);
+            break;
+          case 409:
+            errorMsg(`이미 가입한 이메일입니다.`);
+            break;
+          case 500:
+            errorMsg(`관리자에게 문의해주세요.`);
+            break;
+          default:
+            break;
+        }
+      })
+      .catch((err) => {
+        errorMsg(`잠시 후에 다시 시도해주세요.`);
+      });
   };
-
-  useEffect(() => {
-    console.log("joinResult", joinResult);
-    switch (joinResult) {
-      case true:
-        setPageChange(true);
-        break;
-      case 400:
-        error(`입력되지 않은 값이 있습니다!`);
-        break;
-      case 409:
-        error(`이미 가입한 이메일입니다.`);
-        break;
-      case 500:
-        error(`관리자에게 문의해주세요.`);
-        break;
-      default:
-        break;
-    }
-    // if (joinResult === true) setPageChange(true);
-    // else if (joinResult === 409) setEmailCheck(false);
-  }, [joinResult]);
-
-  // useEffect(() => {
-  //   if (emailCheck == false) error(`이미 가입한 이메일입니다.`);
-  // }, [emailCheck]);
 
   return (
     <div>

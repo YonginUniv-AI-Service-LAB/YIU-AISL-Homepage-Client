@@ -4,23 +4,32 @@ import axios from "axios";
 
 // 이메일 찾기
 export function findEmail(data) {
+  console.log(
+    "이메일찾기 액션: ",
+    data.name.value,
+    data.question.value,
+    data.answer.value
+  );
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_FIND_EMAIL,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      name: data.name,
-      question: data.question,
-      answer: data.answer,
+      name: data.name.value,
+      question: data.question.value,
+      answer: data.answer.value,
     },
   })
     .then((response) => {
-      return true;
+      return {
+        result: true,
+        email: response.data.email,
+      };
     })
     .catch((err) => {
-      console.log("이메일 찾기 에러", err);
+      console.log("이메일 찾기 에러", err.response.status);
       return err.response.status;
     });
 
@@ -35,14 +44,14 @@ export function findPwd(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_FIND_PWD,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      name: data.name,
-      email: data.email,
-      question: data.question,
-      answer: data.answer,
+      name: data.name.value,
+      email: data.email.value,
+      question: data.question.value,
+      answer: data.answer.value,
     },
   })
     .then((response) => {
@@ -64,12 +73,12 @@ export function changePwd(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_CHANGE_PWD,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      email: data.email,
-      pwd: data.pwd,
+      email: data.email.value,
+      newPwd: data.pwd.value,
     },
   })
     .then((response) => {

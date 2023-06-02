@@ -20,6 +20,7 @@ const TextInput = (props) => {
           options={props.options}
           size="large"
           onChange={props.onChange}
+          disabled={props.disabled}
         />
       ) : (
         <Input
@@ -31,6 +32,7 @@ const TextInput = (props) => {
           onChange={props.onChange}
           maxLength={props.maxLength}
           type={props.type}
+          disabled={props.disabled}
         />
       )}
     </Form.Item>

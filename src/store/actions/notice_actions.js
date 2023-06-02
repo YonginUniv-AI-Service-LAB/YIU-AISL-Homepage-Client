@@ -15,7 +15,7 @@ export function getNotice() {
   const request = axios({
     method: "GET",
     url: process.env.REACT_APP_GET_NOTICE,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {},
@@ -47,7 +47,7 @@ export function createNotice(data, img) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_CREATE_NOTICE,
-    header: {
+    headers: {
       "Content-Type": "multipart/form-data",
     },
     data: formData,
@@ -78,7 +78,7 @@ export function updateNotice(data, img) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_UPDATE_NOTICE,
-    header: {
+    headers: {
       "Content-Type": "multipart/form-data",
     },
     data: formData,
@@ -103,7 +103,7 @@ export function deleteNotice(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_DELETE_NOTICE,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
@@ -129,7 +129,7 @@ export function getNoticeDetail(data) {
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_PLUS_NOTICE_VIEW,
-    header: {
+    headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {

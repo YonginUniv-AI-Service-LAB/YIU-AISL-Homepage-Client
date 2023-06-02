@@ -103,7 +103,7 @@ const NoticeForm = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
   // 에러메세지 함수
-  const error = (data) => {
+  const errorMsg = (data) => {
     messageApi.open({
       type: "error",
       content: data,
@@ -111,7 +111,7 @@ const NoticeForm = () => {
   };
 
   // 완료메세지 함수
-  const complete = (data) => {
+  const completeMsg = (data) => {
     messageApi.open({
       type: "success",
       content: data,
@@ -226,7 +226,7 @@ const NoticeForm = () => {
     if (checkValid) {
       submitForm();
     } else {
-      error("조건에 맞는 값을 입력해주세요.");
+      errorMsg("조건에 맞는 값을 입력해주세요.");
     }
   };
 
@@ -237,23 +237,33 @@ const NoticeForm = () => {
     let status = false;
     switch (location.state.type) {
       case "create":
-        result = dispatch(createNotice(form, fileList[0]));
-        if (result.payload !== false) {
-          status = true;
-          complete("공지사항이 생성되었습니다!");
-          navigate("/notice/detail", { replace: true, state: ResCreate });
-        } else ResFunc(result.payload);
+        dispatch(createNotice(form, fileList[0]))
+          .then((res) => {
+            if (res.payload === true) {
+              status = true;
+              completeMsg("공지사항이 생성되었습니다!");
+              navigate("/notice/detail", { replace: true, state: ResCreate });
+            } else ResFunc(res.payload);
+          })
+          .catch((err) => {
+            errorMsg(`잠시 후에 다시 시도해주세요.`);
+          });
         break;
       case "update":
-        result = dispatch(updateNotice(form, fileList[0]));
-        if (result.payload === true) {
-          status = true;
-          complete("공지사항이 수정되었습니다!");
-          navigate(-1, {
-            replace: true,
-            state: form.noticeid.value,
+        dispatch(updateNotice(form, fileList[0]))
+          .then((res) => {
+            if (res.payload === true) {
+              status = true;
+              completeMsg("공지사항이 수정되었습니다!");
+              navigate(-1, {
+                replace: true,
+                state: form.noticeid.value,
+              });
+            } else ResFunc(res.payload);
+          })
+          .catch((err) => {
+            errorMsg(`잠시 후에 다시 시도해주세요.`);
           });
-        } else ResFunc(result.payload);
         break;
       default:
         break;
@@ -263,16 +273,16 @@ const NoticeForm = () => {
   const ResFunc = (res) => {
     switch (res) {
       case 400:
-        error("입력한 값을 확인해주세요.");
+        errorMsg("입력한 값을 확인해주세요.");
         break;
       case 403:
-        error("접근 권한이 없습니다.");
+        errorMsg("접근 권한이 없습니다.");
         break;
       case 404:
-        error("이미 삭제된 일정입니다.");
+        errorMsg("이미 삭제된 일정입니다.");
         break;
       case 500:
-        error("관리자에게 문의해주세요.");
+        errorMsg("관리자에게 문의해주세요.");
         break;
       default:
         break;

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, ConfigProvider, Select, message } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 
@@ -20,9 +21,10 @@ import Large_SubmitButton from "../../components/Button/Large_SubmitButton";
 const ForgotEmail = () => {
   const [messageApi, contextHolder] = message.useMessage();
 
-  const [complete, setComplete] = useState(true);
+  const [complete, setComplete] = useState(false);
+  const [email, setEmail] = useState("");
 
-  const FEResult = useSelector((state) => state.User.findemail);
+  // const FEResult = useSelector((state) => state.User.findemail);
 
   const errorMsg = (data) => {
     messageApi.open({
@@ -39,6 +41,7 @@ const ForgotEmail = () => {
   };
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // 폼
   const [form, setForm] = useState({
@@ -71,9 +74,6 @@ const ForgotEmail = () => {
 
   // 텍스트인풋 업데이트
   const onChange = (e) => {
-    console.log("===============================");
-    console.log(e.target.id, e.target.value);
-
     setForm((prevState) => ({
       ...prevState,
       [e.target.id]: {
@@ -85,7 +85,6 @@ const ForgotEmail = () => {
 
   // 텍스트인풋-셀렉트(question) 업데이트
   const onChangeSelect = (data) => {
-    console.log(data);
     const nextForm = {
       ...form,
       question: {
@@ -94,8 +93,6 @@ const ForgotEmail = () => {
       },
     };
     setForm(nextForm);
-
-    console.log(form.question);
   };
 
   // 유효성 검사
@@ -124,20 +121,22 @@ const ForgotEmail = () => {
     dispatch(findEmail(form))
       .then((res) => {
         console.log("res: ", res);
-        switch (res.payload) {
-          case true:
-            setComplete(true);
-            break;
-          case 400:
-            errorMsg(`입력하신 정보를 확인해주세요.`);
-            break;
-          case 401:
-            errorMsg(`회원정보가 일치하지 않습니다.`);
-            break;
-          case 500:
-            errorMsg(`관리자에게 문의해주세요.`);
-          default:
-            break;
+        if (res.payload.result === true) {
+          setEmail(res.payload.email);
+          setComplete(true);
+        } else {
+          switch (res.payload) {
+            case 400:
+              errorMsg(`입력하신 정보를 확인해주세요.`);
+              break;
+            case 401:
+              errorMsg(`회원정보가 일치하지 않습니다.`);
+              break;
+            case 500:
+              errorMsg(`관리자에게 문의해주세요.`);
+            default:
+              break;
+          }
         }
       })
       .catch((err) => {
@@ -172,6 +171,7 @@ const ForgotEmail = () => {
             }}
             minLength={2}
             maxLength={4}
+            disabled={complete === true ? true : false}
           />
 
           <TextInput
@@ -185,6 +185,7 @@ const ForgotEmail = () => {
             onChange={(e) => {
               onChangeSelect(e);
             }}
+            disabled={complete === true ? true : false}
           />
 
           <TextInput
@@ -198,26 +199,47 @@ const ForgotEmail = () => {
             }}
             minLength={1}
             maxLength={100}
+            disabled={complete === true ? true : false}
           />
 
-          <br />
-          <br />
-          <br />
-
           <Form.Item>
-            <Large_SubmitButton
-              name="이메일 찾기"
-              bgColor={colors.yiu_dark_blue_light}
-              bgColor_hover={colors.yiu_dark_blue}
-            />
+            {complete === true ? (
+              <div>
+                <h3
+                  style={{
+                    textAlign: "center",
+                    backgroundColor: colors.grey_light2,
+                    padding: 40,
+                    borderRadius: 8,
+                  }}
+                >
+                  회원님의 이메일은
+                  <h2>{email}</h2>
+                  입니다.
+                </h3>
+                <br />
+                <Large_SubmitButton
+                  name="로그인 화면으로 이동"
+                  bgColor={colors.yiu_dark_blue_light}
+                  bgColor_hover={colors.yiu_dark_blue}
+                  onClick={() => navigate("/login")}
+                />
+              </div>
+            ) : (
+              <>
+                <br />
+                <br />
+                <br />
+                <Large_SubmitButton
+                  name="이메일 찾기"
+                  bgColor={colors.yiu_dark_blue_light}
+                  bgColor_hover={colors.yiu_dark_blue}
+                />
+              </>
+            )}
           </Form.Item>
         </Form>
       </div>
-      {complete === true ? (
-        <div>
-          <h2>유저 이메일 들어갈 칸???</h2>
-        </div>
-      ) : null}
     </div>
   );
 };
