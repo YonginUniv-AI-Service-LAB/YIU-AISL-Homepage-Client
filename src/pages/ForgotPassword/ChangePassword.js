@@ -136,7 +136,7 @@ const ChangePassword = (props) => {
             props.toLoginPage();
             break;
           case 400:
-            errorMsg(`입력하신 정보를 확인해주세요.`);
+            errorMsg(`이전과 다른 비밀번호를 입력해주세요.`);
             break;
           case 401:
             errorMsg(`회원정보가 일치하지 않습니다.`);

@@ -156,7 +156,11 @@ const ForgotPassword = (props) => {
   return (
     <div>
       {contextHolder}
-      <PageTitle title="비밀번호 변경하기" />
+      <PageTitle title="비밀번호 재설정" />
+      <h4 style={{ textAlign: "center" }}>
+        비밀번호를 재설정 하기 전 회원정보를 확인합니다.
+        <br />
+      </h4>
       {complete === false ? (
         <div className={styles.form_container}>
           <Form
@@ -228,7 +232,7 @@ const ForgotPassword = (props) => {
 
             <Form.Item>
               <Large_SubmitButton
-                name="비밀번호 변경"
+                name="완료"
                 bgColor={colors.yiu_dark_blue_light}
                 bgColor_hover={colors.yiu_dark_blue}
               />

@@ -4,12 +4,6 @@ import axios from "axios";
 
 // 이메일 찾기
 export function findEmail(data) {
-  console.log(
-    "이메일찾기 액션: ",
-    data.name.value,
-    data.question.value,
-    data.answer.value
-  );
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_FIND_EMAIL,
@@ -30,7 +24,6 @@ export function findEmail(data) {
       return result;
     })
     .catch((err) => {
-      console.log("이메일 찾기 에러", err.response.status);
       return err.response.status;
     });
 
@@ -59,7 +52,6 @@ export function findPwd(data) {
       return true;
     })
     .catch((err) => {
-      console.log("비밀번호 찾기 에러", err);
       return err.response.status;
     });
 
@@ -71,7 +63,6 @@ export function findPwd(data) {
 
 // 비밀번호 재설정
 export function changePwd(data) {
-  console.log("비밀번호 재설정: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_CHANGE_PWD,
@@ -87,7 +78,6 @@ export function changePwd(data) {
       return true;
     })
     .catch((err) => {
-      console.log("비밀번호 재설정 에러", err.response.status);
       return err.response.status;
     });
 

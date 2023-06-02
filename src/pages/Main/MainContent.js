@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
 
-import { Row, Col, Calendar, Table, List, Button, Badge } from "antd";
+import { Row, Col, Calendar, Table, List, Button, Badge, Popover } from "antd";
 import VirtualList from "rc-virtual-list";
 import { LikeOutlined } from "@ant-design/icons";
 import ContentBox from "./ContentBox";
@@ -23,9 +23,11 @@ const MainContent = (props) => {
   const renderCell = (data) => {
     let cntPlan = 0;
     let cntPost = 0;
+    let date;
     for (let i in props.data_calendar) {
       if (i == data.format("YYYY-MM-DD")) {
-        for (let j of props.data[i]) {
+        for (let j of props.data_calendar[i]) {
+          date = j.date.substring(0, 10);
           if (j.hasOwnProperty("planid")) cntPlan++;
           else if (j.hasOwnProperty("postid")) cntPost++;
         }
@@ -34,15 +36,37 @@ const MainContent = (props) => {
     return (
       <>
         {cntPlan > 0 ? (
-          <Badge
-            count={cntPlan}
-            color={colors.plan}
-            style={{ marginRight: 10 }}
-          />
+          <Popover
+            content={
+              <div>
+                {getContents(date).map((item) => {
+                  // console.log("item", item);
+                  return <h3>{item}</h3>;
+                })}
+              </div>
+            }
+            title={date}
+            trigger="hover"
+          >
+            <Badge
+              count={cntPlan}
+              color={colors.plan}
+              style={{ marginRight: 10 }}
+            />
+          </Popover>
         ) : null}
         {cntPost > 0 ? <Badge count={cntPost} color={colors.post} /> : null}
       </>
     );
+  };
+
+  const getContents = (date) => {
+    let contents = [];
+    console.log(props.data_calendar[date]);
+    for (let i of props.data_calendar[date]) {
+      contents.push(i.contents);
+    }
+    return contents;
   };
 
   return (
@@ -129,7 +153,7 @@ const MainContent = (props) => {
               <Calendar
                 fullscreen={false}
                 onPanelChange={onPanelChange}
-                // cellRender={renderCell}
+                cellRender={renderCell}
               />
             }
           />
