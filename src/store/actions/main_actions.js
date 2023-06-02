@@ -76,7 +76,7 @@ export function login(data) {
     },
   })
     .then((response) => {
-      console.log("로그인 성공 결과: ", response.data);
+      console.log("로그인 성공 결과: ", response);
       return true;
     })
     .catch((err) => {

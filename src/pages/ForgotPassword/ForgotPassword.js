@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Form, Input, ConfigProvider, Select, message } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 
@@ -36,7 +37,7 @@ const ForgotPassword = (props) => {
   };
 
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   // 폼
   const [form, setForm] = useState({
     name: {
@@ -235,7 +236,10 @@ const ForgotPassword = (props) => {
           </Form>
         </div>
       ) : (
-        <ChangePassword toLoginPage={() => console.log("변경 완료")} />
+        <ChangePassword
+          email={form.email.value}
+          toLoginPage={() => navigate("/login")}
+        />
       )}
     </div>
   );

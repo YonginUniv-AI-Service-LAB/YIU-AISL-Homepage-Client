@@ -43,6 +43,15 @@ const ChangePassword = (props) => {
 
   // 폼
   const [form, setForm] = useState({
+    email: {
+      value: props.email,
+      type: "textInput",
+      rules: {
+        isRequired: true,
+        isEmail: true,
+      },
+      valid: false,
+    },
     pwd1: {
       value: "",
       type: "textInput",
@@ -113,7 +122,7 @@ const ChangePassword = (props) => {
 
     if (checkValid) submitForm();
     else {
-      errorMsg("조건에 맞게 입력 해주세요.");
+      errorMsg("비밀번호가 서로 일치하지 않습니다.");
     }
   };
 

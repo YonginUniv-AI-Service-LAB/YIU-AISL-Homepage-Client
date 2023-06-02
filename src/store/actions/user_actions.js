@@ -23,10 +23,11 @@ export function findEmail(data) {
     },
   })
     .then((response) => {
-      return {
+      let result = {
         result: true,
         email: response.data.email,
       };
+      return result;
     })
     .catch((err) => {
       console.log("이메일 찾기 에러", err.response.status);
@@ -70,6 +71,7 @@ export function findPwd(data) {
 
 // 비밀번호 재설정
 export function changePwd(data) {
+  console.log("비밀번호 재설정: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_CHANGE_PWD,
@@ -78,14 +80,14 @@ export function changePwd(data) {
     },
     data: {
       email: data.email.value,
-      newPwd: data.pwd.value,
+      newPwd: data.pwd1.value,
     },
   })
     .then((response) => {
       return true;
     })
     .catch((err) => {
-      console.log("비밀번호 재설정 에러", err);
+      console.log("비밀번호 재설정 에러", err.response.status);
       return err.response.status;
     });
 
