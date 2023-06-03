@@ -19,12 +19,27 @@ const Notice = () => {
   // 리덕스
   const dispatch = useDispatch();
   const data = useSelector((state) => state.Notice.notice);
-  const plusViewResult = useSelector((state) => state.Notice.plus_notice_view);
+  const [noticeList, setNoticeDate] = useState([]);
 
   // 데이터 불러오기
   useEffect(() => {
     dispatch(getNotice());
   }, []);
+
+  useEffect(() => {
+    if (data !== undefined) getNoticeList();
+  }, [data]);
+
+  const getNoticeList = () => {
+    let result = [];
+    for (let i of data) {
+      const date = i.createdAt.substring(0, 10);
+      let temp = i;
+      temp.createdAt = date;
+      result.push(temp);
+    }
+    setNoticeDate(result);
+  };
 
   // 페이지네이션
   // const [current, setCurrent] = useState(0);
@@ -51,7 +66,7 @@ const Notice = () => {
         {/* <Divider>notice</Divider> */}
         <Table
           columns={notice_columns}
-          dataSource={data}
+          dataSource={noticeList}
           size="large"
           rowClassName={styles.table_row}
           onRow={(record, rowIndex) => {

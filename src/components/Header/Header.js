@@ -94,7 +94,11 @@ const Header = () => {
               }}
             >
               <Dropdown menu={{ items }} placement="bottom">
-                <Button type="text" size="large" href="/intro">
+                <Button
+                  type="text"
+                  size="large"
+                  onClick={() => navigate("/intro")}
+                >
                   Introduce
                 </Button>
               </Dropdown>

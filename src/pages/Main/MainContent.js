@@ -65,7 +65,7 @@ const MainContent = (props) => {
 
   const getContents = (date) => {
     let contents = [];
-    console.log(props.data_calendar[date]);
+    // console.log(props.data_calendar[date]);
     for (let i of props.data_calendar[date]) {
       contents.push(i.contents);
     }
@@ -79,7 +79,7 @@ const MainContent = (props) => {
         <Col span={8}>
           <ContentBox
             title="Notice"
-            onClick={() => props.onClick("./notice")}
+            onClick={() => props.onClick("/notice")}
             content={
               <Table
                 columns={notice_columns_main}
@@ -95,12 +95,12 @@ const MainContent = (props) => {
         <Col span={8}>
           <ContentBox
             title="Community"
-            onClick={() => props.onClick("./community")}
+            onClick={() => props.onClick("/community")}
             content={
               <div>
-                <h3 style={{ textAlign: "center" }}>{`${today?.format(
+                {/* <h3 style={{ textAlign: "center" }}>{`${today?.format(
                   "YYYY-MM-DD"
-                )}`}</h3>
+                )}`}</h3> */}
                 <VirtualList
                   data={props.data_post}
                   height={ContainerHeight}
@@ -134,7 +134,8 @@ const MainContent = (props) => {
                           paddingBottom: 15,
                         }}
                       >
-                        <LikeOutlined /> {item.likers.length}
+                        <LikeOutlined />
+                        &nbsp;{item.likers.length}
                       </span>
                     </List.Item>
                   )}
@@ -148,7 +149,7 @@ const MainContent = (props) => {
         <Col span={8}>
           <ContentBox
             title="Calendar"
-            onClick={() => props.onClick("./community")}
+            onClick={() => props.onClick("/community")}
             content={
               <Calendar
                 fullscreen={false}

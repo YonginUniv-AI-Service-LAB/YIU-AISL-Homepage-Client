@@ -71,13 +71,11 @@ const Main = (props) => {
 
   const getNoticeList = () => {
     let result = [];
-
     for (let i of notice) {
       const date = i.createdAt.substring(0, 10);
-
-      result.push(i);
-      console.log("result: ", result[i]);
-      // result[i].createdAt = date;
+      let temp = i;
+      temp.createdAt = date;
+      result.push(temp);
     }
   };
 

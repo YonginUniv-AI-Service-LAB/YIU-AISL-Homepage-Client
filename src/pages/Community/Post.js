@@ -379,9 +379,13 @@ const CommunityPost = (props) => {
                           {/* {item.likers.length > 0 ? item.likers.length : null} */}
                         </Button>
                       ) : (
-                        <div className={styles.like_btn}>
+                        <div
+                          style={{ display: "flex", justifyContent: "center" }}
+                          className={styles.like_btn}
+                        >
                           <LikeOutlined />
-                          <p>{item.likers.length}</p>
+                          &nbsp;
+                          <span>{item.likers.length}</span>
                         </div>
                       )}
                     </List.Item>

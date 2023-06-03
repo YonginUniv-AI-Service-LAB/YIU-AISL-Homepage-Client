@@ -124,6 +124,7 @@ const NoticeDetail = () => {
                   icon={<EditOutlined />}
                   onClick={() =>
                     navigate("/notice/update", {
+                      replace: true,
                       state: { type: "update", data: data },
                     })
                   }
@@ -166,7 +167,7 @@ const NoticeDetail = () => {
               <Image
                 width={"70%"}
                 // src={data.img}
-                src={"http://220.66.64.130:80/" + data.img}
+                src={data.img}
               />
               {console.log("http://220.66.64.130:80/" + data.img)}
               {console.log(`${process.env.REACT_APP_API_URL}/${data.img}`)}

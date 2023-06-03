@@ -129,21 +129,22 @@ const NoticeForm = () => {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState([
-    // {
-    //   uid: "-1",
-    //   name: "image.png",
-    //   status: "done",
-    //   url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    // },
-    // {
-    //   uid: "-2",
-    //   percent: 50,
-    //   name: "image.png",
-    //   status: "uploading",
-    //   url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    // },
-  ]);
+  const [fileList, setFileList] = useState([]);
+  const [imgFile, setImageFile] = useState();
+
+  // {
+  //   uid: "-1",
+  //   name: "image.png",
+  //   status: "done",
+  //   url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+  // },
+  // {
+  //   uid: "-2",
+  //   percent: 50,
+  //   name: "image.png",
+  //   status: "uploading",
+  //   url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+  // },
 
   const handleCancel = () => setPreviewOpen(false);
 
@@ -162,6 +163,7 @@ const NoticeForm = () => {
   const handleChange = ({ fileList: newFileList }) => {
     console.log("newFileList: ", newFileList);
     setFileList(newFileList);
+    setImageFile(newFileList[0]);
     console.log("fileList: ", fileList);
   };
 
@@ -226,23 +228,31 @@ const NoticeForm = () => {
     if (checkValid) {
       submitForm();
     } else {
-      errorMsg("조건에 맞는 값을 입력해주세요.");
+      errorMsg("제목과 내용을 모두 입력해주세요.");
     }
+  };
+
+  const convertImageToFile = (image, fileName) => {
+    console.log("이걸 바꿀거야: ", image, fileName);
+    const file = new File([image], fileName, { type: image.type });
+    return file;
   };
 
   // 유효성 검사 확인 완료 =>  API요청
   const submitForm = () => {
     console.log(location.state.type);
-    let result;
     let status = false;
     switch (location.state.type) {
       case "create":
-        dispatch(createNotice(form, fileList[0]))
+        console.log("타입: ", typeof fileList[0]);
+        let file = convertImageToFile(imgFile, "1111");
+        dispatch(createNotice(form, file))
           .then((res) => {
             if (res.payload === true) {
               status = true;
               completeMsg("공지사항이 생성되었습니다!");
-              navigate("/notice/detail", { replace: true, state: ResCreate });
+              navigate("/notice", { replace: true });
+              // navigate("/notice/detail", { replace: true, state: ResCreate });
             } else ResFunc(res.payload);
           })
           .catch((err) => {
@@ -255,10 +265,11 @@ const NoticeForm = () => {
             if (res.payload === true) {
               status = true;
               completeMsg("공지사항이 수정되었습니다!");
-              navigate(-1, {
-                replace: true,
-                state: form.noticeid.value,
-              });
+              navigate("/notice", { replace: true });
+              // navigate(-1, {
+              //   replace: true,
+              //   state: form.noticeid.value,
+              // });
             } else ResFunc(res.payload);
           })
           .catch((err) => {
@@ -354,6 +365,7 @@ const NoticeForm = () => {
               fileList={fileList}
               onPreview={handlePreview}
               onChange={handleChange}
+              onRemove={() => setImageFile()}
               maxCount={1}
               accept="image/jpg, image/png, image/jpeg"
             >
