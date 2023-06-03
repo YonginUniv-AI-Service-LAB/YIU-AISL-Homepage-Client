@@ -222,15 +222,13 @@ const CommunityPost = (props) => {
   // 유효성 검사 확인 완료 =>  API요청
   const submitForm = () => {
     console.log(type);
-    let result;
-    let status = false;
     switch (type) {
       case "create":
         dispatch(createPost(form))
           .then((res) => {
             if (res.payload === true) {
-              status = true;
               completeMsg("게시글이 생성되었습니다!");
+              setIsModalOpen(false);
             } else ResFunc(res.payload);
           })
           .catch((err) => {
@@ -241,8 +239,8 @@ const CommunityPost = (props) => {
         dispatch(updatePost(form))
           .then((res) => {
             if (res.payload === true) {
-              status = true;
               completeMsg("게시글이 수정되었습니다!");
+              setIsModalOpen(false);
             } else ResFunc(res.payload);
           })
           .catch((err) => {
@@ -253,8 +251,8 @@ const CommunityPost = (props) => {
         dispatch(deletePost(form))
           .then((res) => {
             if (res.payload === true) {
-              status = true;
               completeMsg("게시글이 삭제되었습니다!");
+              setIsModalOpen(false);
             } else ResFunc(res.payload);
           })
           .catch((err) => {
@@ -264,7 +262,7 @@ const CommunityPost = (props) => {
       default:
         break;
     }
-    if (status === true) setIsModalOpen(false);
+    dispatch(getCommunity());
   };
 
   const ResFunc = (res) => {
@@ -290,10 +288,13 @@ const CommunityPost = (props) => {
     console.log("좋아용: ", data);
     dispatch(like(form.postid.value))
       .then((res) => {
-        if (res.payload === 201) completeMsg("게시글에 공감했습니다.");
-        else if (res.payload === 204)
+        if (res.payload === 201) {
+          completeMsg("게시글에 공감했습니다.");
+          dispatch(getCommunity());
+        } else if (res.payload === 204) {
           completeMsg("게시글 공감을 취소했습니다.");
-        else ResFunc(res.payload);
+          dispatch(getCommunity());
+        } else ResFunc(res.payload);
       })
       .catch((err) => {
         errorMsg(`잠시 후에 다시 시도해주세요.`);

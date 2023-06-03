@@ -15,11 +15,6 @@ import { data_plan } from "../../assets/data/plan";
 
 // 커뮤니티 가져오기
 export function getCommunity() {
-  const data = {
-    plan: data_plan,
-    post: data_community,
-  };
-  console.log("액션: ", data);
   const request = axios({
     method: "GET",
     url: process.env.REACT_APP_GET_COMMUNITY,
@@ -45,11 +40,7 @@ export function getCommunity() {
 
 // 일정 생성
 export function createPlan(data) {
-  console.log(
-    "일정생성 액션: ",
-    data.date.value.format("YYYY-MM-DD"),
-    data.contents.value
-  );
+  console.log("일정생성 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_CREATE_PLAN,
@@ -78,6 +69,7 @@ export function createPlan(data) {
 
 // 일정 수정
 export function updatePlan(data) {
+  console.log("일정수정 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_UPDATE_PLAN,
@@ -86,7 +78,7 @@ export function updatePlan(data) {
     },
     data: {
       planid: data.planid.value,
-      date: data.date.value,
+      date: data.date.value.format("YYYY-MM-DD"),
       contents: data.contents.value,
     },
   })
@@ -107,6 +99,7 @@ export function updatePlan(data) {
 
 // 일정 삭제
 export function deletePlan(data) {
+  console.log("일정삭제 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_DELETE_PLAN,
@@ -114,7 +107,7 @@ export function deletePlan(data) {
       "Content-Type": "application/x-www-form-urlencoded",
     },
     data: {
-      id: data,
+      planid: data,
     },
   })
     .then((response) => {
@@ -134,6 +127,7 @@ export function deletePlan(data) {
 
 // 게시글 생성
 export function createPost(data) {
+  console.log("게시글 생성 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_CREATE_POST,
@@ -161,6 +155,7 @@ export function createPost(data) {
 
 // 게시글 수정
 export function updatePost(data) {
+  console.log("게시글 수정 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_UPDATE_POST,
@@ -189,6 +184,7 @@ export function updatePost(data) {
 
 // 게시글 삭제
 export function deletePost(data) {
+  console.log("게시글 삭제 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_DELETE_POST,
@@ -216,6 +212,7 @@ export function deletePost(data) {
 
 // 게시글 공감
 export function like(data) {
+  console.log("게시글 공감 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_LIKE,

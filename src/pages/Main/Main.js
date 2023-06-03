@@ -54,15 +54,15 @@ const Main = (props) => {
     }
 
     // post 데이터 분류
-    // for (let j of post) {
-    //   const date = j.createdAt.substring(0, 10);
-    //   if (result.hasOwnProperty(date)) {
-    //     result[date].push(j);
-    //   } else {
-    //     result[date] = [];
-    //     result[date].push(j);
-    //   }
-    // }
+    for (let j of post) {
+      const date = j.createdAt.substring(0, 10);
+      if (result.hasOwnProperty(date)) {
+        result[date].push(j);
+      } else {
+        result[date] = [];
+        result[date].push(j);
+      }
+    }
 
     setCalendarDate(result); // 데이터 최종 업데이트
   };

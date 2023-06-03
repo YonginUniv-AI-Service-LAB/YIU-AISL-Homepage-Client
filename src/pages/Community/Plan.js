@@ -213,14 +213,13 @@ const CommunityPlan = (props) => {
 
   // 유효성 검사 확인 완료 =>  API요청
   const submitForm = () => {
-    let status = false;
     switch (type) {
       case "create":
         dispatch(createPlan(form))
           .then((res) => {
             if (res.payload === true) {
-              status = true;
               completeMsg("일정이 생성되었습니다!");
+              setIsModalOpen(false);
             } else ResFunc(res.payload);
           })
           .catch((err) => {
@@ -231,8 +230,8 @@ const CommunityPlan = (props) => {
         dispatch(updatePlan(form))
           .then((res) => {
             if (res.payload === true) {
-              status = true;
               completeMsg("일정이 수정되었습니다!");
+              setIsModalOpen(false);
             } else ResFunc(res.payload);
           })
           .catch((err) => {
@@ -243,8 +242,8 @@ const CommunityPlan = (props) => {
         dispatch(deletePlan(form))
           .then((res) => {
             if (res.payload === true) {
-              status = true;
               completeMsg("일정이 삭제되었습니다!");
+              setIsModalOpen(false);
             } else ResFunc(res.payload);
           })
           .catch((err) => {
@@ -254,7 +253,7 @@ const CommunityPlan = (props) => {
       default:
         break;
     }
-    if (status === true) setIsModalOpen(false);
+    dispatch(getCommunity());
   };
 
   const ResFunc = (res) => {

@@ -159,7 +159,12 @@ const Login = () => {
           <Form.Item>
             <Row>
               <Col span={12}>
-                <a href="./join" className={styles.subBtn}>
+                <a
+                  className={styles.subBtn}
+                  onClick={() => {
+                    navigate("/join", { replace: true });
+                  }}
+                >
                   회원가입
                 </a>
                 {/* <Button type="link">회원가입</Button> */}
@@ -168,11 +173,21 @@ const Login = () => {
                 span={12}
                 style={{ display: "flex", justifyContent: "flex-end" }}
               >
-                <a href="./forgotemail" className={styles.subBtn}>
+                <a
+                  className={styles.subBtn}
+                  onClick={() => {
+                    navigate("/forgotemail", { replace: true });
+                  }}
+                >
                   이메일 찾기
                 </a>
                 <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                <a href="./forgotpassword" className={styles.subBtn}>
+                <a
+                  className={styles.subBtn}
+                  onClick={() => {
+                    navigate("/forgotpwd", { replace: true });
+                  }}
+                >
                   비밀번호 찾기
                 </a>
               </Col>
