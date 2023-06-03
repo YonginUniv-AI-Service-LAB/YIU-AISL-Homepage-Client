@@ -16,7 +16,7 @@ export function getMain() {
     data: {},
   })
     .then((response) => {
-      console.log("데이터: ", response.data);
+      console.log("메인 데이터 성공: ", response);
       return response.data;
     })
     .catch((err) => {
@@ -48,6 +48,7 @@ export function join(data) {
     },
   })
     .then((response) => {
+      console.log("회원가입 성공: ", response);
       return true;
     })
     .catch((err) => {
@@ -76,7 +77,7 @@ export function login(data) {
     },
   })
     .then((response) => {
-      console.log("로그인 성공 결과: ", response);
+      console.log("로그인 성공: ", response);
       return true;
     })
     .catch((err) => {
@@ -101,6 +102,7 @@ export function logout(data) {
     },
   })
     .then((response) => {
+      console.log("로그아웃 성공: ", response);
       return true;
     })
     .catch((err) => {

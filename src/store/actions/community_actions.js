@@ -29,6 +29,7 @@ export function getCommunity() {
     data: {},
   })
     .then((response) => {
+      console.log("커뮤니티 성공: ", response);
       return response.data;
     })
     .catch((err) => {
@@ -38,7 +39,7 @@ export function getCommunity() {
 
   return {
     type: GET_COMMUNITY,
-    payload: data,
+    payload: request,
   };
 }
 
@@ -61,6 +62,7 @@ export function createPlan(data) {
     },
   })
     .then((response) => {
+      console.log("일정 생성 성공: ", response);
       return true;
     })
     .catch((err) => {
@@ -89,6 +91,7 @@ export function updatePlan(data) {
     },
   })
     .then((response) => {
+      console.log("일정 수정 성공: ", response);
       return true;
     })
     .catch((err) => {
@@ -115,6 +118,7 @@ export function deletePlan(data) {
     },
   })
     .then((response) => {
+      console.log("일정 삭제 성공: ", response);
       return true;
     })
     .catch((err) => {
@@ -141,6 +145,7 @@ export function createPost(data) {
     },
   })
     .then((response) => {
+      console.log("게시글 생성 성공: ", response);
       return true;
     })
     .catch((err) => {
@@ -168,6 +173,7 @@ export function updatePost(data) {
     },
   })
     .then((response) => {
+      console.log("게시글 수정 성공: ", response);
       return true;
     })
     .catch((err) => {
@@ -194,6 +200,7 @@ export function deletePost(data) {
     },
   })
     .then((response) => {
+      console.log("게시글 삭제 성공: ", response);
       return true;
     })
     .catch((err) => {
@@ -220,6 +227,7 @@ export function like(data) {
     },
   })
     .then((response) => {
+      console.log("게시글 공감 성공: ", response);
       return response.data;
     })
     .catch((err) => {

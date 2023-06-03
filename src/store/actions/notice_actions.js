@@ -21,6 +21,7 @@ export function getNotice() {
     data: {},
   })
     .then((response) => {
+      console.log("공지사항 성공: ", response);
       return response.data;
     })
     .catch((err) => {
@@ -30,8 +31,8 @@ export function getNotice() {
 
   return {
     type: GET_NOTICE,
-    // payload: request,
-    payload: data_notice,
+    payload: request,
+    // payload: data_notice,
   };
 }
 
@@ -53,6 +54,7 @@ export function createNotice(data, img) {
     data: formData,
   })
     .then((response) => {
+      console.log("공지사항 생성 성공: ", response);
       return response.data;
     })
     .catch((err) => {
@@ -62,7 +64,7 @@ export function createNotice(data, img) {
 
   return {
     type: CREATE_NOTICE,
-    payload: 1,
+    payload: request,
   };
 }
 
@@ -84,6 +86,7 @@ export function updateNotice(data, img) {
     data: formData,
   })
     .then((response) => {
+      console.log("공지사항 수정 성공: ", response);
       return true;
     })
     .catch((err) => {
@@ -111,6 +114,7 @@ export function deleteNotice(data) {
     },
   })
     .then((response) => {
+      console.log("공지사항 삭제 성공: ", response);
       return response.data;
     })
     .catch((err) => {
@@ -128,7 +132,7 @@ export function deleteNotice(data) {
 export function getNoticeDetail(data) {
   const request = axios({
     method: "POST",
-    url: process.env.REACT_APP_PLUS_NOTICE_VIEW,
+    url: process.env.REACT_APP_GET_NOTICE_DETAIL,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
@@ -137,6 +141,7 @@ export function getNoticeDetail(data) {
     },
   })
     .then((response) => {
+      console.log("공지사항 상세보기 성공: ", response);
       return response.data;
     })
     .catch((err) => {
@@ -146,7 +151,7 @@ export function getNoticeDetail(data) {
 
   return {
     type: GET_NOTICE_DETAIL,
-    // payload: request,
-    payload: data_notice_detail,
+    payload: request,
+    // payload: data_notice_detail,
   };
 }
