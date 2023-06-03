@@ -30,10 +30,7 @@ const Community = (props) => {
   useEffect(() => {
     dispatch(getCommunity())
       .then((res) => {
-        if (res.payload === true) {
-          checkNoData();
-          getList();
-        }
+        dispatch(getCommunity());
       })
       .catch((err) => {});
   }, []);

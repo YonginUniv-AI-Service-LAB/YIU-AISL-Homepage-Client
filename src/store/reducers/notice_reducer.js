@@ -11,7 +11,7 @@ export default function (state = {}, action) {
     case GET_NOTICE:
       return {
         ...state,
-        notice: action.payload || false,
+        notice: action.payload || [],
       };
     case CREATE_NOTICE:
       return {

@@ -289,7 +289,6 @@ const CommunityPost = (props) => {
       .then((res) => {
         if (res.payload === 201) {
           completeMsg("게시글에 공감했습니다.");
-          props.rerender();
         } else if (res.payload === 204) {
           completeMsg("게시글 공감을 취소했습니다.");
         } else ResFunc(res.payload);
@@ -297,6 +296,7 @@ const CommunityPost = (props) => {
       .catch((err) => {
         errorMsg(`잠시 후에 다시 시도해주세요.`);
       });
+    dispatch(getCommunity());
   };
 
   return (
@@ -365,18 +365,25 @@ const CommunityPost = (props) => {
                         </Col>
                         {/* <h3 style={{}}>⦁ {item.contents}</h3> */}
                       </Row>
-                      <Button
-                        // disabled={true}
-                        type="text"
-                        icon={<LikeOutlined />}
-                        className={styles.like_btn}
-                        block={true}
-                        onClick={() => clickLikeBtn(item.postid)}
-                      >
-                        &nbsp;
-                        {item.likers.length}
-                        {/* {item.likers.length > 0 ? item.likers.length : null} */}
-                      </Button>
+                      {sessionStorage.getItem("userid") ? (
+                        <Button
+                          // disabled={true}
+                          type="text"
+                          icon={<LikeOutlined />}
+                          className={styles.like_btn}
+                          block={true}
+                          onClick={() => clickLikeBtn(item.postid)}
+                        >
+                          &nbsp;
+                          {item.likers.length}
+                          {/* {item.likers.length > 0 ? item.likers.length : null} */}
+                        </Button>
+                      ) : (
+                        <div className={styles.like_btn}>
+                          <LikeOutlined />
+                          <p>{item.likers.length}</p>
+                        </div>
+                      )}
                     </List.Item>
                   ) : (
                     <></>

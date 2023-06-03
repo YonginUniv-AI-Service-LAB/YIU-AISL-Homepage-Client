@@ -292,7 +292,11 @@ const NoticeForm = () => {
   return (
     <div>
       {contextHolder}
-      <PageTitle title={`${location.state.type} Notice`} />
+      <PageTitle
+        title={
+          location.state.type === "create" ? "공지사항 작성" : "공지사항 수정"
+        }
+      />
       <div className={styles.form_container}>
         <Form
           name="basic"
@@ -377,7 +381,7 @@ const NoticeForm = () => {
 
           <Form.Item>
             <Large_SubmitButton
-              name={location.state.type === "create" ? "COMPLETE" : "UPDATE"}
+              name={location.state.type === "create" ? "완료" : "수정"}
               bgColor={colors.yiu_dark_blue_light}
               bgColor_hover={colors.yiu_dark_blue}
             />

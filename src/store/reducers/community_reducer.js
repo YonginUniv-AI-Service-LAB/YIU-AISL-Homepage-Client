@@ -15,8 +15,8 @@ export default function (state = {}, action) {
       console.log("리듀서: ", action.payload);
       return {
         ...state,
-        plan: action.payload.plan || false,
-        post: action.payload.post || false,
+        plan: action.payload.plan || [],
+        post: action.payload.post || [],
       };
     case CREATE_PLAN:
       return {

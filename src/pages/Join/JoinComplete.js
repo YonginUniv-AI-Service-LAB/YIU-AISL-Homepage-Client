@@ -16,7 +16,7 @@ const JoinComplete = (props) => (
       title={<h1 style={{ marginTop: 50 }}>회원이 되신 걸 환영합니다!</h1>}
       extra={
         <Large_SubmitButton
-          name="TO LOGIN PAGE"
+          name="로그인 화면으로 이동"
           bgColor={colors.yiu_dark_blue_light}
           bgColor_hover={colors.yiu_dark_blue}
           style={{ marginTop: 150, marginBottom: 100 }}
