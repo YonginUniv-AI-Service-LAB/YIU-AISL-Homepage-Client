@@ -28,18 +28,31 @@ const Community = (props) => {
 
   // 데이터 불러오기
   useEffect(() => {
-    dispatch(getCommunity());
+    dispatch(getCommunity())
+      .then((res) => {
+        if (res.payload === true) {
+          checkNoData();
+          getList();
+        }
+      })
+      .catch((err) => {});
   }, []);
 
   // plan, post 데이터 변경될 때 getList 함수 통해서 분류 정리
   useEffect(() => {
     if (plan != undefined && post != undefined) {
+      checkNoData();
       getList();
     }
+    console.log("발동!");
   }, [plan, post]);
 
   // 선택한 날짜 바뀔 때 마다 오른쪽 Plan, Post 데이터 있는지 없는지 확인
   useEffect(() => {
+    checkNoData();
+  }, [selectedValue]);
+
+  const checkNoData = () => {
     if (plan != undefined && post != undefined) {
       const current = selectedValue?.format("YYYY-MM-DD");
       let cntPlan = 0;
@@ -57,7 +70,7 @@ const Community = (props) => {
       if (cntPost > 0) setNoPost(false);
       else setNoPost(true);
     }
-  }, [selectedValue]);
+  };
 
   // 날짜별로 데이터 분류
   const getList = () => {
@@ -126,6 +139,7 @@ const Community = (props) => {
               date={`${selectedValue?.format("YYYY-MM-DD")}`}
               data={post}
               no={noPost}
+              rerender={() => dispatch(getCommunity())}
             />
           </Col>
         </Row>

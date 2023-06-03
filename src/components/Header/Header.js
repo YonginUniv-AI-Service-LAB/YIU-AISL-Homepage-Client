@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/actions/main_actions";
+import { useCookies } from "react-cookie";
 
 import {
   Button,
@@ -62,17 +63,18 @@ const Header = () => {
     //   },
     // },
   ];
+  const funcLogout = () => {
+    dispatch(logout());
+    sessionStorage.removeItem("userid");
+    sessionStorage.removeItem("name");
+    sessionStorage.removeItem("email");
+    sessionStorage.removeItem("master");
+    navigate("/", { replace: true });
+  };
 
   return (
     <div>
-      {console.log(
-        "세션아이디가 뭔데? ",
-        document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("connect.sid="))
-          ?.split("=")[1]
-      )}
-      {console.log("제발: ", document.cookie)}
+      {console.log("제발: ", sessionStorage.getItem("userid"))}
       <Row align={"middle"} justify={"space-evenly"}>
         {/* 랩실 로고 */}
         <Col span={4}>
@@ -106,18 +108,18 @@ const Header = () => {
         <Col span={4}>
           {sessionStorage.getItem("userid") ? (
             <Space>
-              <HeaderNavBtn type={"text"} text="Login" href="/login" />
-              <HeaderNavBtn type={"text"} text="Join" href="/join" />
-            </Space>
-          ) : (
-            <Space>
-              <HeaderNavBtn type={"text"} text="Login" href="/login" />
-              <HeaderNavBtn type={"text"} text="Join" href="/join" />
               <HeaderNavBtn
                 type={"text"}
                 text="Logout"
-                onClick={() => dispatch(logout())}
+                onClick={() => funcLogout()}
               />
+            </Space>
+          ) : (
+            <Space>
+              <Space>
+                <HeaderNavBtn type={"text"} text="Login" href="/login" />
+                <HeaderNavBtn type={"text"} text="Join" href="/join" />
+              </Space>
             </Space>
             // <HeaderNavBtn
             //   type={"text"}

@@ -239,7 +239,7 @@ const CommunityPlan = (props) => {
           });
         break;
       case "delete":
-        dispatch(deletePlan(form))
+        dispatch(deletePlan(form.planid.value))
           .then((res) => {
             if (res.payload === true) {
               completeMsg("일정이 삭제되었습니다!");
@@ -284,15 +284,17 @@ const CommunityPlan = (props) => {
           <h1 className={styles.section_title}>Plan</h1>
         </Col>
         <Col span={7} offset={9}>
-          <Button
-            color="#868e96"
-            icon={<PlusOutlined />}
-            onClick={() => {
-              setData();
-              setType("create");
-              showModal();
-            }}
-          />
+          {sessionStorage.getItem("master") == 1 ? (
+            <Button
+              color="#868e96"
+              icon={<PlusOutlined />}
+              onClick={() => {
+                setData();
+                setType("create");
+                showModal();
+              }}
+            />
+          ) : null}
         </Col>
       </Row>
 
@@ -311,18 +313,23 @@ const CommunityPlan = (props) => {
                 {(item) =>
                   props.date == item.date.substring(0, 10) ? (
                     <List.Item key={item.key} actions={() => setForm(item)}>
-                      <Dropdown
-                        menu={{
-                          onClick: () => setData(item),
-                          items,
-                        }}
-                        placement="bottom"
-                      >
+                      {sessionStorage.getItem("master") == 1 ? (
+                        <Dropdown
+                          menu={{
+                            onClick: () => setData(item),
+                            items,
+                          }}
+                          placement="bottom"
+                        >
+                          <Button type="text" className={styles.plan_item}>
+                            <b>{item.contents}</b>
+                          </Button>
+                        </Dropdown>
+                      ) : (
                         <Button type="text" className={styles.plan_item}>
                           <b>{item.contents}</b>
                         </Button>
-                      </Dropdown>
-                      {/* <h3 style={{}}>⦁ {item.contents}</h3> */}
+                      )}
                     </List.Item>
                   ) : (
                     <></>

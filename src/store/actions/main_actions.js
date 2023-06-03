@@ -78,6 +78,10 @@ export function login(data) {
   })
     .then((response) => {
       console.log("로그인 성공: ", response);
+      sessionStorage.setItem("userid", response.data.userid);
+      sessionStorage.setItem("name", response.data.name);
+      sessionStorage.setItem("eamil", response.data.email);
+      sessionStorage.setItem("master", response.data.master);
       return true;
     })
     .catch((err) => {

@@ -185,7 +185,7 @@ const Login = () => {
                 <a
                   className={styles.subBtn}
                   onClick={() => {
-                    navigate("/forgotpwd", { replace: true });
+                    navigate("/forgotpassword", { replace: true });
                   }}
                 >
                   비밀번호 찾기

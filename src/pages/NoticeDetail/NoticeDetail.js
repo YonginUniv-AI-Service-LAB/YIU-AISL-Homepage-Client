@@ -161,7 +161,11 @@ const NoticeDetail = () => {
             <br />
             <br />
             <div className={styles.notice_img}>
-              <Image width={"70%"} src={data.img} />
+              <Image
+                width={"70%"}
+                // src={data.img}
+                src={`${process.env.REACT_APP_API_URL}${data.img}`}
+              />
             </div>
           </div>
         ) : null}

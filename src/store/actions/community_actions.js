@@ -40,7 +40,7 @@ export function getCommunity() {
 
 // 일정 생성
 export function createPlan(data) {
-  console.log("일정생성 액션: ", data);
+  console.log("일정생성 액션: ", data, data.date.value.format("YYYY-MM-DD"));
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_CREATE_PLAN,

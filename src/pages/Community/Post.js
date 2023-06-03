@@ -248,7 +248,7 @@ const CommunityPost = (props) => {
           });
         break;
       case "delete":
-        dispatch(deletePost(form))
+        dispatch(deletePost(form.postid.value))
           .then((res) => {
             if (res.payload === true) {
               completeMsg("게시글이 삭제되었습니다!");
@@ -285,15 +285,13 @@ const CommunityPost = (props) => {
   };
 
   const clickLikeBtn = (data) => {
-    console.log("좋아용: ", data);
-    dispatch(like(form.postid.value))
+    dispatch(like(data))
       .then((res) => {
         if (res.payload === 201) {
           completeMsg("게시글에 공감했습니다.");
-          dispatch(getCommunity());
+          props.rerender();
         } else if (res.payload === 204) {
           completeMsg("게시글 공감을 취소했습니다.");
-          dispatch(getCommunity());
         } else ResFunc(res.payload);
       })
       .catch((err) => {
@@ -310,15 +308,17 @@ const CommunityPost = (props) => {
           <h1 className={styles.section_title}>Post</h1>
         </Col>
         <Col span={7} offset={9}>
-          <Button
-            color="#868e96"
-            icon={<PlusOutlined />}
-            onClick={() => {
-              setData();
-              setType("create");
-              showModal();
-            }}
-          />
+          {sessionStorage.getItem("userid") ? (
+            <Button
+              color="#868e96"
+              icon={<PlusOutlined />}
+              onClick={() => {
+                setData();
+                setType("create");
+                showModal();
+              }}
+            />
+          ) : null}
         </Col>
       </Row>
       <Row>
@@ -346,20 +346,22 @@ const CommunityPost = (props) => {
                           </div>
                         </Col>
                         <Col>
-                          <Dropdown
-                            menu={{
-                              onClick: () => setData(item),
-                              items,
-                            }}
-                            placement="bottom"
-                          >
-                            <Button
-                              className={styles.community_btn}
-                              type="text"
-                              icon={<MoreOutlined />}
-                              style={{ textAlign: "center" }}
-                            ></Button>
-                          </Dropdown>
+                          {sessionStorage.getItem("name") == item.writer ? (
+                            <Dropdown
+                              menu={{
+                                onClick: () => setData(item),
+                                items,
+                              }}
+                              placement="bottom"
+                            >
+                              <Button
+                                className={styles.community_btn}
+                                type="text"
+                                icon={<MoreOutlined />}
+                                style={{ textAlign: "center" }}
+                              ></Button>
+                            </Dropdown>
+                          ) : null}
                         </Col>
                         {/* <h3 style={{}}>⦁ {item.contents}</h3> */}
                       </Row>
@@ -372,7 +374,8 @@ const CommunityPost = (props) => {
                         onClick={() => clickLikeBtn(item.postid)}
                       >
                         &nbsp;
-                        {item.likers.length > 0 ? item.likers.length : null}
+                        {item.likers.length}
+                        {/* {item.likers.length > 0 ? item.likers.length : null} */}
                       </Button>
                     </List.Item>
                   ) : (
@@ -381,23 +384,6 @@ const CommunityPost = (props) => {
                 }
               </VirtualList>
             )}
-            {/* <Space.Compact style={{ width: "100%", marginTop: 30 }}>
-              <Input
-                id="contents"
-                placeholder="글을 작성해보세요."
-                onChange={onChange}
-              />
-              <Button
-                type="primary"
-                style={{ backgroundColor: "#fcece7", color: "#2a3037" }}
-                onClick={() => {
-                  setType("create");
-                  checkFormValid();
-                }}
-              >
-                작성
-              </Button>
-            </Space.Compact> */}
           </Card>
         </Col>
       </Row>
@@ -427,6 +413,9 @@ const CommunityPost = (props) => {
             layout="vertical"
             // onFinish={checkFormValid}
           >
+            <h3 style={{ textAlign: "center" }}>
+              {dayjs(new Date()).format("YYYY-MM-DD")}
+            </h3>
             <h3 style={{ textAlign: "center" }}>{form.writer.value}</h3>
 
             {type === "delete" ? (
