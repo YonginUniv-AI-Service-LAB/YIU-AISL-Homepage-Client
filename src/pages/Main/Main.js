@@ -22,6 +22,7 @@ const Main = (props) => {
   const plan = useSelector((state) => state.Main.plan);
 
   const [calendarData, setCalendarDate] = useState([]);
+  const [noticeData, setNoticeDate] = useState([]);
 
   // 페이지 이동
   const navigate = useNavigate();
@@ -35,6 +36,7 @@ const Main = (props) => {
   useEffect(() => {
     if (notice != undefined && post != undefined && plan != undefined) {
       getList();
+      getNoticeList();
     }
   }, [notice, plan, post]);
 
@@ -65,6 +67,18 @@ const Main = (props) => {
     }
 
     setCalendarDate(result); // 데이터 최종 업데이트
+  };
+
+  const getNoticeList = () => {
+    let result = [];
+
+    for (let i of notice) {
+      const date = i.createdAt.substring(0, 10);
+
+      result.push(i);
+      console.log("result: ", result[i]);
+      // result[i].createdAt = date;
+    }
   };
 
   return (

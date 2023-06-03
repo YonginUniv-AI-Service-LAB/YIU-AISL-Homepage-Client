@@ -37,15 +37,17 @@ const Notice = () => {
     <div style={{ marginBottom: 100 }}>
       <PageTitle title="Notice" />
       <div className={styles.table_container}>
-        <div className={styles.createBtn}>
-          <Button
-            color="#868e96"
-            icon={<PlusOutlined />}
-            onClick={() =>
-              navigate("/notice/create", { state: { type: "create" } })
-            }
-          />
-        </div>
+        {sessionStorage.getItem("master") == 1 ? (
+          <div className={styles.createBtn}>
+            <Button
+              color="#868e96"
+              icon={<PlusOutlined />}
+              onClick={() =>
+                navigate("/notice/create", { state: { type: "create" } })
+              }
+            />
+          </div>
+        ) : null}
         {/* <Divider>notice</Divider> */}
         <Table
           columns={notice_columns}

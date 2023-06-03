@@ -45,14 +45,17 @@ export function createNotice(data, img) {
   formData.append("img", img);
   console.log("액션에서 img: ", img);
 
-  const request = axios({
-    method: "POST",
-    url: process.env.REACT_APP_CREATE_NOTICE,
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-    data: formData,
-  })
+  const request = axios
+    .post(process.env.REACT_APP_CREATE_NOTICE, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      transformRequest: [
+        function () {
+          return formData;
+        },
+      ],
+    })
     .then((response) => {
       console.log("공지사항 생성 성공: ", response);
       return response.data;
@@ -61,6 +64,23 @@ export function createNotice(data, img) {
       console.log("공지사항 생성 에러", err);
       return false;
     });
+
+  // const request = axios({
+  //   method: "POST",
+  //   url: process.env.REACT_APP_CREATE_NOTICE,
+  //   headers: {
+  //     "Content-Type": "multipart/form-data",
+  //   },
+  //   data: formData,
+  // })
+  //   .then((response) => {
+  //     console.log("공지사항 생성 성공: ", response);
+  //     return response.data;
+  //   })
+  //   .catch((err) => {
+  //     console.log("공지사항 생성 에러", err);
+  //     return false;
+  //   });
 
   return {
     type: CREATE_NOTICE,

@@ -117,23 +117,25 @@ const NoticeDetail = () => {
         <PageTitle title="Notice" />
         {data != undefined ? (
           <div className={styles.contents_container}>
-            <div className={styles.actionBtn_container}>
-              <Button
-                color="#868e96"
-                icon={<EditOutlined />}
-                onClick={() =>
-                  navigate("/notice/update", {
-                    state: { type: "update", data: data },
-                  })
-                }
-              />
-              <span style={{ width: 15 }} />
-              <Button
-                color="#868e96"
-                icon={<DeleteOutlined />}
-                onClick={() => setIsModalOpen(true)}
-              />
-            </div>
+            {sessionStorage.getItem("master") == 1 ? (
+              <div className={styles.actionBtn_container}>
+                <Button
+                  color="#868e96"
+                  icon={<EditOutlined />}
+                  onClick={() =>
+                    navigate("/notice/update", {
+                      state: { type: "update", data: data },
+                    })
+                  }
+                />
+                <span style={{ width: 15 }} />
+                <Button
+                  color="#868e96"
+                  icon={<DeleteOutlined />}
+                  onClick={() => setIsModalOpen(true)}
+                />
+              </div>
+            ) : null}
             <h1>{data.title}</h1>
             <Row justify="space-between" className={styles.notice_info}>
               <Col span={12}>
