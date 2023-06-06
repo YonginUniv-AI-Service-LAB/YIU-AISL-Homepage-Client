@@ -8,22 +8,27 @@
 
 .plan_item {
   text-align: start;
-  width: 100%;
-  height: 3em;
+  width: 95%;
+  height: auto;
   margin-bottom: 1em;
   background-color: #e4edf5;
+  border-radius: 10px;
+  padding-left: 1em;
+  padding-right: 1em;
+  font-weight: bold;
 }
 
 .community_btn {
   text-align: start;
   width: 100%;
   height: 3em;
-  margin-bottom: 1em;
+  /* margin-bottom: 1em; */
   /* background-color: #dee2e6; */
 }
 
 .post_container {
   /* border: 1px #868e96 solid; */
+  width: 95%;
   background-color: #fcece7;
   border-radius: 10px;
   padding-left: 1em;

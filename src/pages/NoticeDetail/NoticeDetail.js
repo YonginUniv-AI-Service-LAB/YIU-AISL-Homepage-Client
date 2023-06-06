@@ -109,6 +109,14 @@ const NoticeDetail = () => {
     }
   };
 
+  const utcToKst = (date) => {
+    console.log(new Date());
+    let time_diff = 9 * 60 * 60 * 1000;
+    let cur_date_korea = new Date(date + time_diff);
+    console.log("cur_date_korea: ", cur_date_korea);
+    return cur_date_korea;
+  };
+
   return (
     <div>
       {contextHolder}
@@ -141,6 +149,7 @@ const NoticeDetail = () => {
             <Row justify="space-between" className={styles.notice_info}>
               <Col span={12}>
                 <h3 className={styles.notice_info_left}>
+                  {console.log(utcToKst(data.createdAt))}
                   <span>{data.createdAt.substring(0, 10)}</span>&nbsp;
                   <span>{data.createdAt.substring(11, 19)}</span>
                   <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>

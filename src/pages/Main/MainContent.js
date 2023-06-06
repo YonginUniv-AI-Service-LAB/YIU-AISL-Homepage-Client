@@ -132,29 +132,17 @@ const MainContent = (props) => {
                       >
                         {item.contents}
                       </p>
-                      {sessionStorage.getItem("userid") ? (
-                        <Button
-                          type="text"
-                          icon={<LikeOutlined />}
-                          className={styles.like_btn}
-                          block={true}
-                          disabled={false}
-                        >
-                          &nbsp;{item.likers.length}
-                        </Button>
-                      ) : (
-                        <span
-                          style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            paddingTop: 5,
-                            paddingBottom: 19,
-                          }}
-                        >
-                          <LikeOutlined />
-                          &nbsp;&nbsp;&nbsp;{item.likers.length}
-                        </span>
-                      )}
+                      <span
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          paddingTop: 5,
+                          paddingBottom: 19,
+                        }}
+                      >
+                        <LikeOutlined />
+                        &nbsp;&nbsp;&nbsp;{item.likers.length}
+                      </span>
                     </List.Item>
                   )}
                 </VirtualList>

@@ -21,7 +21,7 @@ import {
   Input,
   message,
 } from "antd";
-import { PlusOutlined, MenuOutlined } from "@ant-design/icons";
+import { MoreOutlined, PlusOutlined } from "@ant-design/icons";
 import VirtualList from "rc-virtual-list";
 
 import dayjs from "dayjs";
@@ -312,8 +312,37 @@ const CommunityPlan = (props) => {
               >
                 {(item) =>
                   props.date == item.date.substring(0, 10) ? (
-                    <List.Item key={item.key} actions={() => setForm(item)}>
-                      {sessionStorage.getItem("master") == 1 ? (
+                    <List.Item
+                      key={item.key}
+                      actions={() => setForm(item)}
+                      className={styles.plan_item}
+                    >
+                      <Row align={"middle"} justify={"space-between"}>
+                        <Col
+                          span={sessionStorage.getItem("master") == 1 ? 23 : 24}
+                        >
+                          <p>{item.contents}</p>
+                        </Col>
+                        {sessionStorage.getItem("master") == 1 ? (
+                          <Col span={1}>
+                            <Dropdown
+                              menu={{
+                                onClick: () => setData(item),
+                                items,
+                              }}
+                              placement="bottom"
+                            >
+                              <Button
+                                className={styles.community_btn}
+                                type="text"
+                                icon={<MoreOutlined />}
+                                style={{ textAlign: "center" }}
+                              ></Button>
+                            </Dropdown>
+                          </Col>
+                        ) : null}
+                      </Row>
+                      {/* {sessionStorage.getItem("master") == 1 ? (
                         <Dropdown
                           menu={{
                             onClick: () => setData(item),
@@ -329,7 +358,7 @@ const CommunityPlan = (props) => {
                         <Button type="text" className={styles.plan_item}>
                           <b>{item.contents}</b>
                         </Button>
-                      )}
+                      )} */}
                     </List.Item>
                   ) : (
                     <></>

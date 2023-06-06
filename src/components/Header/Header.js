@@ -111,7 +111,22 @@ const Header = () => {
         {/* 로그인&회원가입 */}
         <Col span={4}>
           {sessionStorage.getItem("userid") ? (
-            <Space>
+            <Space
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <p
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 15,
+                  marginTop: 18,
+                }}
+              >
+                {sessionStorage.getItem("name")} 님
+              </p>
               <HeaderNavBtn
                 type={"text"}
                 text="Logout"
