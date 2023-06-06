@@ -59,7 +59,7 @@ export function createNotice(data, img) {
     })
     .then((response) => {
       console.log("공지사항 생성 성공: ", response);
-      return response.data;
+      return true;
     })
     .catch((err) => {
       console.log("공지사항 생성 에러", err);
@@ -96,6 +96,7 @@ export function updateNotice(data, img) {
   formData.append("title", data.title.value);
   formData.append("contents", data.contents.value);
   formData.append("img", img);
+  console.log("액션 데이터: ", data);
   console.log("액션에서 img: ", img);
 
   // const request = axios({

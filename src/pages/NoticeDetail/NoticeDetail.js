@@ -141,7 +141,8 @@ const NoticeDetail = () => {
             <Row justify="space-between" className={styles.notice_info}>
               <Col span={12}>
                 <h3 className={styles.notice_info_left}>
-                  {data.createdAt}
+                  <span>{data.createdAt.substring(0, 10)}</span>&nbsp;
+                  <span>{data.createdAt.substring(11, 19)}</span>
                   <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                   {data.writer}
                 </h3>
@@ -169,8 +170,6 @@ const NoticeDetail = () => {
                 // src={data.img}
                 src={data.img}
               />
-              {console.log("http://220.66.64.130:80/" + data.img)}
-              {console.log(`${process.env.REACT_APP_API_URL}/${data.img}`)}
             </div>
           </div>
         ) : null}

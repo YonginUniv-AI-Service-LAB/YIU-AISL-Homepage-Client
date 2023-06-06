@@ -18,6 +18,7 @@ const ContainerHeight = 330;
 
 const MainContent = (props) => {
   const [today, setToday] = useState(() => dayjs(new Date()));
+  const [descPost, setDescPost] = useState([]);
 
   // 달력에 데이터 업데이트
   const renderCell = (data) => {
@@ -35,6 +36,7 @@ const MainContent = (props) => {
         }
       }
     }
+
     return (
       <div>
         {date ? (
@@ -109,34 +111,50 @@ const MainContent = (props) => {
                 >
                   {(item) => (
                     <List.Item key={item.key} className={styles.post_container}>
-                      <Row align={"middle"} justify={"space-between"}>
-                        <Col>
-                          <div>
-                            <h4> {item.writer}</h4>
-                            <p>{item.contents}</p>
-                          </div>
-                        </Col>
-                        {/* <h3 style={{}}>⦁ {item.contents}</h3> */}
-                      </Row>
-                      {/* <Button
-                        type="text"
-                        icon={<LikeOutlined />}
-                        className={styles.like_btn}
-                        block={true}
-                        disabled={false}
-                      >
-                        {item.likers.length}
-                      </Button> */}
-                      <span
+                      <div
                         style={{
                           display: "flex",
-                          justifyContent: "center",
-                          paddingBottom: 15,
+                          justifyContent: "space-between",
+                          fontWeight: "bold",
+                          marginLeft: 5,
+                          paddingTop: 20,
                         }}
                       >
-                        <LikeOutlined />
-                        &nbsp;{item.likers.length}
-                      </span>
+                        <span>{item.writer}</span>
+                        <span>{item.createdAt.substring(0, 10)}</span>
+                      </div>
+                      <p
+                        style={{
+                          backgroundColor: "white",
+                          padding: 10,
+                          borderRadius: 8,
+                        }}
+                      >
+                        {item.contents}
+                      </p>
+                      {sessionStorage.getItem("userid") ? (
+                        <Button
+                          type="text"
+                          icon={<LikeOutlined />}
+                          className={styles.like_btn}
+                          block={true}
+                          disabled={false}
+                        >
+                          &nbsp;{item.likers.length}
+                        </Button>
+                      ) : (
+                        <span
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            paddingTop: 5,
+                            paddingBottom: 19,
+                          }}
+                        >
+                          <LikeOutlined />
+                          &nbsp;&nbsp;&nbsp;{item.likers.length}
+                        </span>
+                      )}
                     </List.Item>
                   )}
                 </VirtualList>

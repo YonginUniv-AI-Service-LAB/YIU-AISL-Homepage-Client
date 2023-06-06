@@ -336,57 +336,49 @@ const CommunityPost = (props) => {
                 {(item) =>
                   props.date == item.createdAt.substring(0, 10) ? (
                     <List.Item key={item.key} className={styles.post_container}>
-                      <Row align={"middle"} justify={"space-between"}>
-                        <Col>
-                          <div style={{ padding: 10 }}>
-                            <h4>{item.writer}</h4>
-                            <p style={{ fontWeight: "bold" }}>
-                              {item.contents}
-                            </p>
-                          </div>
-                        </Col>
-                        <Col>
-                          {sessionStorage.getItem("name") == item.writer ? (
-                            <Dropdown
-                              menu={{
-                                onClick: () => setData(item),
-                                items,
-                              }}
-                              placement="bottom"
-                            >
-                              <Button
-                                className={styles.community_btn}
-                                type="text"
-                                icon={<MoreOutlined />}
-                                style={{ textAlign: "center" }}
-                              ></Button>
-                            </Dropdown>
-                          ) : null}
-                        </Col>
-                        {/* <h3 style={{}}>⦁ {item.contents}</h3> */}
-                      </Row>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          fontWeight: "bold",
+                          marginLeft: 5,
+                          paddingTop: 20,
+                        }}
+                      >
+                        <span>{item.writer}</span>
+                        <span>{item.createdAt.substring(0, 10)}</span>
+                      </div>
+                      <p
+                        style={{
+                          backgroundColor: "white",
+                          padding: 10,
+                          borderRadius: 8,
+                        }}
+                      >
+                        {item.contents}
+                      </p>
                       {sessionStorage.getItem("userid") ? (
                         <Button
-                          // disabled={true}
                           type="text"
                           icon={<LikeOutlined />}
                           className={styles.like_btn}
                           block={true}
-                          onClick={() => clickLikeBtn(item.postid)}
+                          disabled={false}
                         >
-                          &nbsp;
-                          {item.likers.length}
-                          {/* {item.likers.length > 0 ? item.likers.length : null} */}
+                          &nbsp;{item.likers.length}
                         </Button>
                       ) : (
-                        <div
-                          style={{ display: "flex", justifyContent: "center" }}
-                          className={styles.like_btn}
+                        <span
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            paddingTop: 5,
+                            paddingBottom: 19,
+                          }}
                         >
                           <LikeOutlined />
-                          &nbsp;
-                          <span>{item.likers.length}</span>
-                        </div>
+                          &nbsp;&nbsp;&nbsp;{item.likers.length}
+                        </span>
                       )}
                     </List.Item>
                   ) : (

@@ -62,32 +62,23 @@ const NoticeForm = () => {
     const data = await response.blob();
     const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
     const filename = url.split("/").pop(); // url 구조에 맞게 수정할 것
-    const metadata = { type: `image/${ext}`, uid: -1 };
-    console.log("data: ", [data]);
+    const metadata = { type: `image/${ext}` };
+    console.log("이미지 변환 결과: ", new File([data], filename, metadata));
+    let file = new File([data], filename, metadata);
+    let arr = [];
+    arr.push(file);
+    let result = { file, fileList: arr };
+    setImgFile(file);
+    handleChange(result);
     return new File([data], filename, metadata);
   };
 
   useEffect(() => {
-    console.log("가져온 데이터: ", location.state);
+    console.log("받은 데이터: ", location.state.data);
     if (location.state.type === "update") {
-      const result = convertURLtoFile(location.state.data.img);
-      console.log("이미지 변환 결과: ", result);
-      // handleChange({
-      //   fileList: result,
-      // });
+      console.log("받은 이미지 url: ", location.state.data.img);
+      convertURLtoFile(location.state.data.img);
     }
-    // console.log("데이터: ", location.state.data.img);
-    // setForm((prevState) => ({
-    //   ...prevState,
-    //   title: {
-    //     ...prevState.title,
-    //     value: location.state.data.title,
-    //   },
-    //   contents: {
-    //     ...prevState.contents,
-    //     value: location.state.data.contents,
-    //   },
-    // }));
   }, []);
 
   // 이미지
@@ -130,26 +121,11 @@ const NoticeForm = () => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState([]);
-  const [imgFile, setImageFile] = useState();
-
-  // {
-  //   uid: "-1",
-  //   name: "image.png",
-  //   status: "done",
-  //   url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-  // },
-  // {
-  //   uid: "-2",
-  //   percent: 50,
-  //   name: "image.png",
-  //   status: "uploading",
-  //   url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-  // },
+  const [imgFile, setImgFile] = useState();
 
   const handleCancel = () => setPreviewOpen(false);
 
   const handlePreview = async (file) => {
-    console.log("preview file: ", file);
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj);
     }
@@ -163,8 +139,6 @@ const NoticeForm = () => {
   const handleChange = ({ fileList: newFileList }) => {
     console.log("newFileList: ", newFileList);
     setFileList(newFileList);
-    setImageFile(newFileList[0]);
-    console.log("fileList: ", fileList);
   };
 
   const uploadButton = (
@@ -179,16 +153,6 @@ const NoticeForm = () => {
       </div>
     </div>
   );
-
-  // 이미지
-  // const [fileList, setFileList] = useState([
-  //   {
-  //     uid: "-1",
-  //     name: "image.png",
-  //     status: "done",
-  //     url: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-  //   },
-  // ]);
 
   // 텍스트인풋 업데이트
   const onChange = (e) => {
@@ -244,9 +208,7 @@ const NoticeForm = () => {
     let status = false;
     switch (location.state.type) {
       case "create":
-        console.log("타입: ", typeof fileList[0]);
-        let file = convertImageToFile(imgFile, "1111");
-        dispatch(createNotice(form, file))
+        dispatch(createNotice(form, imgFile))
           .then((res) => {
             if (res.payload === true) {
               status = true;
@@ -260,7 +222,7 @@ const NoticeForm = () => {
           });
         break;
       case "update":
-        dispatch(updateNotice(form, fileList[0]))
+        dispatch(updateNotice(form, imgFile))
           .then((res) => {
             if (res.payload === true) {
               status = true;
@@ -359,13 +321,16 @@ const NoticeForm = () => {
           >
             <Upload
               // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              beforeUpload={() => false}
-              // customRequest={}
+              // beforeUpload={() => false}
+              beforeUpload={(file) => {
+                setImgFile(file);
+                return false; // 파일 선택시 바로 업로드 하지 않고 후에 한꺼번에 전송하기 위함
+              }}
               listType="picture-card"
               fileList={fileList}
               onPreview={handlePreview}
               onChange={handleChange}
-              onRemove={() => setImageFile()}
+              onRemove={() => setImgFile()}
               maxCount={1}
               accept="image/jpg, image/png, image/jpeg"
             >

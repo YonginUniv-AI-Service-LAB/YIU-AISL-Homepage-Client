@@ -26,9 +26,9 @@ const createStoreWithMiddleware = createStore(
   composeEnhancers(applyMiddleware(promiseMiddleware))
 );
 
-// axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+// axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true;
-// axios.defaults.withCredentials = true;
 // console.log("스토어의 상태: ", createStoreWithMiddleware.getState());
 ReactDOM.render(
   <React.StrictMode>
