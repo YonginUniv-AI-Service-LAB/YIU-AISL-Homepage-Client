@@ -1,4 +1,4 @@
-export const aisl_students = [
+export const aisl_students1 = [
   {
     name: "오하림",
     email: "bmh2038@naver.com",
@@ -19,6 +19,9 @@ export const aisl_students = [
     name: "심웅섭",
     email: "bmh2038@naver.com",
   },
+];
+
+export const aisl_students2 = [
   {
     name: "김예서",
     email: "bmh2038@naver.com",
