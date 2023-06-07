@@ -5,7 +5,7 @@ export const aisl_students1 = [
   },
   {
     name: "안병준",
-    email: "bmh2038@naver.com",
+    email: "abj13@naver.com",
   },
   {
     name: "변정원",
@@ -17,14 +17,14 @@ export const aisl_students1 = [
   },
   {
     name: "심웅섭",
-    email: "bmh2038@naver.com",
+    email: "simwoongseob@gmail.com",
   },
 ];
 
 export const aisl_students2 = [
   {
     name: "김예서",
-    email: "bmh2038@naver.com",
+    email: "callikys@naver.com",
   },
   {
     name: "변미현",
