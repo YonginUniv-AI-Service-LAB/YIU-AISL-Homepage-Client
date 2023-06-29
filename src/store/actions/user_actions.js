@@ -1,4 +1,11 @@
-import { FIND_EMAIL, FIND_PWD, CHANGE_PWD } from "../types";
+import {
+  FIND_EMAIL,
+  FIND_PWD,
+  CHANGE_PWD,
+  GET_USERS,
+  ENTER_ADMIN,
+  REFUSE_ADMIN,
+} from "../types";
 
 import axios from "axios";
 
@@ -83,6 +90,81 @@ export function changePwd(data) {
 
   return {
     type: CHANGE_PWD,
+    payload: request,
+  };
+}
+
+// 유저 조회
+export function getUsers() {
+  const request = axios({
+    method: "GET",
+    url: process.env.REACT_APP_GET_USERS,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data: {},
+  })
+    .then((response) => {
+      console.log("유저 조회 성공: ", response);
+      return response.data;
+    })
+    .catch((err) => {
+      console.log("유저 조회 에러", err);
+      return err.response.status;
+    });
+
+  return {
+    type: GET_USERS,
+    payload: request,
+  };
+}
+
+// 랩실 멤버 승인
+export function enterAdmin(data) {
+  const request = axios({
+    method: "POST",
+    url: process.env.REACT_APP_ENTER_ADMIN,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data: {
+      userid: data.userid,
+    },
+  })
+    .then((response) => {
+      return true;
+    })
+    .catch((err) => {
+      return err.response.status;
+    });
+
+  return {
+    type: ENTER_ADMIN,
+    payload: request,
+  };
+}
+
+// 랩실 멤버 승인 철회
+export function refuseAdmin(data) {
+  const request = axios({
+    method: "POST",
+    url: process.env.REACT_APP_REFUSE_ADMIN,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data: {
+      userid: data.userid,
+    },
+  })
+    .then((response) => {
+      return true;
+    })
+    .catch((err) => {
+      return err.response.status;
+    });
+
+  return {
+    type: REFUSE_ADMIN,
     payload: request,
   };
 }

@@ -46,3 +46,21 @@ export const UPDATE_POST = "Upload_Post";
 export const DELETE_POST = "Delete_Post";
 // 게시글 공감
 export const LIKE = "LIKE";
+
+// /project
+// 프로젝트 조회
+export const GET_PROJECT = "GET_Project";
+// 프로젝트 생성
+export const CREATE_PROJECT = "Create_Project";
+// 프로젝트 수정
+export const UPDATE_PROJECT = "Update_Project";
+// 프로젝트 삭제
+export const DELETE_PROJECT = "Delete_Project";
+
+// /admin
+// 모든 회원 조회
+export const GET_USERS = "Get_Users";
+// 랩실 회원 승인
+export const ENTER_ADMIN = "Enter_Admin";
+// 랩실 회원 승인 철회
+export const REFUSE_ADMIN = "REFUSE_Admin";

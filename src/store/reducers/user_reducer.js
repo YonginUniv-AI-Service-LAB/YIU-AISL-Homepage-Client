@@ -1,4 +1,11 @@
-import { FIND_EMAIL, FIND_PWD, CHANGE_PWD } from "../types";
+import {
+  FIND_EMAIL,
+  FIND_PWD,
+  CHANGE_PWD,
+  GET_USERS,
+  ENTER_ADMIN,
+  REFUSE_ADMIN,
+} from "../types";
 
 export default function (state = {}, action) {
   switch (action.type) {
@@ -16,6 +23,21 @@ export default function (state = {}, action) {
       return {
         ...state,
         change_pwd: action.payload || false,
+      };
+    case GET_USERS:
+      return {
+        ...state,
+        get_users: action.payload || false,
+      };
+    case ENTER_ADMIN:
+      return {
+        ...state,
+        enter_admin: action.payload || false,
+      };
+    case REFUSE_ADMIN:
+      return {
+        ...state,
+        refuse_admin: action.payload || false,
       };
     default:
       return state;

@@ -6,6 +6,7 @@ import {
   aisl_students1,
   aisl_students2,
 } from "../../assets/string/aisl_students";
+import 정민기 from "../../assets/images/students/정민기_oon418@naver.com.jpg";
 import styles from "./intro.module.css";
 
 const { Meta } = Card;
@@ -30,14 +31,24 @@ const Students = () => {
             <Card
               hoverable
               style={{
-                width: 300,
+                width: 350,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 padding: 20,
               }}
               cover={
-                <Avatar shape="square" size={150} icon={<UserOutlined />} />
+                <Avatar
+                  shape="circle"
+                  size={250}
+                  icon={<UserOutlined />}
+                  style={{
+                    // backgroundColor: color,
+                    verticalAlign: "middle",
+                    objectFit: "fill",
+                  }}
+                  src={item.img}
+                />
               }
             >
               <Meta
@@ -71,14 +82,19 @@ const Students = () => {
             <Card
               hoverable
               style={{
-                width: 300,
+                width: 350,
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 padding: 20,
               }}
               cover={
-                <Avatar shape="square" size={150} icon={<UserOutlined />} />
+                <Avatar
+                  shape="circle"
+                  size={250}
+                  icon={<UserOutlined />}
+                  src={item.img}
+                />
               }
             >
               <Meta
