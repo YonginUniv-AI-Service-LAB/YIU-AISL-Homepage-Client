@@ -1,0 +1,13 @@
+.table_container {
+  margin: 0 20em;
+}
+
+.table_row:hover {
+  cursor: pointer;
+}
+
+.createBtn {
+  text-align: end;
+  margin: 2em auto;
+  margin-right: 1em;
+}

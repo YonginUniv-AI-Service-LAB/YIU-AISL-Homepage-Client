@@ -3,6 +3,7 @@ import {
   FIND_PWD,
   CHANGE_PWD,
   GET_USERS,
+  GET_WAITING_USERS,
   ENTER_ADMIN,
   REFUSE_ADMIN,
 } from "../types";
@@ -28,6 +29,11 @@ export default function (state = {}, action) {
       return {
         ...state,
         get_users: action.payload || false,
+      };
+    case GET_WAITING_USERS:
+      return {
+        ...state,
+        get_waiting_users: action.payload || false,
       };
     case ENTER_ADMIN:
       return {

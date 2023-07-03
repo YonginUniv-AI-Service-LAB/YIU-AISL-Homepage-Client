@@ -25,6 +25,9 @@ import Community from "./pages/Community/Community";
 import Notice from "./pages/Notice/Notice";
 import NoticeDetail from "./pages/NoticeDetail/NoticeDetail";
 import NoticeForm from "./pages/NoticeForm/NoticeForm";
+import Project from "./pages/AislProject/Project";
+import ProjectDetail from "./pages/AislProjectDetail/ProjectDetail";
+import ProjectForm from "./pages/AislProjectForm/ProjectForm";
 
 function App() {
   return (
@@ -45,6 +48,10 @@ function App() {
           <Route exact path="/notice/detail" element={<NoticeDetail />} />
           <Route exact path="/notice/create" element={<NoticeForm />} />
           <Route exact path="/notice/update" element={<NoticeForm />} />
+          <Route exact path="/project" element={<Project />} />
+          <Route exact path="/project/detail" element={<ProjectDetail />} />
+          <Route exact path="/project/create" element={<ProjectForm />} />
+          <Route exact path="/project/update" element={<ProjectForm />} />
         </Routes>
       </Layout>
     </BrowserRouter>

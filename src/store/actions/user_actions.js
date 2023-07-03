@@ -3,6 +3,7 @@ import {
   FIND_PWD,
   CHANGE_PWD,
   GET_USERS,
+  GET_WAITING_USERS,
   ENTER_ADMIN,
   REFUSE_ADMIN,
 } from "../types";
@@ -115,6 +116,31 @@ export function getUsers() {
 
   return {
     type: GET_USERS,
+    payload: request,
+  };
+}
+
+// 유저 조회
+export function getWaitingUsers() {
+  const request = axios({
+    method: "GET",
+    url: process.env.REACT_APP_GET_WAITING_USERS,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    data: {},
+  })
+    .then((response) => {
+      console.log("대기중인 유저 조회 성공: ", response);
+      return response.data;
+    })
+    .catch((err) => {
+      console.log("대기중인 유저 조회 에러", err);
+      return err.response.status;
+    });
+
+  return {
+    type: GET_WAITING_USERS,
     payload: request,
   };
 }

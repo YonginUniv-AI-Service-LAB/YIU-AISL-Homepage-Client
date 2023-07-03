@@ -60,6 +60,8 @@ export const DELETE_PROJECT = "Delete_Project";
 // /admin
 // 모든 회원 조회
 export const GET_USERS = "Get_Users";
+// 대기중인 회원
+export const GET_WAITING_USERS = "Get_Waiting_Users";
 // 랩실 회원 승인
 export const ENTER_ADMIN = "Enter_Admin";
 // 랩실 회원 승인 철회

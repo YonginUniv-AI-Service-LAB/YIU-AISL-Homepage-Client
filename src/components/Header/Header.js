@@ -103,6 +103,7 @@ const Header = () => {
                 </Button>
               </Dropdown>
             </ConfigProvider>
+            <HeaderNavBtn type={"text"} text="Project" href="/project" />
             <HeaderNavBtn type={"text"} text="Notice" href="/notice" />
             <HeaderNavBtn type={"text"} text="Community" href="/community" />
           </Space>
