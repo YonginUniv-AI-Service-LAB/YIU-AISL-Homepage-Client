@@ -19,13 +19,18 @@ import {
 
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProject, getProject } from "../../store/actions/project_actions";
+import {
+  getWaitingUsers,
+  enterAdmin,
+  refuseAdmin,
+} from "../../store/actions/user_actions";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
 
-import styles from "./project.module.css";
+import styles from "./master.module.css";
+import { ModalFooter } from "reactstrap";
 
-const Project = () => {
+const WaitingUsers = () => {
   // 페이지 이동
   const navigate = useNavigate();
 
@@ -33,14 +38,15 @@ const Project = () => {
 
   // 리덕스
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.Project.project);
+  const data = useSelector((state) => state.User.get_users);
+  // const data = useSelector((state) => state.User.get_waiting_users);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(0);
 
   // 데이터 불러오기
   useEffect(() => {
-    dispatch(getProject());
+    dispatch(getWaitingUsers());
   }, []);
 
   // 에러메세지 함수
@@ -59,18 +65,23 @@ const Project = () => {
     });
   };
 
-  const setDelete = (data) => {
-    setSelectedId(data);
-    setIsModalOpen(true);
-  };
-
-  const reqDelete = () => {
-    dispatch(deleteProject(selectedId))
+  const funcEnterAdmin = () => {
+    dispatch(enterAdmin(selectedId))
       .then((res) => {
         if (res.payload === true) {
-          navigate("/project", {
-            replace: true,
-          });
+          dispatch(getWaitingUsers());
+        } else ResFunc(res.payload);
+      })
+      .catch((err) => {
+        errorMsg(`잠시 후에 다시 시도해주세요.`);
+      });
+  };
+
+  const funcRefuseAdmin = () => {
+    dispatch(refuseAdmin(selectedId))
+      .then((res) => {
+        if (res.payload === true) {
+          dispatch(getWaitingUsers());
         } else ResFunc(res.payload);
       })
       .catch((err) => {
@@ -87,7 +98,7 @@ const Project = () => {
         errorMsg("접근 권한이 없습니다.");
         break;
       case 404:
-        errorMsg("이미 삭제된 프로젝트입니다.");
+        errorMsg("새로고침 후 다시 시도해주세요.");
         navigate("/project", {
           replace: true,
         });
@@ -102,19 +113,7 @@ const Project = () => {
 
   return (
     <div style={{ marginBottom: 100 }}>
-      <PageTitle title="Project" />
       <div className={styles.list_container}>
-        {sessionStorage.getItem("master") == 2 ? (
-          <div className={styles.createBtn}>
-            <Button
-              color="#868e96"
-              icon={<PlusOutlined />}
-              onClick={() =>
-                navigate("/project/create", { state: { type: "create" } })
-              }
-            />
-          </div>
-        ) : null}
         <List
           // style={{
           //   minWidth: 1000,
@@ -140,18 +139,13 @@ const Project = () => {
                     <Button
                       color="#868e96"
                       icon={<EditOutlined />}
-                      onClick={() =>
-                        navigate("/project/update", {
-                          // replace: true,
-                          state: { type: "update", data: data },
-                        })
-                      }
+                      onClick={() => funcEnterAdmin()}
                     />
                     &nbsp;&nbsp;
                     <Button
                       color="#868e96"
                       icon={<DeleteOutlined />}
-                      onClick={() => setDelete(item.projectid)}
+                      onClick={() => funcRefuseAdmin()}
                     />
                   </div>
                 ) : null
@@ -166,21 +160,6 @@ const Project = () => {
             // </a>
           )}
         />
-
-        {/* 모달 */}
-        <Modal
-          title={"프로젝트 삭제"}
-          open={isModalOpen}
-          okText={"삭제"}
-          cancelText={"취소"}
-          onOk={() => reqDelete()}
-          onCancel={() => setIsModalOpen(false)}
-        >
-          <div>
-            <h4>프로젝트를 삭제하시겠습니까?</h4>
-            <br />
-          </div>
-        </Modal>
 
         {/* <Divider>notice</Divider> */}
         {/* <Table
@@ -206,4 +185,4 @@ const Project = () => {
   );
 };
 
-export default Project;
+export default WaitingUsers;

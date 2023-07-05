@@ -28,6 +28,7 @@ import NoticeForm from "./pages/NoticeForm/NoticeForm";
 import Project from "./pages/AislProject/Project";
 import ProjectDetail from "./pages/AislProjectDetail/ProjectDetail";
 import ProjectForm from "./pages/AislProjectForm/ProjectForm";
+import Master from "./pages/Master/Master";
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
           <Route exact path="/project/detail" element={<ProjectDetail />} />
           <Route exact path="/project/create" element={<ProjectForm />} />
           <Route exact path="/project/update" element={<ProjectForm />} />
+          <Route exact path="/master" element={<Master />} />
         </Routes>
       </Layout>
     </BrowserRouter>

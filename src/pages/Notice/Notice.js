@@ -52,7 +52,7 @@ const Notice = () => {
     <div style={{ marginBottom: 100 }}>
       <PageTitle title="Notice" />
       <div className={styles.table_container}>
-        {sessionStorage.getItem("master") == 1 ? (
+        {sessionStorage.getItem("master") == 2 ? (
           <div className={styles.createBtn}>
             <Button
               color="#868e96"

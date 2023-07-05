@@ -284,7 +284,7 @@ const CommunityPlan = (props) => {
           <h1 className={styles.section_title}>Plan</h1>
         </Col>
         <Col span={7} offset={9}>
-          {sessionStorage.getItem("master") == 1 ? (
+          {sessionStorage.getItem("master") == 2 ? (
             <Button
               color="#868e96"
               icon={<PlusOutlined />}
@@ -319,11 +319,11 @@ const CommunityPlan = (props) => {
                     >
                       <Row align={"middle"} justify={"space-between"}>
                         <Col
-                          span={sessionStorage.getItem("master") == 1 ? 23 : 24}
+                          span={sessionStorage.getItem("master") == 2 ? 23 : 24}
                         >
                           <p>{item.contents}</p>
                         </Col>
-                        {sessionStorage.getItem("master") == 1 ? (
+                        {sessionStorage.getItem("master") == 2 ? (
                           <Col span={1}>
                             <Dropdown
                               menu={{
@@ -342,7 +342,7 @@ const CommunityPlan = (props) => {
                           </Col>
                         ) : null}
                       </Row>
-                      {/* {sessionStorage.getItem("master") == 1 ? (
+                      {/* {sessionStorage.getItem("master") == 2 ? (
                         <Dropdown
                           menu={{
                             onClick: () => setData(item),

@@ -26,7 +26,7 @@ import styles from "./projectdetail.module.css";
 import { colors } from "../../assets/colors";
 
 const ProjectDetail = () => {
-  // 공지사항 목록 페이지로부터 받은 데이터
+  // 프로젝트 목록 페이지로부터 받은 데이터
   const location = useLocation();
 
   const navigate = useNavigate();
@@ -96,7 +96,7 @@ const ProjectDetail = () => {
         errorMsg("접근 권한이 없습니다.");
         break;
       case 404:
-        errorMsg("이미 삭제된 공지사항입니다.");
+        errorMsg("이미 삭제된 프로젝트입니다.");
         navigate("/notice", {
           replace: true,
         });
@@ -120,12 +120,12 @@ const ProjectDetail = () => {
   return (
     <div>
       {contextHolder}
-      {/* {console.log("현재: ", location.state.noticeid)} */}
+      {console.log("현재: ", location.state)}
       <div style={{ marginBottom: 100 }}>
-        <PageTitle title="Notice" />
-        {data != undefined ? (
+        <PageTitle title="Project" />
+        {/* {data != undefined ? (
           <div className={styles.contents_container}>
-            {sessionStorage.getItem("master") == 1 ? (
+            {sessionStorage.getItem("master") == 2 ? (
               <div className={styles.actionBtn_container}>
                 <Button
                   color="#868e96"
@@ -181,11 +181,11 @@ const ProjectDetail = () => {
               />
             </div>
           </div>
-        ) : null}
+        ) : null} */}
 
         {/* 모달 */}
         <Modal
-          title={"공지사항 삭제"}
+          title={"프로젝트 삭제"}
           open={isModalOpen}
           okText={"삭제"}
           cancelText={"취소"}
@@ -193,7 +193,7 @@ const ProjectDetail = () => {
           onCancel={() => setIsModalOpen(false)}
         >
           <div>
-            <h4>공지사항을 삭제하시겠습니까?</h4>
+            <h4>프로젝트를 삭제하시겠습니까?</h4>
             <br />
           </div>
         </Modal>

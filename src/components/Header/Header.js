@@ -106,6 +106,9 @@ const Header = () => {
             <HeaderNavBtn type={"text"} text="Project" href="/project" />
             <HeaderNavBtn type={"text"} text="Notice" href="/notice" />
             <HeaderNavBtn type={"text"} text="Community" href="/community" />
+            {sessionStorage.getItem("master") == 2 ? (
+              <HeaderNavBtn type={"text"} text="Master" href="/master" />
+            ) : null}
           </Space>
         </Col>
         {console.log(sessionStorage.getItem("userid"))}

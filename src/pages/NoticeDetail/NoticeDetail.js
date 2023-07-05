@@ -125,7 +125,7 @@ const NoticeDetail = () => {
         <PageTitle title="Notice" />
         {data != undefined ? (
           <div className={styles.contents_container}>
-            {sessionStorage.getItem("master") == 1 ? (
+            {sessionStorage.getItem("master") == 2 ? (
               <div className={styles.actionBtn_container}>
                 <Button
                   color="#868e96"

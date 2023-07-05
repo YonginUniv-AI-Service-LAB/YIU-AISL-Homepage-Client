@@ -338,7 +338,7 @@ const CommunityPost = (props) => {
                     <List.Item key={item.key} className={styles.post_container}>
                       <Row align={"middle"} justify={"space-between"}>
                         <Col
-                          span={sessionStorage.getItem("master") == 1 ? 22 : 24}
+                          span={sessionStorage.getItem("master") == 2 ? 22 : 24}
                         >
                           <div
                             style={{
