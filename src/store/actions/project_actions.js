@@ -6,6 +6,8 @@ import {
 } from "../types";
 import axios from "axios";
 
+import { data_project } from "../../assets/data/project";
+
 // 프로젝트 조회
 export function getProject() {
   const request = axios({
@@ -27,7 +29,7 @@ export function getProject() {
 
   return {
     type: GET_PROJECT,
-    payload: request,
+    payload: data_project,
   };
 }
 

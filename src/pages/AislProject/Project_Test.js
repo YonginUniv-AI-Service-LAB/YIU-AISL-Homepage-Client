@@ -25,8 +25,7 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 
 import styles from "./project.module.css";
 
-const Project = () => {
-  const { Meta } = Card;
+const Project_Test = () => {
   // 페이지 이동
   const navigate = useNavigate();
 
@@ -117,20 +116,11 @@ const Project = () => {
           </div>
         ) : null}
         <List
-          style={{
-            backgroundColor: "red",
-            flexDirection: "row",
-            alignSelf: "center",
-          }}
-          grid={{
-            gutter: 16,
-            xs: 1,
-            sm: 2,
-            md: 4,
-            lg: 4,
-            xl: 6,
-            xxl: 3,
-          }}
+          // style={{
+          //   minWidth: 1000,
+          //   maxWidth: 1200,
+          // }}
+          itemLayout="horizontal"
           dataSource={data}
           renderItem={(item) => (
             // <a
@@ -140,20 +130,80 @@ const Project = () => {
             // >
             <Card
               style={{
-                width: 400,
-                // height: 300,
-                backgroundColor: "blue",
+                marginTop: 16,
               }}
-              cover={<img alt="example" src={item.img} />}
+              type="inner"
+              title={<h3>{item.title}</h3>}
+              extra={
+                sessionStorage.getItem("master") == 2 ? (
+                  <div className={styles.actionBtn_container}>
+                    <Button
+                      color="#868e96"
+                      icon={<EditOutlined />}
+                      onClick={() =>
+                        navigate("/project/update", {
+                          // replace: true,
+                          state: { type: "update", data: data },
+                        })
+                      }
+                    />
+                    &nbsp;&nbsp;
+                    <Button
+                      color="#868e96"
+                      icon={<DeleteOutlined />}
+                      onClick={() => setDelete(item.projectid)}
+                    />
+                  </div>
+                ) : null
+              }
+              // extra={<a href={item.link}>Link</a>}
             >
-              <Meta title={item.title} />
+              {item.contents}
+              <br />
+              <br />
+              <a href={item.link}>Link</a>
             </Card>
             // </a>
           )}
         />
+
+        {/* 모달 */}
+        <Modal
+          title={"프로젝트 삭제"}
+          open={isModalOpen}
+          okText={"삭제"}
+          cancelText={"취소"}
+          onOk={() => reqDelete()}
+          onCancel={() => setIsModalOpen(false)}
+        >
+          <div>
+            <h4>프로젝트를 삭제하시겠습니까?</h4>
+            <br />
+          </div>
+        </Modal>
+
+        {/* <Divider>notice</Divider> */}
+        {/* <Table
+          columns={notice_columns}
+          dataSource={noticeList}
+          size="large"
+          rowClassName={styles.table_row}
+          onRow={(record, rowIndex) => {
+            return {
+              onClick: (event) => {
+                navigate("/notice/detail", { state: record.noticeid });
+              }, // click row
+              onDoubleClick: (event) => {}, // double click row
+              onContextMenu: (event) => {}, // right button click row
+              onMouseEnter: (event) => {}, // mouse enter row
+              onMouseLeave: (event) => {}, // mouse leave row
+            };
+          }}
+          pagination={{ position: ["bottomCenter"] }}
+        /> */}
       </div>
     </div>
   );
 };
 
-export default Project;
+export default Project_Test;
