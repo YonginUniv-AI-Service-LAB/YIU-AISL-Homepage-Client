@@ -39,6 +39,17 @@ const Project = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(0);
 
+  const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const resizeListener = () => {
+      setInnerWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", resizeListener);
+  });
+
+  console.log("innerWidth", innerWidth);
+
   // 데이터 불러오기
   useEffect(() => {
     dispatch(getProject());
@@ -101,6 +112,13 @@ const Project = () => {
     }
   };
 
+  const getColumn = () => {
+    if (innerWidth <= 899) return 1;
+    else if (innerWidth <= 1300) return 2;
+    else if (innerWidth <= 1799) return 3;
+    else return 4;
+  };
+
   return (
     <div style={{ marginBottom: 100 }}>
       <PageTitle title="Project" />
@@ -116,20 +134,69 @@ const Project = () => {
             />
           </div>
         ) : null}
-        <List
+
+        <div className={styles.list_inner_container}>
+          <List
+            grid={{
+              column: getColumn(),
+              gutter: 25,
+              // xs: 1,
+              // sm: 2,
+              // md: 4,
+              // lg: 4,
+              // xl: 6,
+              // xxl: 3,
+            }}
+            style={{
+              marginTop: 50,
+            }}
+            className={styles.inner_container}
+            dataSource={data}
+            renderItem={(item) => (
+              <List.Item
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Card
+                  hoverable
+                  onClick={() => navigate("/project/detail", { state: item })}
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    padding: 30,
+                  }}
+                  className={styles.card}
+                  cover={
+                    <img
+                      alt="example"
+                      src={item.img}
+                      className={styles.cardImg}
+                    />
+                  }
+                >
+                  <Meta title={item.title} />
+                </Card>
+              </List.Item>
+            )}
+          />
+        </div>
+        {/* <List
           style={{
-            backgroundColor: "red",
-            flexDirection: "row",
-            alignSelf: "center",
+            display: "flex",
+            // alignSelf: "center",
+            justifyContent: "center",
           }}
           grid={{
-            gutter: 16,
-            xs: 1,
-            sm: 2,
-            md: 4,
-            lg: 4,
-            xl: 6,
-            xxl: 3,
+            gutter: 20,
+            // xs: 1,
+            // sm: 2,
+            // md: 4,
+            // lg: 4,
+            // xl: 6,
+            // xxl: 3,
           }}
           dataSource={data}
           renderItem={(item) => (
@@ -139,18 +206,24 @@ const Project = () => {
             //   }
             // >
             <Card
+              hoverable
               style={{
-                width: 400,
-                // height: 300,
-                backgroundColor: "blue",
+                width: 300,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                padding: 10,
               }}
-              cover={<img alt="example" src={item.img} />}
+              onClick={() => navigate("/project/detail", { state: item })}
+              cover={
+                <img alt="example" src={item.img} className={styles.cardImg} />
+              }
             >
               <Meta title={item.title} />
             </Card>
             // </a>
           )}
-        />
+        /> */}
       </div>
     </div>
   );

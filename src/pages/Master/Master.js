@@ -2,6 +2,14 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import { Tabs } from "antd";
 
+// 리덕스
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getUsers,
+  enterAdmin,
+  refuseAdmin,
+} from "../../store/actions/user_actions";
+
 import PageTitle from "../../components/PageTitle/PageTitle";
 import WaitingUsers from "./WaitingUsers";
 import Users from "./Users";
@@ -10,6 +18,10 @@ import { colors } from "../../assets/colors";
 
 const Master = () => {
   const location = useLocation();
+
+  // 리덕스
+  const dispatch = useDispatch();
+  const allUsers = useSelector((state) => state.User.get_users);
 
   const items = [
     {
