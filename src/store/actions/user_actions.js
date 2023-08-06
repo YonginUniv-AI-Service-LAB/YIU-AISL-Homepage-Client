@@ -120,7 +120,7 @@ export function getUsers() {
   };
 }
 
-// 유저 조회
+// 회원 대기 유저 조회
 export function getWaitingUsers() {
   const request = axios({
     method: "GET",

@@ -123,7 +123,7 @@ const ProjectDetail = () => {
       {console.log("현재: ", location.state)}
       <div style={{ marginBottom: 100 }}>
         <PageTitle title="Project" />
-        {/* {data != undefined ? (
+        {data != undefined ? (
           <div className={styles.contents_container}>
             {sessionStorage.getItem("master") == 2 ? (
               <div className={styles.actionBtn_container}>
@@ -181,7 +181,7 @@ const ProjectDetail = () => {
               />
             </div>
           </div>
-        ) : null} */}
+        ) : null}
 
         {/* 모달 */}
         <Modal
