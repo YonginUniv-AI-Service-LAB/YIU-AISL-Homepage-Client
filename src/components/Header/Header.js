@@ -74,12 +74,13 @@ const Header = () => {
 
   return (
     <div>
-      {console.log("제발: ", sessionStorage.getItem("userid"))}
       <Row align={"middle"} justify={"space-evenly"}>
         {/* 랩실 로고 */}
         <Col span={4}>
           <a href="/">
-            <h1 style={{ color: colors.yiu_dark_blue }}>AI Service Lab</h1>
+            <p style={{ color: colors.yiu_dark_blue, fontSize: 30 }}>
+              AI Service Lab
+            </p>
           </a>
         </Col>
 
@@ -111,7 +112,6 @@ const Header = () => {
             ) : null}
           </Space>
         </Col>
-        {console.log(sessionStorage.getItem("userid"))}
         {/* 로그인&회원가입 */}
         <Col span={4}>
           {sessionStorage.getItem("userid") ? (

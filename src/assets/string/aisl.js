@@ -1,5 +1,6 @@
 export const aisl = {
   name: "Ai Service Lab",
+  email: "yiuaiservicelab@gmail.com",
   img: "https://cdn.pixabay.com/photo/2018/09/27/09/22/artificial-intelligence-3706562_960_720.jpg",
   slogan: "AI가 세상을 지배한다!",
   contents: `        동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세

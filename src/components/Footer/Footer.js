@@ -3,6 +3,7 @@ import { Row, Col } from "antd";
 import logo from "../../assets/images/yiu_logo_col.jpg";
 import styles from "./footer.module.css";
 import styled from "styled-components";
+import { aisl } from "../../assets/string/aisl";
 
 const Footer = () => {
   return (
@@ -23,6 +24,10 @@ const Footer = () => {
           <img src={logo} className={styles.logo} />
           <span className={styles.footer_content_text}>
             Ai Service Lab <br />
+            <br />
+            {aisl.email}
+            <br />
+            <br />
             Room 7203, 134 Yongindaehak-ro, Cheoin-gu, Yongin-si, Gyeonggi-do,
             Korea 17092
             <br />
