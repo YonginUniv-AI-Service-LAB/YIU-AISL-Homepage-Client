@@ -2,10 +2,11 @@ import {
   FIND_EMAIL,
   FIND_PWD,
   CHANGE_PWD,
-  GET_USERS,
-  GET_WAITING_USERS,
-  ENTER_ADMIN,
-  REFUSE_ADMIN,
+  GET_ALL_USER,
+  GET_WAITING_USER,
+  ENTER_USER,
+  REFUSE_USER,
+  GIVE_AUTH,
 } from "../types";
 
 export default function (state = {}, action) {
@@ -25,25 +26,30 @@ export default function (state = {}, action) {
         ...state,
         change_pwd: action.payload || false,
       };
-    case GET_USERS:
+    case GET_ALL_USER:
       return {
         ...state,
-        get_users: action.payload || false,
+        get_all_user: action.payload || false,
       };
-    case GET_WAITING_USERS:
+    case GET_WAITING_USER:
       return {
         ...state,
-        get_waiting_users: action.payload || false,
+        get_waiting_user: action.payload || false,
       };
-    case ENTER_ADMIN:
+    case ENTER_USER:
       return {
         ...state,
-        enter_admin: action.payload || false,
+        enter_user: action.payload || false,
       };
-    case REFUSE_ADMIN:
+    case REFUSE_USER:
       return {
         ...state,
-        refuse_admin: action.payload || false,
+        refuse_user: action.payload || false,
+      };
+    case GIVE_AUTH:
+      return {
+        ...state,
+        give_auth: action.payload || false,
       };
     default:
       return state;

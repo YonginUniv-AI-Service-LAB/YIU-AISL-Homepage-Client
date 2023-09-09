@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getNoticeDetail,
-  deleteNotice,
-} from "../../store/actions/notice_actions";
+  getProjectDetail,
+  deleteProject,
+} from "../../store/actions/project_actions";
 
 import {
   Divider,
@@ -35,13 +35,13 @@ const ProjectDetail = () => {
 
   // 리덕스
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.Notice.detail);
+  const data = useSelector((state) => state.Project.detail);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // 데이터 불러오기
   useEffect(() => {
-    dispatch(getNoticeDetail(location.state));
+    dispatch(getProjectDetail(location.state));
     convertURLtoFile(
       "https://cdn.pixabay.com/photo/2014/04/05/11/40/poster-316690_960_720.jpg"
     );
@@ -74,10 +74,10 @@ const ProjectDetail = () => {
   };
 
   const reqDelete = () => {
-    dispatch(deleteNotice(data.noticeid))
+    dispatch(deleteProject(data.projectid))
       .then((res) => {
         if (res.payload === true) {
-          navigate("/notice", {
+          navigate("/project", {
             replace: true,
           });
         } else ResFunc(res.payload);
@@ -97,7 +97,7 @@ const ProjectDetail = () => {
         break;
       case 404:
         errorMsg("이미 삭제된 프로젝트입니다.");
-        navigate("/notice", {
+        navigate("/project", {
           replace: true,
         });
         break;
@@ -131,7 +131,7 @@ const ProjectDetail = () => {
                   color="#868e96"
                   icon={<EditOutlined />}
                   onClick={() =>
-                    navigate("/notice/update", {
+                    navigate("/project/update", {
                       replace: true,
                       state: { type: "update", data: data },
                     })
@@ -146,17 +146,18 @@ const ProjectDetail = () => {
               </div>
             ) : null}
             <h1>{data.title}</h1>
-            <Row justify="space-between" className={styles.notice_info}>
+            <Row justify="space-between" className={styles.project_info}>
               <Col span={12}>
-                <h3 className={styles.notice_info_left}>
-                  {console.log(utcToKst(data.createdAt))}
-                  <span>{data.createdAt.substring(0, 10)}</span>&nbsp;
+                <h3 className={styles.project_info_left}>
+                  {console.log("시간: ", data.createdAt)}
+
+                  {/* <span>{data.createdAt.substring(0, 10)}</span>&nbsp;
                   <span>{data.createdAt.substring(11, 19)}</span>
-                  <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
+                  <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span> */}
                   {data.writer}
                 </h3>
               </Col>
-              <Col span={12} className={styles.notice_info_right}>
+              <Col span={12} className={styles.project_info_right}>
                 <EyeOutlined size={3} />
                 &nbsp;&nbsp;&nbsp;
                 <h3>{data.views}</h3>
@@ -169,11 +170,11 @@ const ProjectDetail = () => {
                 border: "none",
               }}
             />
-            <p className={styles.notice_contents}>{data.contents}</p>
+            <p className={styles.project_contents}>{data.contents}</p>
             <br />
             <br />
             <br />
-            <div className={styles.notice_img}>
+            <div className={styles.project_img}>
               <Image
                 width={"70%"}
                 // src={data.img}

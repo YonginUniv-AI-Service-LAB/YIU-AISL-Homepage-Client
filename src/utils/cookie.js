@@ -1,11 +1,15 @@
-import { Cookie } from "react-cookie";
+import { Cookies } from "react-cookie";
 
-const cookies = new Cookie();
+const cookies = new Cookies();
 
-export const setCookie = (name, value, option) => {
-  return cookies.set(name, value, { ...option });
+export const setCookie = (name, value, options) => {
+  return cookies.set(name, value, { ...options });
 };
 
 export const getCookie = (name) => {
+  return cookies.get(name);
+};
+
+export const get = (name) => {
   return cookies.get(name);
 };

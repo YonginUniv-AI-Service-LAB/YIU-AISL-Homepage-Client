@@ -150,8 +150,8 @@ const NoticeDetail = () => {
               <Col span={12}>
                 <h3 className={styles.notice_info_left}>
                   {console.log(utcToKst(data.createdAt))}
-                  <span>{data.createdAt.substring(0, 10)}</span>&nbsp;
-                  <span>{data.createdAt.substring(11, 19)}</span>
+                  {/* <span>{data.createdAt.substring(0, 10)}</span>&nbsp;
+                  <span>{data.createdAt.substring(11, 19)}</span> */}
                   <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                   {data.writer}
                 </h3>

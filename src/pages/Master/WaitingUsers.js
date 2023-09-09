@@ -20,9 +20,9 @@ import {
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getWaitingUsers,
-  enterAdmin,
-  refuseAdmin,
+  getWaitingUser,
+  enterUser,
+  refuseUser,
 } from "../../store/actions/user_actions";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
@@ -38,7 +38,7 @@ const WaitingUsers = () => {
 
   // 리덕스
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.User.get_users);
+  const data = useSelector((state) => state.User.get_all_users);
   // const data = useSelector((state) => state.User.get_waiting_users);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -46,7 +46,7 @@ const WaitingUsers = () => {
 
   // 데이터 불러오기
   useEffect(() => {
-    dispatch(getWaitingUsers());
+    dispatch(getWaitingUser());
   }, []);
 
   // 에러메세지 함수
@@ -65,11 +65,11 @@ const WaitingUsers = () => {
     });
   };
 
-  const funcEnterAdmin = () => {
-    dispatch(enterAdmin(selectedId))
+  const funcEnterUser = () => {
+    dispatch(enterUser(selectedId))
       .then((res) => {
         if (res.payload === true) {
-          dispatch(getWaitingUsers());
+          dispatch(getWaitingUser());
         } else ResFunc(res.payload);
       })
       .catch((err) => {
@@ -77,11 +77,11 @@ const WaitingUsers = () => {
       });
   };
 
-  const funcRefuseAdmin = () => {
-    dispatch(refuseAdmin(selectedId))
+  const funcRefuseUser = () => {
+    dispatch(refuseUser(selectedId))
       .then((res) => {
         if (res.payload === true) {
-          dispatch(getWaitingUsers());
+          dispatch(getWaitingUser());
         } else ResFunc(res.payload);
       })
       .catch((err) => {
@@ -139,13 +139,13 @@ const WaitingUsers = () => {
                     <Button
                       color="#868e96"
                       icon={<EditOutlined />}
-                      onClick={() => funcEnterAdmin()}
+                      onClick={() => funcEnterUser()}
                     />
                     &nbsp;&nbsp;
                     <Button
                       color="#868e96"
                       icon={<DeleteOutlined />}
-                      onClick={() => funcRefuseAdmin()}
+                      onClick={() => funcRefuseUser()}
                     />
                   </div>
                 ) : null

@@ -11,6 +11,7 @@ import {
   BrowserRouter,
 } from "react-router-dom";
 import ScrollToTop from "./scrollTop";
+import axios from "axios";
 
 import Layout from "./pages/Layout/Layout";
 import Main from "./pages/Main/Main";
@@ -30,7 +31,7 @@ import ProjectDetail from "./pages/AislProjectDetail/ProjectDetail";
 import ProjectForm from "./pages/AislProjectForm/ProjectForm";
 import Master from "./pages/Master/Master";
 
-function App() {
+function App(props) {
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -42,7 +43,15 @@ function App() {
           <Route exact path="/forgotpassword" element={<ForgotPassword />} />
           <Route exact path="/intro" element={<Intro />} />
           <Route exact path="/intro/members" element={<Members />} />
-          <Route exact path="/login" element={<Login />} />
+          <Route
+            exact
+            path="/login"
+            element={
+              <Login
+              // setToken={(token) => props.setToken(token)}
+              />
+            }
+          />
           <Route exact path="/join" element={<Join />} />
           <Route exact path="/community" element={<Community />} />
           <Route exact path="/notice" element={<Notice />} />

@@ -77,14 +77,12 @@ export function login(data) {
     },
   })
     .then((response) => {
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${response.data.accessToken}`;
-      console.log("로그인 성공: ", response);
-      sessionStorage.setItem("userid", 1);
-      sessionStorage.setItem("name", "변미현");
-      sessionStorage.setItem("eamil", "bmh2038@naver.com");
-      sessionStorage.setItem("master", 2);
+      const { accessToken } = response.data;
+      sessionStorage.setItem("accessToken", accessToken);
+      sessionStorage.setItem("userid", response.data.user.userid);
+      sessionStorage.setItem("name", response.data.user.name);
+      sessionStorage.setItem("eamil", response.data.user.email);
+      sessionStorage.setItem("master", response.data.user.master);
       return true;
     })
     .catch((err) => {

@@ -6,6 +6,8 @@ import {
   GET_NOTICE_DETAIL,
 } from "../types";
 
+import { get, getCookie } from "../../utils/cookie";
+
 import { data_notice, data_notice_detail } from "../../assets/data/notice";
 
 import axios from "axios";
@@ -50,6 +52,7 @@ export function createNotice(data, img) {
     .post(process.env.REACT_APP_CREATE_NOTICE, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
       transformRequest: [
         function () {
@@ -111,6 +114,7 @@ export function updateNotice(data, img) {
     .post(process.env.REACT_APP_UPDATE_NOTICE, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
       },
       transformRequest: [
         function () {
@@ -141,6 +145,7 @@ export function deleteNotice(data) {
     url: process.env.REACT_APP_DELETE_NOTICE,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {
       noticeid: data,

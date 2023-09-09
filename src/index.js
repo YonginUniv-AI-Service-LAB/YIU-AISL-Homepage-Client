@@ -11,6 +11,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
+import { CookiesProvider } from "react-cookie";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { createStore, applyMiddleware, compose } from "redux";
@@ -29,12 +30,25 @@ const createStoreWithMiddleware = createStore(
 // axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 axios.defaults.baseURL = "http://localhost:3000";
 axios.defaults.withCredentials = true;
+// axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
 // console.log("스토어의 상태: ", createStoreWithMiddleware.getState());
+
+// const setToken = (token) => {
+//   // axios.defaults. use((config) => {
+//   //   config.headers["Authorization"] = "Bearer " + token;
+//   //   return config;
+//   // });
+//   // axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+//   console.log("index: ", axios.defaults.headers.common.Authorization);
+// };
+
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={createStoreWithMiddleware}>
-      <App />
-    </Provider>
+    <CookiesProvider>
+      <Provider store={createStoreWithMiddleware}>
+        <App />
+      </Provider>
+    </CookiesProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

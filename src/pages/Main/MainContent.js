@@ -141,7 +141,7 @@ const MainContent = (props) => {
                         }}
                       >
                         <LikeOutlined />
-                        &nbsp;&nbsp;&nbsp;{item.likers.length}
+                        &nbsp;&nbsp;&nbsp;{item.Likes.length}
                       </span>
                     </List.Item>
                   )}

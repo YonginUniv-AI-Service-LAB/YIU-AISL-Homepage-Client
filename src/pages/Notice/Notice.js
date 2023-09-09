@@ -11,6 +11,7 @@ import PageTitle from "../../components/PageTitle/PageTitle";
 
 import styles from "./notice.module.css";
 import { notice_columns } from "../../assets/string/notice_columns";
+import axios from "axios";
 
 const Notice = () => {
   // 페이지 이동
@@ -36,6 +37,7 @@ const Notice = () => {
       const date = i.createdAt.substring(0, 10);
       let temp = i;
       temp.createdAt = date;
+      temp.views = temp.views == null ? 0 : temp.views;
       result.push(temp);
     }
     setNoticeDate(result);
@@ -50,6 +52,7 @@ const Notice = () => {
 
   return (
     <div style={{ marginBottom: 100 }}>
+      {console.log("notice: ", axios.defaults.headers.common.Authorization)}
       <PageTitle title="Notice" />
       <div className={styles.table_container}>
         {sessionStorage.getItem("master") == 2 ? (

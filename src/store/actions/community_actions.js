@@ -46,6 +46,7 @@ export function createPlan(data) {
     url: process.env.REACT_APP_CREATE_PLAN,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {
       date: data.date.value.format("YYYY-MM-DD"),
@@ -75,6 +76,7 @@ export function updatePlan(data) {
     url: process.env.REACT_APP_UPDATE_PLAN,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {
       planid: data.planid.value,
@@ -105,6 +107,7 @@ export function deletePlan(data) {
     url: process.env.REACT_APP_DELETE_PLAN,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {
       planid: data,
@@ -133,6 +136,7 @@ export function createPost(data) {
     url: process.env.REACT_APP_CREATE_POST,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {
       contents: data.contents.value,
@@ -161,6 +165,7 @@ export function updatePost(data) {
     url: process.env.REACT_APP_UPDATE_POST,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {
       postid: data.postid.value,
@@ -190,6 +195,7 @@ export function deletePost(data) {
     url: process.env.REACT_APP_DELETE_POST,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {
       postid: data,
@@ -218,6 +224,7 @@ export function like(data) {
     url: process.env.REACT_APP_LIKE,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {
       postid: data,

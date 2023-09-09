@@ -3,6 +3,7 @@ import {
   CREATE_PROJECT,
   UPDATE_PROJECT,
   DELETE_PROJECT,
+  GET_PROJECT_DETAIL,
 } from "../types";
 
 export default function (state = {}, action) {
@@ -27,6 +28,11 @@ export default function (state = {}, action) {
       return {
         ...state,
         delete_project: action.payload || false,
+      };
+    case GET_PROJECT_DETAIL:
+      return {
+        ...state,
+        detail: action.payload || false,
       };
     default:
       return state;

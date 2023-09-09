@@ -7,7 +7,7 @@ import {
 } from "../../store/actions/project_actions";
 import { useLocation } from "react-router-dom";
 
-import { Form, Input, message } from "antd";
+import { Form, Input, Upload, message, Modal } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
 
@@ -58,9 +58,9 @@ const ProjectForm = () => {
     link: {
       value: location.state.type === "update" ? location.state.data.link : "",
       type: "textInput",
-      // rules: {
-      //   isRequired: true,
-      // },
+      rules: {
+        isRequired: false,
+      },
       valid: false,
     },
   });
@@ -68,9 +68,37 @@ const ProjectForm = () => {
   const ResCreate = useSelector((state) => state.Project.create_project);
   const ResUpdate = useSelector((state) => state.Project.update_project);
 
+  const convertURLtoFile = async (url) => {
+    const response = await fetch(url);
+    const data = await response.blob();
+    const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
+    const filename = url.split("/").pop(); // url 구조에 맞게 수정할 것
+    const metadata = { type: `image/${ext}` };
+    console.log("이미지 변환 결과: ", new File([data], filename, metadata));
+    let file = new File([data], filename, metadata);
+    let arr = [];
+    arr.push(file);
+    let result = { file, fileList: arr };
+    setImgFile(file);
+    handleChange(result);
+    return new File([data], filename, metadata);
+  };
+
   useEffect(() => {
     console.log("받은 데이터: ", location.state.data);
+    if (location.state.type === "update") {
+      console.log("받은 이미지 url: ", location.state.data.img);
+      convertURLtoFile(location.state.data.img);
+    }
   }, []);
+
+  // 이미지
+  const normFile = (e) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
 
   const dispatch = useDispatch();
 
@@ -99,6 +127,43 @@ const ProjectForm = () => {
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => reject(error);
     });
+
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [fileList, setFileList] = useState([]);
+  const [imgFile, setImgFile] = useState();
+
+  const handleCancel = () => setPreviewOpen(false);
+
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
+
+  const handleChange = ({ fileList: newFileList }) => {
+    console.log("newFileList: ", newFileList);
+    setFileList(newFileList);
+  };
+
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  );
 
   // 텍스트인풋 업데이트
   const onChange = (e) => {
@@ -142,13 +207,19 @@ const ProjectForm = () => {
     }
   };
 
+  const convertImageToFile = (image, fileName) => {
+    console.log("이걸 바꿀거야: ", image, fileName);
+    const file = new File([image], fileName, { type: image.type });
+    return file;
+  };
+
   // 유효성 검사 확인 완료 =>  API요청
   const submitForm = () => {
     console.log(location.state.type);
     let status = false;
     switch (location.state.type) {
       case "create":
-        dispatch(createProject(form))
+        dispatch(createProject(form, imgFile))
           .then((res) => {
             if (res.payload === true) {
               status = true;
@@ -162,15 +233,15 @@ const ProjectForm = () => {
           });
         break;
       case "update":
-        dispatch(updateProject(form))
+        dispatch(updateProject(form, imgFile))
           .then((res) => {
             if (res.payload === true) {
               status = true;
               completeMsg("프로젝트가 수정되었습니다!");
-              navigate("/notice", { replace: true });
+              navigate("/project", { replace: true });
               // navigate(-1, {
               //   replace: true,
-              //   state: form.noticeid.value,
+              //   state: form.projectid.value,
               // });
             } else ResFunc(res.payload);
           })
@@ -254,7 +325,7 @@ const ProjectForm = () => {
 
           <Form.Item
             label={<span className={styles.label}>Link</span>}
-            name="title"
+            name="link"
           >
             <Input
               id="link"
@@ -263,8 +334,48 @@ const ProjectForm = () => {
               placeholder={"링크 입력"}
               size="large"
               onChange={onChange}
-              maxLength={100}
+              maxLength={250}
             />
+          </Form.Item>
+
+          <Form.Item
+            name="img"
+            label={<span className={styles.label}>Upload</span>}
+            valuePropName="fileList"
+            getValueFromEvent={normFile}
+            extra="이미지 파일만 업로드 가능"
+          >
+            <Upload
+              // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              // beforeUpload={() => false}
+              beforeUpload={(file) => {
+                setImgFile(file);
+                return false; // 파일 선택시 바로 업로드 하지 않고 후에 한꺼번에 전송하기 위함
+              }}
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+              onRemove={() => setImgFile()}
+              maxCount={1}
+              accept="image/jpg, image/png, image/jpeg"
+            >
+              {fileList.length >= 1 ? null : uploadButton}
+            </Upload>
+            <Modal
+              open={previewOpen}
+              title={previewTitle}
+              footer={null}
+              onCancel={handleCancel}
+            >
+              <img
+                alt="example"
+                style={{
+                  width: "100%",
+                }}
+                src={previewImage}
+              />
+            </Modal>
           </Form.Item>
 
           <br />

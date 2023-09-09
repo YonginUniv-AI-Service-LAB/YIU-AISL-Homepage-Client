@@ -2,10 +2,11 @@ import {
   FIND_EMAIL,
   FIND_PWD,
   CHANGE_PWD,
-  GET_USERS,
-  GET_WAITING_USERS,
-  ENTER_ADMIN,
-  REFUSE_ADMIN,
+  GET_ALL_USER,
+  GET_WAITING_USER,
+  ENTER_USER,
+  REFUSE_USER,
+  GIVE_AUTH,
 } from "../types";
 
 import axios from "axios";
@@ -96,12 +97,13 @@ export function changePwd(data) {
 }
 
 // 유저 조회
-export function getUsers() {
+export function getAllUser() {
   const request = axios({
     method: "GET",
-    url: process.env.REACT_APP_GET_USERS,
+    url: process.env.REACT_APP_GET_ALL_USER,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {},
   })
@@ -115,18 +117,19 @@ export function getUsers() {
     });
 
   return {
-    type: GET_USERS,
+    type: GET_ALL_USER,
     payload: request,
   };
 }
 
 // 회원 대기 유저 조회
-export function getWaitingUsers() {
+export function getWaitingUser() {
   const request = axios({
     method: "GET",
-    url: process.env.REACT_APP_GET_WAITING_USERS,
+    url: process.env.REACT_APP_GET_WAITING_USER,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {},
   })
@@ -140,18 +143,19 @@ export function getWaitingUsers() {
     });
 
   return {
-    type: GET_WAITING_USERS,
+    type: GET_WAITING_USER,
     payload: request,
   };
 }
 
 // 랩실 멤버 승인
-export function enterAdmin(data) {
+export function enterUser(data) {
   const request = axios({
     method: "POST",
-    url: process.env.REACT_APP_ENTER_ADMIN,
+    url: process.env.REACT_APP_ENTER_USER,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {
       userid: data.userid,
@@ -165,18 +169,19 @@ export function enterAdmin(data) {
     });
 
   return {
-    type: ENTER_ADMIN,
+    type: ENTER_USER,
     payload: request,
   };
 }
 
 // 랩실 멤버 승인 철회
-export function refuseAdmin(data) {
+export function refuseUser(data) {
   const request = axios({
     method: "POST",
-    url: process.env.REACT_APP_REFUSE_ADMIN,
+    url: process.env.REACT_APP_REFUSE_USER,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {
       userid: data.userid,
@@ -190,7 +195,33 @@ export function refuseAdmin(data) {
     });
 
   return {
-    type: REFUSE_ADMIN,
+    type: REFUSE_USER,
+    payload: request,
+  };
+}
+
+// 랩실 멤버 승인 철회
+export function giveAuth(data) {
+  const request = axios({
+    method: "POST",
+    url: process.env.REACT_APP_GIVE_AUTH,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+    },
+    data: {
+      userid: data.userid,
+    },
+  })
+    .then((response) => {
+      return true;
+    })
+    .catch((err) => {
+      return err.response.status;
+    });
+
+  return {
+    type: GIVE_AUTH,
     payload: request,
   };
 }

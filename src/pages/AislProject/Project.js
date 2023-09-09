@@ -16,6 +16,7 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
+import altImg from "../../assets/images/aisl_carousel_2000.jpg";
 
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
@@ -172,7 +173,7 @@ const Project = () => {
                   cover={
                     <img
                       alt="example"
-                      src={item.img}
+                      src={altImg}
                       className={styles.cardImg}
                     />
                   }

@@ -5,9 +5,9 @@ import { Tabs } from "antd";
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getUsers,
-  enterAdmin,
-  refuseAdmin,
+  getAllUser,
+  enterUser,
+  refuseUser,
 } from "../../store/actions/user_actions";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
@@ -21,7 +21,7 @@ const Master = () => {
 
   // 리덕스
   const dispatch = useDispatch();
-  const allUsers = useSelector((state) => state.User.get_users);
+  const allUsers = useSelector((state) => state.User.get_all_user);
 
   const items = [
     {

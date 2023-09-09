@@ -15,9 +15,9 @@ import { MinusOutlined } from "@ant-design/icons";
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getUsers,
-  enterAdmin,
-  refuseAdmin,
+  getAllUser,
+  enterUser,
+  refuseUser,
 } from "../../store/actions/user_actions";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
@@ -32,14 +32,14 @@ const Users = () => {
 
   // 리덕스
   const dispatch = useDispatch();
-  const allUsers = useSelector((state) => state.User.get_users);
+  const allUsers = useSelector((state) => state.User.get_all_user);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(0);
 
   // 데이터 불러오기
   useEffect(() => {
-    dispatch(getUsers());
+    dispatch(getAllUser());
   }, []);
 
   // 에러메세지 함수
@@ -58,11 +58,11 @@ const Users = () => {
     });
   };
 
-  const funcEnterAdmin = () => {
-    dispatch(enterAdmin(selectedId))
+  const funcEnterUser = () => {
+    dispatch(enterUser(selectedId))
       .then((res) => {
         if (res.payload === true) {
-          dispatch(getUsers());
+          dispatch(getAllUser());
         } else ResFunc(res.payload);
       })
       .catch((err) => {
@@ -70,11 +70,11 @@ const Users = () => {
       });
   };
 
-  const funcRefuseAdmin = () => {
-    dispatch(refuseAdmin(selectedId))
+  const funcRefuseUser = () => {
+    dispatch(refuseUser(selectedId))
       .then((res) => {
         if (res.payload === true) {
-          dispatch(getUsers());
+          dispatch(getAllUser());
         } else ResFunc(res.payload);
       })
       .catch((err) => {
@@ -92,7 +92,7 @@ const Users = () => {
         break;
       case 404:
         errorMsg("새로고침 후 다시 시도해주세요.");
-        dispatch(getUsers());
+        dispatch(getAllUser());
         break;
       case 500:
         errorMsg("관리자에게 문의해주세요.");
@@ -115,7 +115,7 @@ const Users = () => {
                 <Button
                   color="#868e96"
                   icon={<MinusOutlined />}
-                  onClick={() => funcRefuseAdmin()}
+                  onClick={() => funcRefuseUser()}
                 />,
               ]}
             >

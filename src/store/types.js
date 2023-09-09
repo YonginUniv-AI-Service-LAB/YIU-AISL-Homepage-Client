@@ -6,8 +6,21 @@ export const JOIN = "Join";
 export const LOGIN = "Login";
 // 로그인
 export const LOGOUT = "Logout";
+// 마이페이지
+export const MY_PAGE = "My_Page";
 
 // /user
+// 마스터 승인
+export const GIVE_AUTH = "Give_Auth";
+// 모든 회원 조회
+export const GET_ALL_USER = "Get_All_User";
+// 대기 중인 회원 조회
+export const GET_WAITING_USER = "Get_Waiting_User";
+// 회원 승인
+export const ENTER_USER = "Enter_User";
+// 회원 승인 철회
+export const REFUSE_USER = "Refuse_User";
+
 // 이메일 찾기
 export const FIND_EMAIL = "Find_Email";
 // 비밀번호 찾기
@@ -56,13 +69,5 @@ export const CREATE_PROJECT = "Create_Project";
 export const UPDATE_PROJECT = "Update_Project";
 // 프로젝트 삭제
 export const DELETE_PROJECT = "Delete_Project";
-
-// /admin
-// 모든 회원 조회
-export const GET_USERS = "Get_Users";
-// 대기중인 회원
-export const GET_WAITING_USERS = "Get_Waiting_Users";
-// 랩실 회원 승인
-export const ENTER_ADMIN = "Enter_Admin";
-// 랩실 회원 승인 철회
-export const REFUSE_ADMIN = "REFUSE_Admin";
+//  프로젝트 상세보기
+export const GET_PROJECT_DETAIL = "Get_Project_Detail";
