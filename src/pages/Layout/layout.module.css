@@ -17,3 +17,11 @@
   float: right;
   margin: 16px 0 16px 24px;
 }
+
+header {
+  width: 100%;
+}
+
+footer {
+  width: 100%;
+}

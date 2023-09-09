@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +14,8 @@ import {
   Col,
   Row,
   MenuProps,
+  Drawer,
+  theme,
 } from "antd";
 import { colors } from "../../assets/colors";
 
@@ -23,8 +26,32 @@ const DropdownItemStyle = {
 };
 
 const Header = () => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { token } = theme.useToken();
+  const [open, setOpen] = useState(false);
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+
+  const containerStyle = {
+    position: "relative",
+    height: 100,
+    padding: 48,
+    overflow: "hidden",
+    textAlign: "center",
+    background: token.colorFillAlter,
+    border: `1px solid ${token.colorBorderSecondary}`,
+    borderRadius: token.borderRadiusLG,
+  };
 
   const items = [
     {
@@ -65,6 +92,7 @@ const Header = () => {
   ];
   const funcLogout = () => {
     dispatch(logout());
+    sessionStorage.removeItem("accessToken");
     sessionStorage.removeItem("userid");
     sessionStorage.removeItem("name");
     sessionStorage.removeItem("email");
@@ -73,60 +101,22 @@ const Header = () => {
   };
 
   return (
-    <div>
-      <Row align={"middle"} justify={"space-evenly"}>
-        {/* 랩실 로고 */}
-        <Col span={4}>
-          <a href="/">
-            <p style={{ color: colors.yiu_dark_blue, fontSize: 30 }}>
-              AI Service Lab
-            </p>
-          </a>
-        </Col>
-
-        {/* 메인 네비 */}
-        <Col span={8}>
-          <Space wrap>
-            <ConfigProvider
-              theme={{
-                token: {
-                  borderRadius: 8,
-                },
-              }}
-            >
-              <Dropdown menu={{ items }} placement="bottom">
-                <Button
-                  type="text"
-                  size="large"
-                  onClick={() => navigate("/intro")}
-                >
-                  Introduce
-                </Button>
-              </Dropdown>
-            </ConfigProvider>
-            <HeaderNavBtn type={"text"} text="Project" href="/project" />
-            <HeaderNavBtn type={"text"} text="Notice" href="/notice" />
-            <HeaderNavBtn type={"text"} text="Community" href="/community" />
-            {sessionStorage.getItem("master") == 2 ? (
-              <HeaderNavBtn type={"text"} text="Master" href="/master" />
-            ) : null}
-          </Space>
-        </Col>
-        {/* 로그인&회원가입 */}
-        <Col span={4}>
+    <div style={{ width: "100%" }}>
+      {isMobile ? (
+        <div>
           {sessionStorage.getItem("userid") ? (
-            <Space
+            <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "flex-end",
               }}
             >
               <p
                 style={{
                   fontWeight: "bold",
-                  fontSize: 15,
-                  marginTop: 18,
+                  fontSize: isMobile ? 11 : 15,
+                  // marginTop: 50,
                 }}
               >
                 {sessionStorage.getItem("name")} 님
@@ -136,22 +126,151 @@ const Header = () => {
                 text="Logout"
                 onClick={() => funcLogout()}
               />
-            </Space>
+            </div>
           ) : (
-            <Space>
-              <Space>
-                <HeaderNavBtn type={"text"} text="Login" href="/login" />
-                <HeaderNavBtn type={"text"} text="Join" href="/join" />
-              </Space>
-            </Space>
-            // <HeaderNavBtn
-            //   type={"text"}
-            //   text="Logout"
-            //   onClick={() => dispatch(logout())}
-            // />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                marginTop: 10,
+                marginRight: 10,
+              }}
+            >
+              <HeaderNavBtn type={"text"} text="Login" href="/login" />
+              <HeaderNavBtn type={"text"} text="Join" href="/join" />
+            </div>
           )}
-        </Col>
-      </Row>
+
+          <a href="/">
+            <p
+              style={{
+                color: colors.yiu_dark_blue,
+                fontSize: 20,
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              AI Service Lab
+            </p>
+          </a>
+
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Space wrap>
+              <ConfigProvider
+                theme={{
+                  token: {
+                    borderRadius: 8,
+                    fontSize: isMobile ? 11 : 15,
+                  },
+                }}
+              >
+                <Dropdown menu={{ items }} placement="bottom">
+                  <Button
+                    type="text"
+                    size={isMobile ? "small" : "large"}
+                    onClick={() => navigate("/intro")}
+                  >
+                    Introduce
+                  </Button>
+                </Dropdown>
+              </ConfigProvider>
+              <HeaderNavBtn type={"text"} text="Project" href="/project" />
+              <HeaderNavBtn type={"text"} text="Notice" href="/notice" />
+              <HeaderNavBtn type={"text"} text="Community" href="/community" />
+              {sessionStorage.getItem("master") == 2 ? (
+                <HeaderNavBtn type={"text"} text="Master" href="/master" />
+              ) : null}
+            </Space>
+          </div>
+        </div>
+      ) : (
+        <Row align={"middle"} justify={"space-evenly"}>
+          {/* 랩실 로고 */}
+          <Col span={4}>
+            <a href="/">
+              <p
+                style={{
+                  color: colors.yiu_dark_blue,
+                  fontSize: isMobile ? 14 : 30,
+                  fontWeight: "bold",
+                }}
+              >
+                AI Service Lab
+              </p>
+            </a>
+          </Col>
+
+          {/* 메인 네비 */}
+          <Col span={8}>
+            <Space wrap>
+              <ConfigProvider
+                theme={{
+                  token: {
+                    borderRadius: 8,
+                    fontSize: isMobile ? 11 : 15,
+                  },
+                }}
+              >
+                <Dropdown menu={{ items }} placement="bottom">
+                  <Button
+                    type="text"
+                    size={isMobile ? "small" : "large"}
+                    onClick={() => navigate("/intro")}
+                  >
+                    Introduce
+                  </Button>
+                </Dropdown>
+              </ConfigProvider>
+              <HeaderNavBtn type={"text"} text="Project" href="/project" />
+              <HeaderNavBtn type={"text"} text="Notice" href="/notice" />
+              <HeaderNavBtn type={"text"} text="Community" href="/community" />
+              {sessionStorage.getItem("master") == 2 ? (
+                <HeaderNavBtn type={"text"} text="Master" href="/master" />
+              ) : null}
+            </Space>
+          </Col>
+          {/* 로그인&회원가입 */}
+          <Col span={4}>
+            {sessionStorage.getItem("userid") ? (
+              <Space
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <p
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: 15,
+                    marginTop: 18,
+                  }}
+                >
+                  {sessionStorage.getItem("name")} 님
+                </p>
+                <HeaderNavBtn
+                  type={"text"}
+                  text="Logout"
+                  onClick={() => funcLogout()}
+                />
+              </Space>
+            ) : (
+              <Space>
+                <Space>
+                  <HeaderNavBtn type={"text"} text="Login" href="/login" />
+                  <HeaderNavBtn type={"text"} text="Join" href="/join" />
+                </Space>
+              </Space>
+              // <HeaderNavBtn
+              //   type={"text"}
+              //   text="Logout"
+              //   onClick={() => dispatch(logout())}
+              // />
+            )}
+          </Col>
+        </Row>
+      )}
     </div>
   );
 };
