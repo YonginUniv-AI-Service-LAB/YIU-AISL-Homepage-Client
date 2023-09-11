@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createProject,
@@ -19,6 +20,11 @@ import { colors } from "../../assets/colors";
 import ValidationRules from "../../utils/ValidationRules";
 
 const ProjectForm = () => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   // 프로젝트 목록 페이지로부터 받은 데이터
   // create => 프로젝트 생성 / update => 프로젝트 수정
   const location = useLocation();
@@ -286,8 +292,8 @@ const ProjectForm = () => {
           name="basic"
           colon={false}
           style={{
-            minWidth: 700,
-            maxWidth: 800,
+            minWidth: isMobile ? 350 : 700,
+            maxWidth: isMobile ? 400 : 800,
           }}
           autoComplete="off"
           layout="vertical"

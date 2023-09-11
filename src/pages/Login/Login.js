@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 import { login } from "../../store/actions/main_actions";
 
 import { Form, Row, Col, message } from "antd";
@@ -15,6 +16,11 @@ import { colors } from "../../assets/colors";
 import ValidationRules from "../../utils/ValidationRules";
 
 const Login = () => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -119,8 +125,8 @@ const Login = () => {
           name="basic"
           colon={false}
           style={{
-            minWidth: 500,
-            maxWidth: 600,
+            minWidth: isMobile ? 350 : 500,
+            maxWidth: isMobile ? 400 : 600,
           }}
           // initialValues={{
           //   remember: true,

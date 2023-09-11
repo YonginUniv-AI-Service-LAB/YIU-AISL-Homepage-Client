@@ -143,7 +143,7 @@ export function deleteProject(data) {
 export function getProjectDetail(data) {
   console.log("상세보기 데이터: ", data);
   const request = axios({
-    method: "GET",
+    method: "POST",
     url: process.env.REACT_APP_GET_PROJECT_DETAIL,
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",

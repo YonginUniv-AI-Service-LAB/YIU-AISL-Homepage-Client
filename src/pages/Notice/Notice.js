@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import { Divider, Table, Pagination, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
@@ -10,10 +11,18 @@ import { getNotice, getNoticeDetail } from "../../store/actions/notice_actions";
 import PageTitle from "../../components/PageTitle/PageTitle";
 
 import styles from "./notice.module.css";
-import { notice_columns } from "../../assets/string/notice_columns";
+import {
+  notice_columns,
+  notice_columns_mobile,
+} from "../../assets/string/notice_columns";
 import axios from "axios";
 
 const Notice = () => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   // 페이지 이동
   const navigate = useNavigate();
 
@@ -54,7 +63,10 @@ const Notice = () => {
     <div style={{ marginBottom: 100 }}>
       {console.log("notice: ", axios.defaults.headers.common.Authorization)}
       <PageTitle title="Notice" />
-      <div className={styles.table_container}>
+      <div
+        className={styles.table_container}
+        style={{ width: isMobile ? "90%" : "60%" }}
+      >
         {sessionStorage.getItem("master") == 2 ? (
           <div className={styles.createBtn}>
             <Button
@@ -68,7 +80,7 @@ const Notice = () => {
         ) : null}
         {/* <Divider>notice</Divider> */}
         <Table
-          columns={notice_columns}
+          columns={isMobile ? notice_columns_mobile : notice_columns}
           dataSource={noticeList}
           size="large"
           rowClassName={styles.table_row}

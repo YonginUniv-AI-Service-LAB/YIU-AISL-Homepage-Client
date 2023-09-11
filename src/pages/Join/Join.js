@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import { Form, message } from "antd";
 
 // 리덕스 사용
@@ -17,6 +18,11 @@ import { questions } from "../../assets/string/question";
 import ValidationRules from "../../utils/ValidationRules";
 
 const Join = () => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -178,16 +184,16 @@ const Join = () => {
     <div>
       {contextHolder}
       <PageTitle title="Join" />
-      {pageChange === true ? (
+      {pageChange === false ? (
         <JoinComplete onClick={() => navigate("/login", { replace: true })} />
       ) : (
-        <div className={styles.form_container}>
+        <div>
           <Form
             name="basic"
             colon={false}
             style={{
-              minWidth: 500,
-              maxWidth: 600,
+              minWidth: isMobile ? 350 : 500,
+              maxWidth: isMobile ? 400 : 600,
             }}
             autoComplete="off"
             layout="vertical"

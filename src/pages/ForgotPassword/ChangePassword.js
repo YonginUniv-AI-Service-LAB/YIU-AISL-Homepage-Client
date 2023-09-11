@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, Input, ConfigProvider, Select, message } from "antd";
 import { MailOutlined } from "@ant-design/icons";
+import { useMediaQuery } from "react-responsive";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
 import { useDispatch } from "react-redux";
@@ -20,6 +21,11 @@ const onFinishFailed = (errorInfo) => {
 };
 
 const ChangePassword = (props) => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   const [messageApi, contextHolder] = message.useMessage();
 
   const [complete, setComplete] = useState(false);
@@ -160,8 +166,8 @@ const ChangePassword = (props) => {
           name="basic"
           colon={false}
           style={{
-            minWidth: 500,
-            maxWidth: 600,
+            minWidth: isMobile ? 350 : 500,
+            maxWidth: isMobile ? 400 : 600,
           }}
           // initialValues={{
           //   remember: true,

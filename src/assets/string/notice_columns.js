@@ -34,6 +34,33 @@ export const notice_columns = [
   },
 ];
 
+export const notice_columns_mobile = [
+  // {
+  //   title: "번호",
+  //   dataIndex: "noticeid",
+  //   width: 60,
+  // },
+  {
+    title: "작성일",
+    dataIndex: "createdAt",
+    width: 120,
+  },
+  {
+    title: "제목",
+    dataIndex: "title",
+  },
+  {
+    title: "작성자",
+    dataIndex: "writer",
+    width: 80,
+  },
+  {
+    title: "조회수",
+    dataIndex: "views",
+    width: 80,
+  },
+];
+
 export const notice_columns_main = [
   // {
   //   title: "번호",

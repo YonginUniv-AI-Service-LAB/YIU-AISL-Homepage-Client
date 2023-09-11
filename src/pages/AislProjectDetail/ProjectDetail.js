@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
@@ -21,11 +22,17 @@ import {
 import { EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
+import altImg from "../../assets/images/aisl_carousel_2000.jpg";
 
 import styles from "./projectdetail.module.css";
 import { colors } from "../../assets/colors";
 
 const ProjectDetail = () => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   // 프로젝트 목록 페이지로부터 받은 데이터
   const location = useLocation();
 
@@ -124,7 +131,16 @@ const ProjectDetail = () => {
       <div style={{ marginBottom: 100 }}>
         <PageTitle title="Project" />
         {data != undefined ? (
-          <div className={styles.contents_container}>
+          <div
+            // className={styles.contents_container}
+            style={{
+              margin: "0 auto",
+              width: isMobile ? "90%" : isTablet ? "80%" : "60%",
+              minHeight: 600,
+              // minWidth: isMobile ? 350 : 500,
+              // maxWidth: isMobile ? 400 : 700,
+            }}
+          >
             {sessionStorage.getItem("master") == 2 ? (
               <div className={styles.actionBtn_container}>
                 <Button
@@ -145,23 +161,26 @@ const ProjectDetail = () => {
                 />
               </div>
             ) : null}
-            <h1>{data.title}</h1>
-            <Row justify="space-between" className={styles.project_info}>
-              <Col span={12}>
+            <Row
+              justify="space-evenly"
+              style={{ alignItems: "end" }}
+              className={styles.project_info}
+            >
+              <Col span={24}>
+                <p style={{ fontSize: isMobile ? 20 : 27, fontWeight: "bold" }}>
+                  {data.title}
+                </p>
+              </Col>
+              {/* <Col span={12} style={{ textAlign: "end" }}>
                 <h3 className={styles.project_info_left}>
                   {console.log("시간: ", data.createdAt)}
-
-                  {/* <span>{data.createdAt.substring(0, 10)}</span>&nbsp;
-                  <span>{data.createdAt.substring(11, 19)}</span>
-                  <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span> */}
+                  <span>{data.createdAt.substring(0, 10)}</span>
+                  <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                   {data.writer}
                 </h3>
-              </Col>
-              <Col span={12} className={styles.project_info_right}>
-                <EyeOutlined size={3} />
-                &nbsp;&nbsp;&nbsp;
-                <h3>{data.views}</h3>
-              </Col>
+              </Col> */}
+              {/* &nbsp;
+                  <span>{data.createdAt.substring(11, 19)}</span> */}
             </Row>
             <Divider
               style={{
@@ -170,15 +189,36 @@ const ProjectDetail = () => {
                 border: "none",
               }}
             />
-            <p className={styles.project_contents}>{data.contents}</p>
+            <p
+              style={{
+                fontSize: isMobile ? 17 : 20,
+                fontWeight: "bold",
+                marginBottom: 50,
+              }}
+            >
+              {data.contents}
+            </p>
+            <Button
+              type="text"
+              block
+              onClick={() =>
+                window.open(data.link, "_blank", "noopener, noreferrer")
+              }
+            >
+              {data.title} Link
+            </Button>
             <br />
             <br />
             <br />
             <div className={styles.project_img}>
               <Image
-                width={"70%"}
-                // src={data.img}
-                src={data.img}
+                // width={"100%"}
+                height={"50%"}
+                src={`${data.img}`.replace(
+                  "aiservicelab.yongin.ac.kr/public",
+                  "localhost:3000"
+                )}
+                // src={altImg}
               />
             </div>
           </div>

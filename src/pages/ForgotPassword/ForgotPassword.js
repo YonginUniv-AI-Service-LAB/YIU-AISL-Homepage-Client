@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import { Button, Form, Input, ConfigProvider, Select, message } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 
@@ -15,6 +16,11 @@ import TextInput from "../../components/TextInput/TextInput";
 import Large_SubmitButton from "../../components/Button/Large_SubmitButton";
 
 const ForgotPassword = (props) => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   const [messageApi, contextHolder] = message.useMessage();
 
   const [complete, setComplete] = useState(false);
@@ -167,8 +173,8 @@ const ForgotPassword = (props) => {
             name="basic"
             colon={false}
             style={{
-              minWidth: 500,
-              maxWidth: 600,
+              minWidth: isMobile ? 350 : 500,
+              maxWidth: isMobile ? 400 : 600,
             }}
             onFinish={checkFormValid}
             autoComplete="off"

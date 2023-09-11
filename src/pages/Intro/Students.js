@@ -1,116 +1,73 @@
 import React from "react";
 import { Card, List, Avatar, Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
+import { useMediaQuery } from "react-responsive";
 
-import {
-  aisl_students1,
-  aisl_students2,
-} from "../../assets/string/aisl_students";
-import 정민기 from "../../assets/images/students/정민기_oon418@naver.com.jpg";
+import { aisl_students } from "../../assets/string/aisl_students";
 import styles from "./intro.module.css";
+import { colors } from "../../assets/colors";
 
 const { Meta } = Card;
 
 const Students = () => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   return (
-    <div style={{ marginBottom: 100 }} className={styles.container}>
-      <List
-        grid={{
-          gutter: 15,
-          // xs: 1,
-          // sm: 2,
-          // md: 4,
-          // lg: 4,
-          // xl: 6,
-          // xxl: 3,
+    <div
+      style={{ marginTop: "5vh", marginBottom: "5vh" }}
+      className={styles.container}
+    >
+      <div
+        style={{
+          display: "grid",
+          margin: isMobile ? 20 : 50,
+          textAlign: "center",
+          gridTemplateColumns: `repeat(auto-fit, minmax(${
+            isMobile ? "30vw" : "20vw"
+          }, 1fr))`,
+          gridAutoRows: "1fr",
+          rowGap: 30,
+          columnGap: 30,
         }}
-        style={{ display: "flex", justifyContent: "center", marginTop: 50 }}
-        dataSource={aisl_students1}
-        renderItem={(item) => (
-          <List.Item className="ant-row-flex">
-            <Card
-              hoverable
+      >
+        {aisl_students.map((item, index) => {
+          return (
+            <div
               style={{
-                width: 350,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: 20,
+                textAlign: "center",
+                borderRadius: 10,
+                backgroundColor: colors.grey_light2,
+                paddingTop: 30,
+                paddingBottom: 20,
               }}
-              cover={
-                <Avatar
-                  shape="circle"
-                  size={250}
-                  icon={<UserOutlined />}
-                  style={{
-                    // backgroundColor: color,
-                    verticalAlign: "middle",
-                    objectFit: "fill",
-                  }}
-                  src={item.img}
-                />
-              }
             >
-              <Meta
-                title={item.name}
-                description={
-                  <>
-                    <p>{item.office}</p>
-                    <p>{item.email}</p>
-                  </>
-                }
-                style={{ textAlign: "center" }}
+              <img
+                src={item.img}
+                style={{
+                  width: 150,
+                  height: 200,
+                  borderRadius: 10,
+                  marginRight: 15,
+                  objectFit: "contain",
+                }}
               />
-            </Card>
-          </List.Item>
-        )}
-      />
-      <List
-        grid={{
-          gutter: 15,
-          // xs: 1,
-          // sm: 2,
-          // md: 4,
-          // lg: 4,
-          // xl: 6,
-          // xxl: 3,
-        }}
-        style={{ display: "flex", justifyContent: "center", marginTop: 50 }}
-        dataSource={aisl_students2}
-        renderItem={(item) => (
-          <List.Item className="ant-row-flex">
-            <Card
-              hoverable
-              style={{
-                width: 350,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: 20,
-              }}
-              cover={
-                <Avatar
-                  shape="circle"
-                  size={250}
-                  icon={<UserOutlined />}
-                  src={item.img}
-                />
-              }
-            >
-              <Meta
-                title={item.name}
-                description={
-                  <>
-                    <p>{item.office}</p>
-                    <p>{item.email}</p>
-                  </>
-                }
-                style={{ textAlign: "center" }}
-              />
-            </Card>
-          </List.Item>
-        )}
-      />
+              <div>
+                <p style={{ fontSize: isMobile ? 15 : 20, fontWeight: "bold" }}>
+                  {item.name}
+                </p>
+                <p style={{ fontSize: isMobile ? 14 : 17 }}>
+                  {item.major}
+                  <br />
+                  {item.email}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

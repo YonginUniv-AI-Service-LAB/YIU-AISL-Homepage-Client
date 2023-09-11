@@ -8,7 +8,7 @@ import Students from "./Students";
 
 import { colors } from "../../assets/colors";
 
-const Members = () => {
+const People = () => {
   const location = useLocation();
 
   const items = [
@@ -27,7 +27,7 @@ const Members = () => {
   return (
     <div style={{ marginBottom: 100 }}>
       {console.log(location.state)}
-      <PageTitle title="Members" />
+      <PageTitle title="People" />
       <Tabs
         defaultActiveKey={1}
         // activeKey={location.state === "professors" ? 1 : 2}
@@ -42,4 +42,4 @@ const Members = () => {
   );
 };
 
-export default Members;
+export default People;

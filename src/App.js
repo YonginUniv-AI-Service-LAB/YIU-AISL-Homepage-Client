@@ -19,7 +19,7 @@ import Album from "./pages/Album/Album";
 import ForgotEmail from "./pages/ForgotEmail/ForgotEmail";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Intro from "./pages/Intro/Intro";
-import Members from "./pages/Intro/Members";
+import People from "./pages/Intro/People";
 import Login from "./pages/Login/Login";
 import Join from "./pages/Join/Join";
 import Community from "./pages/Community/Community";
@@ -42,7 +42,7 @@ function App(props) {
           <Route exact path="/forgotemail" element={<ForgotEmail />} />
           <Route exact path="/forgotpassword" element={<ForgotPassword />} />
           <Route exact path="/intro" element={<Intro />} />
-          <Route exact path="/intro/members" element={<Members />} />
+          <Route exact path="/intro/people" element={<People />} />
           <Route
             exact
             path="/login"

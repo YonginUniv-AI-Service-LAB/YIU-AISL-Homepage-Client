@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import {
   Divider,
   Table,
@@ -25,9 +26,16 @@ import { deleteProject, getProject } from "../../store/actions/project_actions";
 import PageTitle from "../../components/PageTitle/PageTitle";
 
 import styles from "./project.module.css";
+import { colors } from "../../assets/colors";
 
 const Project = () => {
   const { Meta } = Card;
+
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   // 페이지 이동
   const navigate = useNavigate();
 
@@ -121,9 +129,15 @@ const Project = () => {
   };
 
   return (
-    <div style={{ marginBottom: 100 }}>
+    <div>
       <PageTitle title="Project" />
-      <div className={styles.list_container}>
+      <div
+        style={{
+          width: isMobile ? "90%" : "60%",
+          textAlign: "center",
+          margin: "0 auto",
+        }}
+      >
         {sessionStorage.getItem("master") == 2 ? (
           <div className={styles.createBtn}>
             <Button
@@ -133,98 +147,68 @@ const Project = () => {
                 navigate("/project/create", { state: { type: "create" } })
               }
             />
+            <Divider
+              style={{
+                backgroundColor: colors.grey_light,
+                height: 2,
+                border: "none",
+              }}
+            />
           </div>
         ) : null}
-
-        <div className={styles.list_inner_container}>
-          <List
-            grid={{
-              column: getColumn(),
-              gutter: 25,
-              // xs: 1,
-              // sm: 2,
-              // md: 4,
-              // lg: 4,
-              // xl: 6,
-              // xxl: 3,
-            }}
-            style={{
-              marginTop: 50,
-            }}
-            className={styles.inner_container}
-            dataSource={data}
-            renderItem={(item) => (
-              <List.Item
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <Card
-                  hoverable
-                  onClick={() => navigate("/project/detail", { state: item })}
+      </div>
+      <div
+        style={{ marginTop: "10vh", marginBottom: "5vh" }}
+        className={styles.container}
+      >
+        <div
+          style={{
+            display: "grid",
+            margin: isMobile ? 20 : 50,
+            marginRight: 100,
+            marginLeft: 100,
+            textAlign: "center",
+            gridTemplateColumns: `repeat(auto-fill, minmax(${
+              isMobile ? "50vw" : "25vw"
+            }, 1fr))`,
+            gridAutoRows: "1fr",
+            rowGap: 30,
+            columnGap: 30,
+          }}
+        >
+          {data &&
+            data.map((item, index) => {
+              return (
+                <div
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    padding: 30,
+                    textAlign: "center",
+                    borderRadius: 10,
+                    // backgroundColor: colors.grey_light2,
+                    paddingBottom: 20,
+                    cursor: "pointer",
                   }}
-                  className={styles.card}
-                  cover={
-                    <img
-                      alt="example"
-                      src={altImg}
-                      className={styles.cardImg}
-                    />
+                  onClick={() =>
+                    navigate("/project/detail", { state: item.projectid })
                   }
                 >
-                  <Meta title={item.title} />
-                </Card>
-              </List.Item>
-            )}
-          />
+                  <img
+                    src={altImg}
+                    // src={item.img ? item.img : altImg}
+                    style={{
+                      width: "100%",
+                      borderRadius: 10,
+                      objectFit: "cover",
+                    }}
+                  />
+                  <p
+                    style={{ fontSize: isMobile ? 15 : 20, fontWeight: "bold" }}
+                  >
+                    {item.title}
+                  </p>
+                </div>
+              );
+            })}
         </div>
-        {/* <List
-          style={{
-            display: "flex",
-            // alignSelf: "center",
-            justifyContent: "center",
-          }}
-          grid={{
-            gutter: 20,
-            // xs: 1,
-            // sm: 2,
-            // md: 4,
-            // lg: 4,
-            // xl: 6,
-            // xxl: 3,
-          }}
-          dataSource={data}
-          renderItem={(item) => (
-            // <a
-            //   onClick={() =>
-            //     navigate("/project/detail", { state: item.projectid })
-            //   }
-            // >
-            <Card
-              hoverable
-              style={{
-                width: 300,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                padding: 10,
-              }}
-              onClick={() => navigate("/project/detail", { state: item })}
-              cover={
-                <img alt="example" src={item.img} className={styles.cardImg} />
-              }
-            >
-              <Meta title={item.title} />
-            </Card>
-            // </a>
-          )}
-        /> */}
       </div>
     </div>
   );

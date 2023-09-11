@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +27,11 @@ import styles from "./noticedetail.module.css";
 import { colors } from "../../assets/colors";
 
 const NoticeDetail = () => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   // 공지사항 목록 페이지로부터 받은 데이터
   const location = useLocation();
 
@@ -124,7 +130,16 @@ const NoticeDetail = () => {
       <div style={{ marginBottom: 100 }}>
         <PageTitle title="Notice" />
         {data != undefined ? (
-          <div className={styles.contents_container}>
+          <div
+            // className={styles.contents_container}
+            style={{
+              margin: "0 auto",
+              width: isMobile ? "90%" : isTablet ? "80%" : "60%",
+              minHeight: 600,
+              // minWidth: isMobile ? 350 : 500,
+              // maxWidth: isMobile ? 400 : 700,
+            }}
+          >
             {sessionStorage.getItem("master") == 2 ? (
               <div className={styles.actionBtn_container}>
                 <Button
@@ -145,13 +160,13 @@ const NoticeDetail = () => {
                 />
               </div>
             ) : null}
-            <h1>{data.title}</h1>
+            <p style={{ fontSize: isMobile ? 20 : 27 }}>{data.title}</p>
             <Row justify="space-between" className={styles.notice_info}>
               <Col span={12}>
                 <h3 className={styles.notice_info_left}>
                   {console.log(utcToKst(data.createdAt))}
-                  {/* <span>{data.createdAt.substring(0, 10)}</span>&nbsp;
-                  <span>{data.createdAt.substring(11, 19)}</span> */}
+                  <span>{data.createdAt.substring(0, 10)}</span>&nbsp;
+                  <span>{data.createdAt.substring(11, 19)}</span>
                   <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
                   {data.writer}
                 </h3>
@@ -169,15 +184,19 @@ const NoticeDetail = () => {
                 border: "none",
               }}
             />
-            <p className={styles.notice_contents}>{data.contents}</p>
+            <p style={{ fontSize: isMobile ? 17 : 20 }}>{data.contents}</p>
             <br />
             <br />
             <br />
             <div className={styles.notice_img}>
               <Image
-                width={"70%"}
-                // src={data.img}
-                src={data.img}
+                // width={"100%"}
+                height={"50%"}
+                src={`${data.img}`.replace(
+                  "aiservicelab.yongin.ac.kr/public",
+                  "localhost:3000"
+                )}
+                // src={altImg}
               />
             </div>
           </div>

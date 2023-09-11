@@ -7,52 +7,53 @@ import 변미현 from "../../assets/images/students/변미현_bmh2038@naver.com.
 import 안영환 from "../../assets/images/students/안영환_202033019@yiu.ac.kr.jpg";
 import 김승진 from "../../assets/images/students/김승진_ksj06030@naver.com.jpg";
 
-export const aisl_students1 = [
+export const aisl_students = [
   {
     name: "오하림",
     email: "xhhxrxm@naver.com",
+    major: "Computer Science",
     img: 오하림,
   },
   {
     name: "안병준",
     email: "abj13@naver.com",
+    major: "Computer Science",
     img: 안병준,
   },
   {
     name: "변정원",
     email: "bjbjbj0629@gmail.com",
+    major: "Computer Science",
     img: 변정원,
   },
   {
     name: "정민기",
     email: "oon418@naver.com",
+    major: "Computer Science",
     img: 정민기,
   },
-  // {
-  //   name: "심웅섭",
-  //   email: "simwoongseob@gmail.com",
-  // },
-];
-
-export const aisl_students2 = [
   {
     name: "김예서",
     email: "callikys@naver.com",
+    major: "Computer Science",
     img: 김예서,
   },
   {
     name: "변미현",
-    email: "bmh2038@naver.com",
+    email: "dvlpnoodle@gmail.com",
+    major: "Computer Science",
     img: 변미현,
   },
   {
     name: "안영환",
     email: "202033019@yiu.ac.kr",
+    major: "Computer Science",
     img: 안영환,
   },
   {
     name: "김승진",
     email: "ksj06030@naver.com",
+    major: "Computer Science",
     img: 김승진,
   },
 ];

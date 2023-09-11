@@ -30,6 +30,7 @@ const Header = () => {
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -65,11 +66,11 @@ const Header = () => {
     },
     {
       key: "2",
-      label: "Members",
+      label: "People",
       style: DropdownItemStyle,
       onClick: () => {
         // setMembers("professors");
-        navigate("/intro/members");
+        navigate("/intro/people");
       },
     },
     // {
