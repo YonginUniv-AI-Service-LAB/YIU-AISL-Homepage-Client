@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +16,11 @@ import MainContent from "./MainContent";
 import styles from "./main.module.css";
 
 const Main = (props) => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   // 리덕스
   const dispatch = useDispatch();
   const notice = useSelector((state) => state.Main.notice);

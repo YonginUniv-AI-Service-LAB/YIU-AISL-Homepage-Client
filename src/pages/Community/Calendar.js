@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 import { Alert, Calendar, Badge } from "antd";
 import dayjs from "dayjs";
 import { colors } from "../../assets/colors";
@@ -10,6 +11,11 @@ const getMonthData = (value) => {
 };
 
 const CommunityCalendar = (props) => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   const [value, setValue] = useState(() => dayjs(new Date()));
   const [selectedValue, setSelectedValue] = useState(() => dayjs(new Date()));
 

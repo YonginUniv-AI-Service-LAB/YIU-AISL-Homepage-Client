@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -27,12 +28,18 @@ import VirtualList from "rc-virtual-list";
 import dayjs from "dayjs";
 import styles from "./community.module.css";
 import { colors } from "../../assets/colors";
+import NoData from "../../components/NoData/NoData";
 import ValidationRules from "../../utils/ValidationRules";
 
 // 섹션 높이 지정
 const ContainerHeight = 300;
 
 const CommunityPlan = (props) => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   const dispatch = useDispatch();
 
   const { TextArea } = Input;
@@ -279,70 +286,68 @@ const CommunityPlan = (props) => {
     <div>
       {contextHolder}
       {/* 섹션 타이틀 */}
-      <Row align={"middle"}>
-        <Col span={8}>
-          <h1 className={styles.section_title}>Plan</h1>
-        </Col>
-        <Col span={7} offset={9}>
-          {sessionStorage.getItem("master") == 2 ? (
-            <Button
-              color="#868e96"
-              icon={<PlusOutlined />}
-              onClick={() => {
-                setData();
-                setType("create");
-                showModal();
-              }}
-            />
-          ) : null}
-        </Col>
-      </Row>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h1 className={styles.section_title}>Plan</h1>
+        {sessionStorage.getItem("master") == 2 ? (
+          <Button
+            color="#868e96"
+            icon={<PlusOutlined />}
+            onClick={() => {
+              setData();
+              setType("create");
+              showModal();
+            }}
+          />
+        ) : null}
+      </div>
 
-      <Row>
-        <Col span={19}>
-          <Card>
-            {props.no == true ? (
-              <h3 style={{ textAlign: "center" }}>일정이 없습니다</h3>
-            ) : (
-              <VirtualList
-                data={props.data}
-                height={ContainerHeight}
-                itemHeight={0}
-                itemKey="key"
+      {props.no == true ? (
+        <NoData text={"일정이 없습니다"} />
+      ) : (
+        <VirtualList
+          data={props.data}
+          height={ContainerHeight}
+          itemHeight={0}
+          itemKey="key"
+        >
+          {(item) =>
+            props.date == item.date.substring(0, 10) ? (
+              <List.Item
+                key={item.key}
+                actions={() => setForm(item)}
+                className={styles.plan_item}
               >
-                {(item) =>
-                  props.date == item.date.substring(0, 10) ? (
-                    <List.Item
-                      key={item.key}
-                      actions={() => setForm(item)}
-                      className={styles.plan_item}
-                    >
-                      <Row align={"middle"} justify={"space-between"}>
-                        <Col
-                          span={sessionStorage.getItem("master") == 2 ? 23 : 24}
-                        >
-                          <p>{item.contents}</p>
-                        </Col>
-                        {sessionStorage.getItem("master") == 2 ? (
-                          <Col span={1}>
-                            <Dropdown
-                              menu={{
-                                onClick: () => setData(item),
-                                items,
-                              }}
-                              placement="bottom"
-                            >
-                              <Button
-                                className={styles.community_btn}
-                                type="text"
-                                icon={<MoreOutlined />}
-                                style={{ textAlign: "center" }}
-                              ></Button>
-                            </Dropdown>
-                          </Col>
-                        ) : null}
-                      </Row>
-                      {/* {sessionStorage.getItem("master") == 2 ? (
+                <Row align={"middle"} justify={"space-between"}>
+                  <Col span={sessionStorage.getItem("master") == 2 ? 23 : 24}>
+                    <p>{item.contents}</p>
+                  </Col>
+                  {sessionStorage.getItem("master") == 2 ? (
+                    <Col span={1}>
+                      <Dropdown
+                        menu={{
+                          onClick: () => setData(item),
+                          items,
+                        }}
+                        placement="bottom"
+                      >
+                        <Button
+                          className={styles.community_btn}
+                          type="text"
+                          icon={<MoreOutlined />}
+                          style={{ textAlign: "center" }}
+                        ></Button>
+                      </Dropdown>
+                    </Col>
+                  ) : null}
+                </Row>
+                {/* {sessionStorage.getItem("master") == 2 ? (
                         <Dropdown
                           menu={{
                             onClick: () => setData(item),
@@ -359,16 +364,13 @@ const CommunityPlan = (props) => {
                           <b>{item.contents}</b>
                         </Button>
                       )} */}
-                    </List.Item>
-                  ) : (
-                    <></>
-                  )
-                }
-              </VirtualList>
-            )}
-          </Card>
-        </Col>
-      </Row>
+              </List.Item>
+            ) : (
+              <></>
+            )
+          }
+        </VirtualList>
+      )}
 
       {/* 모달 */}
       <Modal

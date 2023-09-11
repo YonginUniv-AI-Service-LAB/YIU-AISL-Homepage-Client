@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 import { Row, Col } from "antd";
 import dayjs from "dayjs";
 
@@ -16,6 +17,11 @@ import CommunityPost from "./Post";
 import { test } from "../../assets/data/test";
 
 const Community = (props) => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   const [selectedValue, setSelectedValue] = useState(() => dayjs(new Date()));
   const [calendarData, setCalendarDate] = useState([]);
   const [noPlan, setNoPlan] = useState(true);
@@ -99,29 +105,32 @@ const Community = (props) => {
   };
 
   return (
-    <div style={{ marginBottom: 100 }}>
+    <div style={{ width: "100%" }}>
       <PageTitle title="Community" />
       <h2 className={styles.page_date}>{`${selectedValue?.format(
         "YYYY-MM-DD"
       )}`}</h2>
 
       {plan != undefined && post != undefined ? (
-        <Row style={{ marginLeft: 50, marginRight: 50 }}>
-          {/* 왼쪽 - 달력 */}
-          <Col span={11}>
-            <CommunityCalendar
-              setDate={setSelectedValue}
-              data_plan={plan}
-              data_post={post}
-              data={calendarData}
-            />
-          </Col>
-
-          {/* 왼쪽-오른쪽 사이 중간 여백 */}
-          <Col span={2}></Col>
-
-          {/* 오른쪽 섹션1 - 주요일정 */}
-          <Col span={11}>
+        <div
+          style={{
+            display: "grid",
+            margin: isMobile ? 20 : 50,
+            gridTemplateColumns: `repeat(auto-fit, minmax(${
+              isMobile ? "50vw" : isTablet ? "45vw" : "40vw"
+            }, 1fr))`,
+            gridAutoRows: "1fr",
+            rowGap: 30,
+            columnGap: 70,
+          }}
+        >
+          <CommunityCalendar
+            setDate={setSelectedValue}
+            data_plan={plan}
+            data_post={post}
+            data={calendarData}
+          />
+          <div>
             <CommunityPlan
               date={`${selectedValue?.format("YYYY-MM-DD")}`}
               data={plan}
@@ -138,8 +147,8 @@ const Community = (props) => {
               no={noPost}
               rerender={() => dispatch(getCommunity())}
             />
-          </Col>
-        </Row>
+          </div>
+        </div>
       ) : null}
     </div>
   );

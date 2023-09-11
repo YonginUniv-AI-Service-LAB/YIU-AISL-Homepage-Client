@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useMediaQuery } from "react-responsive";
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -29,12 +30,18 @@ import { MoreOutlined, LikeOutlined, PlusOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
 import styles from "./community.module.css";
 import { colors } from "../../assets/colors";
+import NoData from "../../components/NoData/NoData";
 import ValidationRules from "../../utils/ValidationRules";
 
 // 섹션 높이 지정
 const ContainerHeight = 400;
 
 const CommunityPost = (props) => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   const dispatch = useDispatch();
 
   const { TextArea } = Input;
@@ -303,119 +310,115 @@ const CommunityPost = (props) => {
     <div>
       {contextHolder}
       {/* 섹션 타이틀 */}
-      <Row align={"middle"}>
-        <Col span={8}>
-          <h1 className={styles.section_title}>Post</h1>
-        </Col>
-        <Col span={7} offset={9}>
-          {sessionStorage.getItem("userid") ? (
-            <Button
-              color="#868e96"
-              icon={<PlusOutlined />}
-              onClick={() => {
-                setData();
-                setType("create");
-                showModal();
-              }}
-            />
-          ) : null}
-        </Col>
-      </Row>
-      <Row>
-        <Col span={19}>
-          <Card>
-            {props.no == true ? (
-              <h3 style={{ textAlign: "center" }}>글이 없습니다</h3>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <h1 className={styles.section_title}>Post</h1>
+        {sessionStorage.getItem("master") == 2 ? (
+          <Button
+            color="#868e96"
+            icon={<PlusOutlined />}
+            onClick={() => {
+              setData();
+              setType("create");
+              showModal();
+            }}
+          />
+        ) : null}
+      </div>
+
+      {props.no == true ? (
+        <NoData text={"글이 없습니다"} />
+      ) : (
+        <VirtualList
+          data={props.data}
+          height={ContainerHeight}
+          itemHeight={0}
+          itemKey="key"
+        >
+          {(item) =>
+            props.date == item.createdAt.substring(0, 10) ? (
+              <List.Item key={item.key} className={styles.post_container}>
+                <Row align={"middle"} justify={"space-between"}>
+                  <Col span={sessionStorage.getItem("master") == 2 ? 22 : 24}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        fontWeight: "bold",
+                        marginLeft: 5,
+                        paddingTop: 20,
+                      }}
+                    >
+                      <span>{item.writer}</span>
+                      <span>{item.createdAt.substring(0, 10)}</span>
+                    </div>
+                    <p
+                      style={{
+                        backgroundColor: "white",
+                        padding: 10,
+                        borderRadius: 8,
+                      }}
+                    >
+                      {item.contents}
+                    </p>
+                    {sessionStorage.getItem("userid") ? (
+                      <Button
+                        type="text"
+                        icon={<LikeOutlined />}
+                        className={styles.like_btn}
+                        block={true}
+                        disabled={false}
+                        onClick={() => clickLikeBtn(item.postid)}
+                      >
+                        &nbsp;{item.likers.length}
+                      </Button>
+                    ) : (
+                      <span
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          paddingTop: 5,
+                          paddingBottom: 19,
+                        }}
+                      >
+                        <LikeOutlined />
+                        &nbsp;&nbsp;&nbsp;{item.likers.length}
+                      </span>
+                    )}
+                  </Col>
+                  {/* <Col span={1} /> */}
+                  <Col span={2} style={{ paddingLeft: 10 }}>
+                    {sessionStorage.getItem("name") == item.writer ? (
+                      <Dropdown
+                        menu={{
+                          onClick: () => setData(item),
+                          items,
+                        }}
+                        placement="bottom"
+                      >
+                        <Button
+                          className={styles.community_btn}
+                          type="text"
+                          icon={<MoreOutlined />}
+                          style={{ textAlign: "center" }}
+                        ></Button>
+                      </Dropdown>
+                    ) : null}
+                  </Col>
+                </Row>
+              </List.Item>
             ) : (
-              <VirtualList
-                data={props.data}
-                height={ContainerHeight}
-                itemHeight={0}
-                itemKey="key"
-              >
-                {(item) =>
-                  props.date == item.createdAt.substring(0, 10) ? (
-                    <List.Item key={item.key} className={styles.post_container}>
-                      <Row align={"middle"} justify={"space-between"}>
-                        <Col
-                          span={sessionStorage.getItem("master") == 2 ? 22 : 24}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                              fontWeight: "bold",
-                              marginLeft: 5,
-                              paddingTop: 20,
-                            }}
-                          >
-                            <span>{item.writer}</span>
-                            <span>{item.createdAt.substring(0, 10)}</span>
-                          </div>
-                          <p
-                            style={{
-                              backgroundColor: "white",
-                              padding: 10,
-                              borderRadius: 8,
-                            }}
-                          >
-                            {item.contents}
-                          </p>
-                          {sessionStorage.getItem("userid") ? (
-                            <Button
-                              type="text"
-                              icon={<LikeOutlined />}
-                              className={styles.like_btn}
-                              block={true}
-                              disabled={false}
-                              onClick={() => clickLikeBtn(item.postid)}
-                            >
-                              &nbsp;{item.likers.length}
-                            </Button>
-                          ) : (
-                            <span
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                paddingTop: 5,
-                                paddingBottom: 19,
-                              }}
-                            >
-                              <LikeOutlined />
-                              &nbsp;&nbsp;&nbsp;{item.likers.length}
-                            </span>
-                          )}
-                        </Col>
-                        {/* <Col span={1} /> */}
-                        <Col span={2} style={{ paddingLeft: 10 }}>
-                          {sessionStorage.getItem("name") == item.writer ? (
-                            <Dropdown
-                              menu={{
-                                onClick: () => setData(item),
-                                items,
-                              }}
-                              placement="bottom"
-                            >
-                              <Button
-                                className={styles.community_btn}
-                                type="text"
-                                icon={<MoreOutlined />}
-                                style={{ textAlign: "center" }}
-                              ></Button>
-                            </Dropdown>
-                          ) : null}
-                        </Col>
-                      </Row>
-                    </List.Item>
-                  ) : (
-                    <></>
-                  )
-                }
-              </VirtualList>
-            )}
-          </Card>
-        </Col>
-      </Row>
+              <></>
+            )
+          }
+        </VirtualList>
+      )}
 
       {/* 모달 */}
       <Modal

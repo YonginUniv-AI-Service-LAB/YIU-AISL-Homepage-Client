@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
+import { useMediaQuery } from "react-responsive";
 
 import { Row, Col, Calendar, Table, List, Button, Badge, Popover } from "antd";
 import VirtualList from "rc-virtual-list";
@@ -17,6 +18,11 @@ const onPanelChange = (value, mode) => {
 const ContainerHeight = 330;
 
 const MainContent = (props) => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   const [today, setToday] = useState(() => dayjs(new Date()));
   const [descPost, setDescPost] = useState([]);
 
