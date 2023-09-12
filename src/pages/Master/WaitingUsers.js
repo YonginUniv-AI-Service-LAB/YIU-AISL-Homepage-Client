@@ -15,6 +15,7 @@ import {
   EyeOutlined,
   EditOutlined,
   DeleteOutlined,
+  MinusOutlined,
 } from "@ant-design/icons";
 
 // 리덕스
@@ -38,7 +39,7 @@ const WaitingUsers = () => {
 
   // 리덕스
   const dispatch = useDispatch();
-  const data = useSelector((state) => state.User.get_all_users);
+  const data = useSelector((state) => state.User.get_waiting_user);
   // const data = useSelector((state) => state.User.get_waiting_users);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,8 +66,8 @@ const WaitingUsers = () => {
     });
   };
 
-  const funcEnterUser = () => {
-    dispatch(enterUser(selectedId))
+  const funcEnterUser = (userid) => {
+    dispatch(enterUser(userid))
       .then((res) => {
         if (res.payload === true) {
           dispatch(getWaitingUser());
@@ -115,52 +116,23 @@ const WaitingUsers = () => {
     <div style={{ marginBottom: 100 }}>
       <div className={styles.list_container}>
         <List
-          // style={{
-          //   minWidth: 1000,
-          //   maxWidth: 1200,
-          // }}
+          style={{ width: 700, alignSelf: "center" }}
           itemLayout="horizontal"
           dataSource={data}
-          renderItem={(item) => (
-            // <a
-            //   onClick={() =>
-            //     navigate("/project/detail", { state: item.projectid })
-            //   }
-            // >
-            <Card
-              style={{
-                marginTop: 16,
-              }}
-              type="inner"
-              title={<h3>{item.title}</h3>}
-              extra={
-                sessionStorage.getItem("master") == 2 ? (
-                  <div className={styles.actionBtn_container}>
-                    <Button
-                      color="#868e96"
-                      icon={<EditOutlined />}
-                      onClick={() => funcEnterUser()}
-                    />
-                    &nbsp;&nbsp;
-                    <Button
-                      color="#868e96"
-                      icon={<DeleteOutlined />}
-                      onClick={() => funcRefuseUser()}
-                    />
-                  </div>
-                ) : null
-              }
-              // extra={<a href={item.link}>Link</a>}
+          renderItem={(item, index) => (
+            <List.Item
+              actions={[
+                <Button
+                  color="#868e96"
+                  icon={<PlusOutlined />}
+                  onClick={() => funcEnterUser(item.userid)}
+                />,
+              ]}
             >
-              {item.contents}
-              <br />
-              <br />
-              <a href={item.link}>Link</a>
-            </Card>
-            // </a>
+              <List.Item.Meta title={item.name} description={item.email} />
+            </List.Item>
           )}
         />
-
         {/* <Divider>notice</Divider> */}
         {/* <Table
           columns={notice_columns}

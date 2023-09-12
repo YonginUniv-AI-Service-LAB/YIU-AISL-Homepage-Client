@@ -70,8 +70,8 @@ const Users = () => {
       });
   };
 
-  const funcRefuseUser = () => {
-    dispatch(refuseUser(selectedId))
+  const funcRefuseUser = (userid) => {
+    dispatch(refuseUser(userid))
       .then((res) => {
         if (res.payload === true) {
           dispatch(getAllUser());
@@ -115,7 +115,7 @@ const Users = () => {
                 <Button
                   color="#868e96"
                   icon={<MinusOutlined />}
-                  onClick={() => funcRefuseUser()}
+                  onClick={() => funcRefuseUser(item.userid)}
                 />,
               ]}
             >

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useNavigate } from "react";
 import { Card, List, Avatar, Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useMediaQuery } from "react-responsive";
+import { useParams } from "react-router-dom";
 
 import userImg from "../../assets/images/user.png";
 import { aisl_professors } from "../../assets/string/aisl_professors";
@@ -16,6 +17,8 @@ const Professors = () => {
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isNotMobile = useMediaQuery({ minWidth: 768 });
+
+  const navigate = useNavigate();
 
   return (
     <div
@@ -48,6 +51,7 @@ const Professors = () => {
                 backgroundColor: colors.grey_light2,
                 padding: 50,
               }}
+              onClick={() => navigate("/intro")}
             >
               <img
                 src={item.img ? item.img : userImg}
