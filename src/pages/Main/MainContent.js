@@ -81,10 +81,21 @@ const MainContent = (props) => {
   };
 
   return (
-    <div style={{ marginLeft: 100, marginRight: 100 }}>
-      <Row gutter={16}>
+    <div style={{ margin: isMobile ? 50 : isTablet ? 70 : 15 }}>
+      <div
+        style={{
+          display: "grid",
+          textAlign: "center",
+          gridTemplateColumns: `repeat(auto-fit, minmax(${
+            isMobile ? "50vw" : isTablet ? "45vw" : "25vw"
+          }, 1fr))`,
+          gridAutoRows: "1fr",
+          rowGap: 30,
+          columnGap: 15,
+        }}
+      >
         {/* 메인 - 공지사항 */}
-        <Col span={8}>
+        <div>
           <ContentBox
             title="Notice"
             onClick={() => props.onClick("/notice")}
@@ -97,10 +108,10 @@ const MainContent = (props) => {
               />
             }
           />
-        </Col>
+        </div>
 
         {/* 메인 - 커뮤니티 */}
-        <Col span={8}>
+        <div>
           <ContentBox
             title="Community"
             onClick={() => props.onClick("/community")}
@@ -155,10 +166,10 @@ const MainContent = (props) => {
               </div>
             }
           />
-        </Col>
+        </div>
 
         {/* 메인 - 달력(일정) */}
-        <Col span={8}>
+        <div>
           <ContentBox
             title="Calendar"
             onClick={() => props.onClick("/community")}
@@ -170,8 +181,8 @@ const MainContent = (props) => {
               />
             }
           />
-        </Col>
-      </Row>
+        </div>
+      </div>
     </div>
   );
 };

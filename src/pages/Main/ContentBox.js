@@ -29,7 +29,7 @@ const ContentBox = (props) => {
     <Card
       hoverable={true}
       title={<h2>{props.title}</h2>}
-      style={{ height: 500 }}
+      style={{ height: 550 }}
       // extra={<a href={props.onClick}>더보기</a>}
       extra={
         <Button type="link" onClick={props.onClick}>

@@ -14,6 +14,7 @@ import MainIntro from "./MainIntro";
 import MainContent from "./MainContent";
 
 import styles from "./main.module.css";
+import MainProject from "./MainProject";
 
 const Main = (props) => {
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
@@ -87,9 +88,15 @@ const Main = (props) => {
 
   return (
     <div>
-      <Container style={{ marginTop: 100, marginBottom: 100 }}>
+      <Container
+        style={{
+          marginTop: isMobile ? 50 : 100,
+          marginBottom: isMobile ? 50 : 100,
+        }}
+      >
         <MainCarousel />
         <MainIntro />
+        <MainProject />
         <Slide bottom>
           <MainContent
             onClick={(page) => navigate(page)}

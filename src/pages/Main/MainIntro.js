@@ -16,21 +16,31 @@ const MainIntro = () => {
     <div
       style={{
         textAlign: "center",
-        marginTop: 100,
-        marginBottom: 150,
-        marginLeft: 100,
-        marginRight: 100,
+        margin: "0 auto",
+        width: isMobile ? "90%" : isTablet ? "70%" : "50%",
         whiteSpace: "pre-line",
       }}
     >
       <Fade top>
-        <h1 style={{ color: colors.yiu_dark_blue }}>AI SERVICE LAB</h1>
+        <p
+          style={{
+            color: colors.yiu_dark_blue,
+            fontSize: isMobile ? 25 : 35,
+            fontWeight: "bold",
+          }}
+        >
+          AI SERVICE LAB
+        </p>
         <div className={styles.hr} />
       </Fade>
 
       <Fade bottom>
-        <h2>{aisl.slogan}</h2>
-        <h3>{aisl.mainMsg}</h3>
+        <p style={{ fontWeight: "bold", fontSize: isMobile ? 20 : 25 }}>
+          {aisl.slogan}
+        </p>
+        <p style={{ fontWeight: "bold", fontSize: isMobile ? 15 : 20 }}>
+          {aisl.mainMsg}
+        </p>
       </Fade>
     </div>
   );
