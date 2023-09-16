@@ -44,11 +44,11 @@ function App(props) {
           <Route exact path="/forgotpassword" element={<ForgotPassword />} />
           <Route exact path="/intro" element={<Intro />} />
           <Route exact path="/intro/people" element={<People />} />
-          {/* <Route
+          <Route
             exact
             path="/intro/people/professor/:id"
             element={<Professor />}
-          /> */}
+          />
           <Route
             exact
             path="/login"

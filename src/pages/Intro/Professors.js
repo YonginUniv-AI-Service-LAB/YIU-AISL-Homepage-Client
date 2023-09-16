@@ -1,4 +1,4 @@
-import React, { useNavigate } from "react";
+import React from "react";
 import { Card, List, Avatar, Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useMediaQuery } from "react-responsive";
@@ -9,16 +9,15 @@ import { aisl_professors } from "../../assets/string/aisl_professors";
 
 import styles from "./intro.module.css";
 import { colors } from "../../assets/colors";
+import Card_Professor from "../../components/Card/Card_Professor";
 
 const { Meta } = Card;
 
-const Professors = () => {
+const Professors = (props) => {
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isNotMobile = useMediaQuery({ minWidth: 768 });
-
-  const navigate = useNavigate();
 
   return (
     <div
@@ -28,52 +27,22 @@ const Professors = () => {
       <div
         style={{
           display: "grid",
-          margin: isMobile ? 20 : 100,
-          marginRight: isMobile ? 20 : isTablet ? 100 : 220,
-          marginLeft: isMobile ? 20 : isTablet ? 100 : 220,
+          margin: isMobile ? 50 : isTablet ? 120 : 140,
           textAlign: "center",
-          gridTemplateColumns: `repeat(auto-fill, minmax(${
-            isMobile ? "70%" : "60%"
+          gridTemplateColumns: `repeat(auto-fit, minmax(${
+            isMobile ? "50vw" : isTablet ? "40vw" : "25vw"
           }, 1fr))`,
           gridAutoRows: "1fr",
-          rowGap: 30,
-          columnGap: 30,
+          rowGap: 50,
+          columnGap: 50,
         }}
       >
         {aisl_professors.map((item, index) => {
           return (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                textAlign: "center",
-                borderRadius: 10,
-                backgroundColor: colors.grey_light2,
-                padding: 50,
-              }}
-              onClick={() => navigate("/intro")}
-            >
-              <img
-                src={item.img ? item.img : userImg}
-                style={{
-                  width: 150,
-                  height: 200,
-                  borderRadius: 10,
-                  marginRight: 30,
-                  objectFit: "contain",
-                }}
-              />
-              <div style={{ textAlign: "start" }}>
-                <p style={{ fontSize: isMobile ? 15 : 20, fontWeight: "bold" }}>
-                  {item.name} 교수
-                </p>
-                <p style={{ fontSize: isMobile ? 14 : 17 }}>
-                  {item.office}
-                  <br />
-                  {item.email}
-                </p>
-              </div>
-            </div>
+            <Card_Professor
+              item={item}
+              onClick={() => props.moveProfessorDetail(item.id)}
+            />
           );
         })}
       </div>

@@ -103,7 +103,7 @@ const Header = () => {
 
   return (
     <div style={{ width: "100%" }}>
-      {isMobile ? (
+      {isMobile || isTablet ? (
         <div>
           {sessionStorage.getItem("userid") ? (
             <div
@@ -116,7 +116,7 @@ const Header = () => {
               <p
                 style={{
                   fontWeight: "bold",
-                  fontSize: isMobile ? 11 : 15,
+                  fontSize: isMobile ? 11 : isTablet ? 13 : 15,
                   // marginTop: 50,
                 }}
               >
@@ -147,7 +147,7 @@ const Header = () => {
             <p
               style={{
                 color: colors.yiu_dark_blue,
-                fontSize: 20,
+                fontSize: isMobile ? 20 : 25,
                 fontWeight: "bold",
                 textAlign: "center",
               }}
@@ -162,7 +162,7 @@ const Header = () => {
                 theme={{
                   token: {
                     borderRadius: 8,
-                    fontSize: isMobile ? 11 : 15,
+                    fontSize: isMobile ? 11 : 14,
                   },
                 }}
               >
@@ -188,12 +188,12 @@ const Header = () => {
       ) : (
         <Row align={"middle"} justify={"space-evenly"}>
           {/* 랩실 로고 */}
-          <Col span={4}>
+          <Col span={5}>
             <a href="/">
               <p
                 style={{
                   color: colors.yiu_dark_blue,
-                  fontSize: isMobile ? 14 : 30,
+                  fontSize: isMobile ? 14 : 29,
                   fontWeight: "bold",
                 }}
               >
@@ -203,13 +203,13 @@ const Header = () => {
           </Col>
 
           {/* 메인 네비 */}
-          <Col span={8}>
+          <Col span={11}>
             <Space wrap>
               <ConfigProvider
                 theme={{
                   token: {
                     borderRadius: 8,
-                    fontSize: isMobile ? 11 : 15,
+                    fontSize: isMobile ? 11 : 14,
                   },
                 }}
               >

@@ -1,4 +1,5 @@
 export const professor_ehkim = {
+  id: "ehkim",
   Department: `Associate Professor in the Department of Artificial Intelligence at the University of YongIn, Republic of Korea
   Address: 134, Yongindaehak-ro, Cheoin-gu, Yongin-si, Gyeonggi-do, Republic of Korea`,
   Email: `ehkimanna@yongin.ac.kr`,

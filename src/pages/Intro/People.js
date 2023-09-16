@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Tabs } from "antd";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
@@ -8,14 +8,21 @@ import Students from "./Students";
 
 import { colors } from "../../assets/colors";
 
-const People = () => {
+const People = (props) => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const items = [
     {
       key: 1,
       label: <h2>Professors</h2>,
-      children: <Professors />,
+      children: (
+        <Professors
+          moveProfessorDetail={(id) =>
+            navigate(`/intro/people/professor/${id}`)
+          }
+        />
+      ),
     },
     {
       key: 2,

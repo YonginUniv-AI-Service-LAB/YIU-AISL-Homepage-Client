@@ -1,4 +1,5 @@
 export const professor_wjlee = {
+  id: "wjlee",
   Department: `Division of Artificial Intelligence
   College of AI Convergence
   Yong In University

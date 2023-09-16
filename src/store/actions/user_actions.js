@@ -158,7 +158,7 @@ export function enterUser(data) {
       Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {
-      userid: data.userid,
+      userid: data,
     },
   })
     .then((response) => {
@@ -184,7 +184,7 @@ export function refuseUser(data) {
       Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {
-      userid: data.userid,
+      userid: data,
     },
   })
     .then((response) => {

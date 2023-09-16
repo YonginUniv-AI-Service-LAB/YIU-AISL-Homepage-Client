@@ -13,7 +13,7 @@ const HeaderNavBtn = (props) => {
       theme={{
         token: {
           borderRadius: 8,
-          fontSize: isMobile ? 11 : 15,
+          fontSize: isMobile ? 11 : 14,
         },
       }}
     >

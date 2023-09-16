@@ -1,4 +1,5 @@
 export const professor_kjkim = {
+  id: "kjkim",
   Department: ``,
   Email: `kjkim1@yiu.ac.kr`,
   Office: ``,

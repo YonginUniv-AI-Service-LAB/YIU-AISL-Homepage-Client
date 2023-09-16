@@ -356,7 +356,7 @@ const CommunityPost = (props) => {
                       }}
                     >
                       <span>{item.writer}</span>
-                      <span>{item.createdAt.substring(0, 10)}</span>
+                      {/* <span>{item.createdAt.substring(0, 10)}</span> */}
                     </div>
                     <p
                       style={{
