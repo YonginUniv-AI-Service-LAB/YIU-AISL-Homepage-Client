@@ -23,7 +23,7 @@ const NoData = (props) => {
         style={{
           textAlign: "center",
           fontWeight: "bold",
-          fontSize: isMobile ? 15 : 20,
+          fontSize: isMobile ? 15 : 18,
         }}
       >
         {props.text}

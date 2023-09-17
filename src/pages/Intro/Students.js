@@ -6,6 +6,7 @@ import { useMediaQuery } from "react-responsive";
 import { aisl_students } from "../../assets/string/aisl_students";
 import styles from "./intro.module.css";
 import { colors } from "../../assets/colors";
+import Card_Student from "../../components/Card/Card_Student";
 
 const { Meta } = Card;
 
@@ -23,49 +24,18 @@ const Students = () => {
       <div
         style={{
           display: "grid",
-          margin: isMobile ? 20 : 50,
+          margin: isMobile ? 20 : 100,
           textAlign: "center",
           gridTemplateColumns: `repeat(auto-fit, minmax(${
             isMobile ? "30vw" : "20vw"
           }, 1fr))`,
           gridAutoRows: "1fr",
           rowGap: 30,
-          columnGap: 30,
+          columnGap: 10,
         }}
       >
         {aisl_students.map((item, index) => {
-          return (
-            <div
-              style={{
-                textAlign: "center",
-                borderRadius: 10,
-                backgroundColor: colors.grey_light2,
-                paddingTop: 30,
-                paddingBottom: 20,
-              }}
-            >
-              <img
-                src={item.img}
-                style={{
-                  width: 150,
-                  height: 200,
-                  borderRadius: 10,
-                  marginRight: 15,
-                  objectFit: "contain",
-                }}
-              />
-              <div>
-                <p style={{ fontSize: isMobile ? 15 : 20, fontWeight: "bold" }}>
-                  {item.name}
-                </p>
-                <p style={{ fontSize: isMobile ? 14 : 17 }}>
-                  {item.major}
-                  <br />
-                  {item.email}
-                </p>
-              </div>
-            </div>
-          );
+          return <Card_Student item={item} />;
         })}
       </div>
     </div>
