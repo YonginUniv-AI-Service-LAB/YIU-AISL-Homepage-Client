@@ -96,7 +96,6 @@ const Main = (props) => {
       >
         <MainCarousel />
         <MainIntro />
-        <MainProject />
         <Slide bottom>
           <MainContent
             onClick={(page) => navigate(page)}
@@ -106,6 +105,8 @@ const Main = (props) => {
             data_calendar={calendarData}
           />
         </Slide>
+
+        <MainProject />
       </Container>
     </div>
   );

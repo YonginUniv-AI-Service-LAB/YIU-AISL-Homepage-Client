@@ -161,27 +161,9 @@ const ProjectDetail = () => {
                 />
               </div>
             ) : null}
-            <Row
-              justify="space-evenly"
-              style={{ alignItems: "end" }}
-              className={styles.project_info}
-            >
-              <Col span={24}>
-                <p style={{ fontSize: isMobile ? 20 : 27, fontWeight: "bold" }}>
-                  {data.title}
-                </p>
-              </Col>
-              {/* <Col span={12} style={{ textAlign: "end" }}>
-                <h3 className={styles.project_info_left}>
-                  {console.log("시간: ", data.createdAt)}
-                  <span>{data.createdAt.substring(0, 10)}</span>
-                  <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
-                  {data.writer}
-                </h3>
-              </Col> */}
-              {/* &nbsp;
-                  <span>{data.createdAt.substring(11, 19)}</span> */}
-            </Row>
+            <p style={{ fontSize: isMobile ? 20 : 27, fontWeight: "bold" }}>
+              {data.title}
+            </p>
             <Divider
               style={{
                 backgroundColor: colors.grey_light,

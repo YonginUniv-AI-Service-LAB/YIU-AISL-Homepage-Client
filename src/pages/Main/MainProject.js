@@ -15,8 +15,6 @@ const MainProject = () => {
   return (
     <div
       style={{
-        marginTop: 100,
-        marginBottom: 100,
         height: 300,
         backgroundColor: colors.grey_light2,
       }}

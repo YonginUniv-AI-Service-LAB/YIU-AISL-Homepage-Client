@@ -184,10 +184,10 @@ const Join = () => {
     <div>
       {contextHolder}
       <PageTitle title="Join" />
-      {pageChange === false ? (
+      {pageChange === true ? (
         <JoinComplete onClick={() => navigate("/login", { replace: true })} />
       ) : (
-        <div>
+        <div className={styles.form_container}>
           <Form
             name="basic"
             colon={false}

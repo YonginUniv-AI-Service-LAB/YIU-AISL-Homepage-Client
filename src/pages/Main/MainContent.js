@@ -81,7 +81,13 @@ const MainContent = (props) => {
   };
 
   return (
-    <div style={{ margin: isMobile ? 50 : isTablet ? 70 : 15 }}>
+    <div
+      style={{
+        margin: isMobile ? 50 : isTablet ? 70 : 15,
+        marginTop: 100,
+        marginBottom: 100,
+      }}
+    >
       <div
         style={{
           display: "grid",
@@ -158,7 +164,7 @@ const MainContent = (props) => {
                         }}
                       >
                         <LikeOutlined />
-                        &nbsp;&nbsp;&nbsp;{item.Likes.length}
+                        &nbsp;&nbsp;&nbsp;{item.likers.length}
                       </span>
                     </List.Item>
                   )}
