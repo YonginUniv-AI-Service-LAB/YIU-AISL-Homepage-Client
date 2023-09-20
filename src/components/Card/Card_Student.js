@@ -25,8 +25,8 @@ const Card_Student = (props) => {
       <img
         src={props.item.img}
         style={{
-          width: 150,
-          height: 200,
+          width: 400,
+          height: 400,
           borderRadius: 10,
           objectFit: "contain",
         }}

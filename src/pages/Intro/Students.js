@@ -27,7 +27,7 @@ const Students = () => {
           margin: isMobile ? 20 : 100,
           textAlign: "center",
           gridTemplateColumns: `repeat(auto-fit, minmax(${
-            isMobile ? "30vw" : "20vw"
+            isMobile ? "30vw" : "25vw"
           }, 1fr))`,
           gridAutoRows: "1fr",
           rowGap: 30,

@@ -20,11 +20,10 @@ const Intro = () => {
   return (
     <div
       style={{
-        marginTop: "10vh",
-        marginBottom: "10vh",
         whiteSpace: "pre-line",
-        marginLeft: isMobile ? 30 : isTablet ? 70 : 220,
-        marginRight: isMobile ? 30 : isTablet ? 70 : 220,
+        marginBottom: 150,
+        // marginLeft: isMobile ? 30 : isTablet ? 70 : 220,
+        // marginRight: isMobile ? 30 : isTablet ? 70 : 220,
       }}
     >
       {/* 이름 */}
@@ -56,7 +55,59 @@ const Intro = () => {
       </Fade>
 
       {/* 설명+이미지 */}
-      <Row
+      <div
+        style={{
+          display: "grid",
+          margin: isMobile ? 30 : isTablet ? 50 : 150,
+          gridTemplateColumns: `repeat(auto-fit, minmax(${
+            isMobile ? "50vw" : "25vw"
+          }, 2fr))`,
+          gridAutoRows: "1fr",
+          rowGap: 30,
+          columnGap: "20px",
+          // backgroundColor: "blue",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={
+            {
+              // marginRight: isMobile ? null : 20,
+              // marginBottom: isMobile ? 50 : null,
+              // marginTop: -20,
+            }
+          }
+        >
+          <Fade left>
+            <p
+              style={{
+                fontSize: isMobile ? 14 : isTablet ? 15 : 18,
+                color: colors.grey_dark,
+                fontWeight: "bold",
+                textAlign: "left",
+                // backgroundColor: "red",
+              }}
+            >
+              {aisl.contents}
+            </p>
+          </Fade>
+        </div>
+
+        <div style={{ textAlign: "center" }}>
+          <Fade right>
+            <img
+              src={aisl_intro}
+              style={{
+                maxWidth: isMobile ? 250 : isTablet ? "100%" : 500,
+                // height: isMobile ? 200 : 300,
+                marginBottom: isMobile ? 50 : null,
+              }}
+            />
+          </Fade>
+        </div>
+      </div>
+
+      {/* <Row
         justify="center"
         align="top"
         style={{
@@ -100,7 +151,7 @@ const Intro = () => {
             />
           </Fade>
         </Col>
-      </Row>
+      </Row> */}
     </div>
   );
 };

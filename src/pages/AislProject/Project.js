@@ -192,8 +192,7 @@ const Project = () => {
                   }
                 >
                   <img
-                    src={altImg}
-                    // src={item.img ? item.img : altImg}
+                    src={item.img ? item.img : altImg}
                     style={{
                       width: "100%",
                       borderRadius: 10,

@@ -83,9 +83,7 @@ const MainContent = (props) => {
   return (
     <div
       style={{
-        margin: isMobile ? 50 : isTablet ? 70 : 15,
-        marginTop: 100,
-        marginBottom: 100,
+        margin: isMobile ? 50 : isTablet ? 70 : 20,
       }}
     >
       <div
@@ -97,7 +95,7 @@ const MainContent = (props) => {
           }, 1fr))`,
           gridAutoRows: "1fr",
           rowGap: 30,
-          columnGap: 15,
+          columnGap: 20,
         }}
       >
         {/* 메인 - 공지사항 */}

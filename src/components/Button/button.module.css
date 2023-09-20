@@ -1,0 +1,9 @@
+.small_moreTextButton {
+  background-color: #e8eaf0;
+}
+
+.small_moreTextButton:hover {
+  cursor: pointer;
+  background-color: #00205b;
+  color: white;
+}

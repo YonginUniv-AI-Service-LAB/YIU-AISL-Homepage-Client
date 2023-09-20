@@ -187,21 +187,23 @@ const ProjectDetail = () => {
                 window.open(data.link, "_blank", "noopener, noreferrer")
               }
             >
-              {data.title} Link
+              Link
             </Button>
             <br />
             <br />
             <br />
             <div className={styles.project_img}>
-              <Image
-                // width={"100%"}
-                height={"50%"}
-                src={`${data.img}`.replace(
-                  "aiservicelab.yongin.ac.kr/public",
-                  "localhost:3000"
-                )}
-                // src={altImg}
-              />
+              {data.img && (
+                <Image
+                  // width={"100%"}
+                  height={"50%"}
+                  src={`${data.img}`.replace(
+                    "aiservicelab.yongin.ac.kr/public",
+                    "localhost:3000"
+                  )}
+                  // src={altImg}
+                />
+              )}
             </div>
           </div>
         ) : null}

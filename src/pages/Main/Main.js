@@ -27,6 +27,7 @@ const Main = (props) => {
   const notice = useSelector((state) => state.Main.notice);
   const post = useSelector((state) => state.Main.post);
   const plan = useSelector((state) => state.Main.plan);
+  const project = useSelector((state) => state.Main.project);
 
   const [calendarData, setCalendarDate] = useState([]);
   const [noticeData, setNoticeDate] = useState([]);
@@ -90,13 +91,17 @@ const Main = (props) => {
     <div>
       <Container
         style={{
-          marginTop: isMobile ? 50 : 100,
-          marginBottom: isMobile ? 50 : 100,
+          marginTop: isMobile ? 50 : 150,
+          marginBottom: 150,
         }}
       >
         <MainCarousel />
-        <MainIntro />
-        <Slide bottom>
+
+        <div style={{ marginTop: 100, marginBottom: 100 }}>
+          <MainIntro />
+        </div>
+
+        <div style={{ marginTop: 100, marginBottom: 100 }}>
           <MainContent
             onClick={(page) => navigate(page)}
             data_notice={notice}
@@ -104,9 +109,14 @@ const Main = (props) => {
             data_plan={plan}
             data_calendar={calendarData}
           />
-        </Slide>
+        </div>
 
-        <MainProject />
+        <MainProject
+          moveProject={() => navigate("project")}
+          data_project={project}
+        />
+
+        {console.log("project: ", project)}
       </Container>
     </div>
   );

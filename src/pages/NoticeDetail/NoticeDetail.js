@@ -189,15 +189,17 @@ const NoticeDetail = () => {
             <br />
             <br />
             <div className={styles.notice_img}>
-              <Image
-                // width={"100%"}
-                height={"50%"}
-                src={`${data.img}`.replace(
-                  "aiservicelab.yongin.ac.kr/public",
-                  "localhost:3000"
-                )}
-                // src={altImg}
-              />
+              {data.img && (
+                <Image
+                  // width={"100%"}
+                  height={"50%"}
+                  src={`${data.img}`.replace(
+                    "aiservicelab.yongin.ac.kr/public",
+                    "localhost:3000"
+                  )}
+                  // src={altImg}
+                />
+              )}
             </div>
           </div>
         ) : null}

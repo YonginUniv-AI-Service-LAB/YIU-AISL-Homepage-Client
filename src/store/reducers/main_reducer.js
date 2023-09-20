@@ -1,4 +1,5 @@
 import { GET_MAIN, LOGIN, LOGOUT, JOIN } from "../types";
+import { take } from "lodash";
 // import {data_community} from '../../assets/data/community';
 
 // const initialState = {
@@ -14,6 +15,7 @@ export default function (state = {}, action) {
         notice: action.payload.notice || [],
         post: action.payload.post || [],
         plan: action.payload.plan || [],
+        project: take(action.payload.project, 3) || [],
       };
     case JOIN:
       console.log("리듀서: ", action.payload);

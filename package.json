@@ -21,6 +21,7 @@
     "react-calendar": "^4.2.1",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
+    "react-indiana-drag-scroll": "^2.2.0",
     "react-redux": "^8.0.5",
     "react-responsive": "^9.0.2",
     "react-responsive-carousel": "^3.2.23",

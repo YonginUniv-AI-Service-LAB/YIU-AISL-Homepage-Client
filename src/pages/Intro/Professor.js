@@ -134,14 +134,16 @@ const Professor = (props) => {
             // }}
           >
             {professor.Department ? (
-              <p
+              <div
                 style={{
                   width: isMobile ? "100%" : isTablet ? "70%" : "95%",
                   // backgroundColor: "blue",
                 }}
               >
                 {professor.Department}
-              </p>
+                <br />
+                <br />
+              </div>
             ) : null}
             <div
               style={{
@@ -149,10 +151,15 @@ const Professor = (props) => {
                 // backgroundColor: "green",
               }}
             >
-              {professor.Email ? <p>Email: {professor.Email}</p> : null}
-              {professor.Office ? <p>Office: {professor.Office}</p> : null}
-              {professor.Fax ? <p>Fax: {professor.Fax}</p> : null}
-              {professor.Mobile ? <p>Mobile: {professor.Mobile}</p> : null}
+              {professor.Email ? <span>Email: {professor.Email}</span> : null}
+              <br />
+              {professor.Office ? (
+                <span>Office: {professor.Office}</span>
+              ) : null}
+              <br />
+              {professor.Fax ? <span>Fax: {professor.Fax}</span> : null}
+              <br />
+              {/* {professor.Mobile ? <p>Mobile: {professor.Mobile}</p> : null} */}
             </div>
           </div>
         </div>

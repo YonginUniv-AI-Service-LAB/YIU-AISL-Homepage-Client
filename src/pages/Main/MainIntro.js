@@ -5,6 +5,7 @@ import Fade from "react-reveal/Fade";
 import styles from "./main.module.css";
 import { colors } from "../../assets/colors";
 import { aisl } from "../../assets/string/aisl";
+import Main_ContentTitle from "../../components/Text/Main_ContentTitle";
 
 const MainIntro = () => {
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
@@ -22,16 +23,7 @@ const MainIntro = () => {
       }}
     >
       <Fade top>
-        <p
-          style={{
-            color: colors.yiu_dark_blue,
-            fontSize: isMobile ? 25 : 35,
-            fontWeight: "bold",
-          }}
-        >
-          AI SERVICE LAB
-        </p>
-        <div className={styles.hr} />
+        <Main_ContentTitle title={"AI SERVICE LAB"} />
       </Fade>
 
       <Fade bottom>
