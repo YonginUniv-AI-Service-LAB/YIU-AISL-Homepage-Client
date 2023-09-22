@@ -11,6 +11,7 @@ export const aisl = {
   
   AI Service Lab은 학교와 같은 교육 환경부터 시작하여 AI를 통해 혁신을 주도하고, 사회에 혜택을 제공하는 혁신적인 서비스를 만들어 나가는 데 헌신하고 있습니다. 우리의 랩실은 AI 기술과 역량을 활용하여 미래를 개척하며, 더 나은 세상을 만드는데 기여할 것입니다.`,
   mainMsg: `AI Service Lab은 AI 기술과 역량을 활용하여 미래를 개척하며 개개인과 함께 더 나은 세상을 만드는데 기여할 것입니다.`,
-  room: 7203,
+  address:
+    "Room 7203, 134 Yongindaehak-ro, Cheoin-gu, Yongin-si, Gyeonggi-do, Korea 17092",
   copyright: "Copyright 2023 YiuAiServiceLab all rights reserved.",
 };

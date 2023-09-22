@@ -16,4 +16,7 @@ export const colors = {
   plan_bg: "#e4edf5",
   post: "#F4B6A3",
   post_bg: "#fcece7",
+
+  gold: "#FFD700",
+  silver: "#C0C0C0",
 };

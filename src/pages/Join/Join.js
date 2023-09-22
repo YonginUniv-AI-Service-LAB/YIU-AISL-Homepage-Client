@@ -187,13 +187,14 @@ const Join = () => {
       {pageChange === true ? (
         <JoinComplete onClick={() => navigate("/login", { replace: true })} />
       ) : (
-        <div className={styles.form_container}>
+        <div style={{ display: "flex", justifyContent: "center" }}>
           <Form
             name="basic"
             colon={false}
             style={{
               minWidth: isMobile ? 350 : 500,
               maxWidth: isMobile ? 400 : 600,
+              marginBottom: 100,
             }}
             autoComplete="off"
             layout="vertical"

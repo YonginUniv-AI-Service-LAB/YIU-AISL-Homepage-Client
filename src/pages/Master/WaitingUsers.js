@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import {
   Divider,
   Table,
@@ -24,14 +25,21 @@ import {
   getWaitingUser,
   enterUser,
   refuseUser,
+  getAllUser,
 } from "../../store/actions/user_actions";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
 
+import { colors } from "../../assets/colors";
 import styles from "./master.module.css";
 import { ModalFooter } from "reactstrap";
 
 const WaitingUsers = () => {
+  const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 991 });
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const isNotMobile = useMediaQuery({ minWidth: 768 });
+
   // 페이지 이동
   const navigate = useNavigate();
 
@@ -71,6 +79,7 @@ const WaitingUsers = () => {
       .then((res) => {
         if (res.payload === true) {
           dispatch(getWaitingUser());
+          dispatch(getAllUser());
         } else ResFunc(res.payload);
       })
       .catch((err) => {
@@ -114,44 +123,32 @@ const WaitingUsers = () => {
 
   return (
     <div style={{ marginBottom: 100 }}>
-      <div className={styles.list_container}>
-        <List
-          style={{ width: 700, alignSelf: "center" }}
-          itemLayout="horizontal"
-          dataSource={data}
-          renderItem={(item, index) => (
-            <List.Item
-              actions={[
+      <div
+        style={{
+          width: isMobile ? "80vw" : isTablet ? "70vw" : "50vw",
+          margin: "0 auto",
+          marginTop: 50,
+        }}
+      >
+        {data &&
+          data.map((item, index) => {
+            return (
+              <div className={styles.listItem}>
+                <div>
+                  <span style={{ fontSize: 15, fontWeight: "bold" }}>
+                    {item.name}
+                  </span>
+                  <br />
+                  <span style={{ color: colors.grey_mid }}>{item.email}</span>
+                </div>
                 <Button
                   color="#868e96"
                   icon={<PlusOutlined />}
                   onClick={() => funcEnterUser(item.userid)}
-                />,
-              ]}
-            >
-              <List.Item.Meta title={item.name} description={item.email} />
-            </List.Item>
-          )}
-        />
-        {/* <Divider>notice</Divider> */}
-        {/* <Table
-          columns={notice_columns}
-          dataSource={noticeList}
-          size="large"
-          rowClassName={styles.table_row}
-          onRow={(record, rowIndex) => {
-            return {
-              onClick: (event) => {
-                navigate("/notice/detail", { state: record.noticeid });
-              }, // click row
-              onDoubleClick: (event) => {}, // double click row
-              onContextMenu: (event) => {}, // right button click row
-              onMouseEnter: (event) => {}, // mouse enter row
-              onMouseLeave: (event) => {}, // mouse leave row
-            };
-          }}
-          pagination={{ position: ["bottomCenter"] }}
-        /> */}
+                />
+              </div>
+            );
+          })}
       </div>
     </div>
   );

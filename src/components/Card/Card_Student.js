@@ -15,20 +15,23 @@ const Card_Student = (props) => {
   return (
     <div
       style={{
+        width: "100%",
+        // width: isMobile ? 200 : isTablet ? 250 : 300,
+        // height: isMobile ? 200 : isTablet ? 250 : 300,
         textAlign: "center",
-        borderRadius: 10,
+        // borderRadius: 10,
         // backgroundColor: colors.yiu_dark_blue_light2,
-        paddingTop: 30,
-        paddingBottom: 20,
       }}
     >
       <img
         src={props.item.img}
         style={{
-          width: 400,
-          height: 400,
-          borderRadius: 10,
+          width: isMobile ? 200 : isTablet ? 250 : 250,
+          height: isMobile ? 200 : isTablet ? 250 : 250,
+          // borderRadius: 10,
           objectFit: "contain",
+          alignSelf: "center",
+          // backgroundColor: "red",
         }}
       />
       <div>

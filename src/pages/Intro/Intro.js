@@ -98,7 +98,7 @@ const Intro = () => {
             <img
               src={aisl_intro}
               style={{
-                maxWidth: isMobile ? 250 : isTablet ? "100%" : 500,
+                maxWidth: isMobile ? 250 : isTablet ? "100%" : 470,
                 // height: isMobile ? 200 : 300,
                 marginBottom: isMobile ? 50 : null,
               }}
