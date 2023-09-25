@@ -33,7 +33,6 @@ const People = (props) => {
 
   return (
     <div style={{ marginBottom: 100 }}>
-      {console.log(location.state)}
       <PageTitle title="People" />
       <Tabs
         defaultActiveKey={1}

@@ -1,4 +1,4 @@
-import { GET_MAIN, JOIN, LOGIN, LOGOUT } from "../types";
+import { GET_MAIN, JOIN, LOGIN, LOGOUT, REFRESH } from "../types";
 import { data_notice_main } from "../../assets/data/notice";
 import { data_community_main } from "../../assets/data/community";
 import { data_plan } from "../../assets/data/plan";
@@ -16,11 +16,9 @@ export function getMain() {
     data: {},
   })
     .then((response) => {
-      console.log("메인 데이터 성공: ", response);
       return response.data;
     })
     .catch((err) => {
-      console.log("메인 데이터 에러", err.response.status);
       return false;
     });
 
@@ -48,11 +46,9 @@ export function join(data) {
     },
   })
     .then((response) => {
-      console.log("회원가입 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("회원가입 에러: ", err.response.status);
       return err.response.status;
     });
 
@@ -64,7 +60,6 @@ export function join(data) {
 
 // 로그인
 export function login(data) {
-  console.log("로그인 액션: ", data.email.value, data.pwd.value);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_LOGIN,
@@ -86,7 +81,6 @@ export function login(data) {
       return true;
     })
     .catch((err) => {
-      console.log("로그인 에러: ", err.response.status);
       return err.response.status;
     });
 
@@ -98,7 +92,6 @@ export function login(data) {
 
 // 로그아웃
 export function logout(data) {
-  console.log("로그아웃 액션");
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_LOGOUT,
@@ -107,16 +100,41 @@ export function logout(data) {
     },
   })
     .then((response) => {
-      console.log("로그아웃 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("로그아웃 에러", err);
       return err.response.status;
     });
 
   return {
     type: LOGOUT,
+    payload: request,
+  };
+}
+
+// 로그인
+export function refresh(data) {
+  const request = axios({
+    method: "POST",
+    url: process.env.REACT_APP_REFRESH,
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
+    },
+    data: {},
+  })
+    .then((response) => {
+      const { accessToken } = response.data;
+      sessionStorage.setItem("accessToken", accessToken);
+      return true;
+    })
+    .catch((err) => {
+      console.log("리프레시 에러: ", err.response.status);
+      return err.response.status;
+    });
+
+  return {
+    type: REFRESH,
     payload: request,
   };
 }

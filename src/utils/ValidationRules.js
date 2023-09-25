@@ -1,59 +1,48 @@
 const validation = (value, rules, form) => {
-  console.log(value, rules, form);
   let valid = true;
 
   for (let rule in rules) {
     switch (rule) {
       case "isRequired":
         valid = valid && validateRequired(value);
-        console.log("isRequired: " + valid);
         break;
 
       case "isOkay":
         valid = valid && validateOkay(value);
-        console.log("isOkay: " + valid);
         break;
 
       case "isEmail":
         valid = valid && validateEmail(value);
-        console.log("isEmail: " + valid);
         break;
 
       case "minLength":
         valid = valid && validateMinLength(value, rules[rule]);
-        console.log("minLength: " + valid);
         break;
 
       case "maxLength":
         valid = valid && validateMaxLength(value, rules[rule]);
-        console.log("maxLength: " + valid);
         break;
 
       case "passwordConfirm":
         valid =
           valid &&
           validatePasswordConfirm(value, form[rules.passwordConfirm].value);
-        console.log("passwordConfirm: " + valid);
         break;
 
       case "checkId":
         valid = valid && validateCheckId(value);
-        console.log("checkId: " + valid);
         break;
 
       case "checkName":
         valid = valid && validateCheckName(value);
-        console.log("checkName: " + valid);
         break;
 
       case "checkPassword":
         valid = valid && validateCheckPassword(value);
-        console.log("checkPassword: " + valid);
         break;
 
       case "isImageFile":
         valid = valid && validateImageFile(value);
-        console.log("isImageFile: " + valid);
         break;
 
       default:

@@ -8,6 +8,8 @@ export const LOGIN = "Login";
 export const LOGOUT = "Logout";
 // 마이페이지
 export const MY_PAGE = "My_Page";
+// 리프레시
+export const REFRESH = "Refresh";
 
 // /user
 // 마스터 승인

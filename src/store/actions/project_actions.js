@@ -20,11 +20,9 @@ export function getProject() {
     data: {},
   })
     .then((response) => {
-      console.log("프로젝트 조회 성공: ", response);
       return response.data;
     })
     .catch((err) => {
-      console.log("프로젝트 조회 에러", err);
       return err.response.status;
     });
 
@@ -42,8 +40,6 @@ export function createProject(data, img) {
   formData.append("contents", data.contents.value);
   formData.append("link", data.link.value);
   formData.append("img", img);
-  console.log("액션 데이터: ", data);
-  console.log("액션에서 img: ", img);
 
   const request = axios
     .post(process.env.REACT_APP_CREATE_PROJECT, formData, {
@@ -58,11 +54,9 @@ export function createProject(data, img) {
       ],
     })
     .then((response) => {
-      console.log("프로젝트 생성 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("프로젝트 생성 에러", err);
       return false;
     });
 
@@ -80,8 +74,6 @@ export function updateProject(data, img) {
   formData.append("contents", data.contents.value);
   formData.append("link", data.link.value);
   formData.append("img", img);
-  console.log("액션 데이터: ", data);
-  console.log("액션에서 img: ", img);
 
   const request = axios
     .post(process.env.REACT_APP_UPDATE_PROJECT, formData, {
@@ -96,11 +88,9 @@ export function updateProject(data, img) {
       ],
     })
     .then((response) => {
-      console.log("프로젝트 수정 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("프로젝트 수정 에러", err);
       return false;
     });
 
@@ -112,7 +102,6 @@ export function updateProject(data, img) {
 
 // 프로젝트 삭제
 export function deleteProject(data) {
-  console.log("프로젝트 삭제 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_DELETE_PROJECT,
@@ -125,11 +114,9 @@ export function deleteProject(data) {
     },
   })
     .then((response) => {
-      console.log("프로젝트 삭제 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("프로젝트 삭제 에러", err);
       return err.response.status;
     });
 
@@ -141,7 +128,6 @@ export function deleteProject(data) {
 
 // 공지사항 상세보기
 export function getProjectDetail(data) {
-  console.log("상세보기 데이터: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_GET_PROJECT_DETAIL,
@@ -153,11 +139,9 @@ export function getProjectDetail(data) {
     },
   })
     .then((response) => {
-      console.log("프로젝트 상세보기 성공: ", response);
       return response.data;
     })
     .catch((err) => {
-      console.log("프로젝트 상세보기 에러", err);
       return false;
     });
 

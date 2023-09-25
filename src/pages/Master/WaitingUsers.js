@@ -27,6 +27,7 @@ import {
   refuseUser,
   getAllUser,
 } from "../../store/actions/user_actions";
+import { refresh } from "../../store/actions/main_actions";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
 

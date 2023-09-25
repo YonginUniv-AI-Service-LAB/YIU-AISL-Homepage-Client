@@ -21,7 +21,7 @@ import altImg from "../../assets/images/aisl_carousel_2000.jpg";
 
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProject, getProject } from "../../store/actions/project_actions";
+import { getProject } from "../../store/actions/project_actions";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
 
@@ -39,14 +39,9 @@ const Project = () => {
   // 페이지 이동
   const navigate = useNavigate();
 
-  const [messageApi, contextHolder] = message.useMessage();
-
   // 리덕스
   const dispatch = useDispatch();
   const data = useSelector((state) => state.Project.project);
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState(0);
 
   const [innerWidth, setInnerWidth] = useState(window.innerWidth);
 
@@ -57,76 +52,10 @@ const Project = () => {
     window.addEventListener("resize", resizeListener);
   });
 
-  console.log("innerWidth", innerWidth);
-
   // 데이터 불러오기
   useEffect(() => {
     dispatch(getProject());
   }, []);
-
-  // 에러메세지 함수
-  const errorMsg = (data) => {
-    messageApi.open({
-      type: "error",
-      content: data,
-    });
-  };
-
-  // 완료메세지 함수
-  const completeMsg = (data) => {
-    messageApi.open({
-      type: "success",
-      content: data,
-    });
-  };
-
-  const setDelete = (data) => {
-    setSelectedId(data);
-    setIsModalOpen(true);
-  };
-
-  const reqDelete = () => {
-    dispatch(deleteProject(selectedId))
-      .then((res) => {
-        if (res.payload === true) {
-          navigate("/project", {
-            replace: true,
-          });
-        } else ResFunc(res.payload);
-      })
-      .catch((err) => {
-        errorMsg(`잠시 후에 다시 시도해주세요.`);
-      });
-  };
-
-  const ResFunc = (res) => {
-    switch (res) {
-      case 400:
-        errorMsg("새로고침 후 다시 시도해주세요.");
-        break;
-      case 403:
-        errorMsg("접근 권한이 없습니다.");
-        break;
-      case 404:
-        errorMsg("이미 삭제된 프로젝트입니다.");
-        navigate("/project", {
-          replace: true,
-        });
-        break;
-      case 500:
-        errorMsg("관리자에게 문의해주세요.");
-        break;
-      default:
-        break;
-    }
-  };
-
-  const getColumn = () => {
-    if (innerWidth <= 899) return 1;
-    else if (innerWidth <= 1300) return 2;
-    else if (innerWidth <= 1799) return 3;
-    else return 4;
-  };
 
   return (
     <div>

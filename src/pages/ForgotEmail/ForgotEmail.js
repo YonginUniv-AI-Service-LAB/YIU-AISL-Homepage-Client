@@ -126,7 +126,6 @@ const ForgotEmail = () => {
   const submitForm = () => {
     dispatch(findEmail(form))
       .then((res) => {
-        console.log("res: ", res);
         if (res.payload.result === true) {
           setEmail(res.payload.email);
           setComplete(true);

@@ -45,9 +45,9 @@ const MainProject = (props) => {
                   paddingBottom: 20,
                   cursor: "pointer",
                 }}
-                // onClick={() =>
-                //   navigate("/project/detail", { state: item.projectid })
-                // }
+                onClick={() =>
+                  props.moveProjectDetail({ state: item.projectid })
+                }
               >
                 <img
                   src={altImg}

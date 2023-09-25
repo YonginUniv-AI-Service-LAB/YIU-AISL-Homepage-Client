@@ -9,7 +9,6 @@ import {
 export default function (state = {}, action) {
   switch (action.type) {
     case GET_PROJECT:
-      console.log("리듀서: ", action.payload);
       return {
         ...state,
         project: action.payload || [],

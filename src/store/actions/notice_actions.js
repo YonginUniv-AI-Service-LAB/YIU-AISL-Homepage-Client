@@ -23,11 +23,9 @@ export function getNotice() {
     data: {},
   })
     .then((response) => {
-      console.log("공지사항 성공: ", response);
       return response.data;
     })
     .catch((err) => {
-      console.log("공지사항 에러", err);
       return false;
     });
 
@@ -45,8 +43,6 @@ export function createNotice(data, img) {
   formData.append("title", data.title.value);
   formData.append("contents", data.contents.value);
   formData.append("img", img);
-  console.log("액션 데이터: ", data);
-  console.log("액션에서 img: ", img);
 
   const request = axios
     .post(process.env.REACT_APP_CREATE_NOTICE, formData, {
@@ -61,11 +57,9 @@ export function createNotice(data, img) {
       ],
     })
     .then((response) => {
-      console.log("공지사항 생성 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("공지사항 생성 에러", err);
       return false;
     });
 
@@ -75,23 +69,6 @@ export function createNotice(data, img) {
   };
 }
 
-// const request = axios({
-//   method: "POST",
-//   url: process.env.REACT_APP_CREATE_NOTICE,
-//   headers: {
-//     "Content-Type": "multipart/form-data",
-//   },
-//   data: formData,
-// })
-//   .then((response) => {
-//     console.log("공지사항 생성 성공: ", response);
-//     return response.data;
-//   })
-//   .catch((err) => {
-//     console.log("공지사항 생성 에러", err);
-//     return false;
-//   });
-
 // 공지사항 수정
 export function updateNotice(data, img) {
   const formData = new FormData();
@@ -99,9 +76,6 @@ export function updateNotice(data, img) {
   formData.append("title", data.title.value);
   formData.append("contents", data.contents.value);
   formData.append("img", img);
-  console.log("액션 데이터: ", data);
-  console.log("액션에서 img: ", img);
-
   // const request = axios({
   //   method: "POST",
   //   url: process.env.REACT_APP_UPDATE_NOTICE,
@@ -123,11 +97,9 @@ export function updateNotice(data, img) {
       ],
     })
     .then((response) => {
-      console.log("공지사항 수정 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("공지사항 수정 에러", err);
       return false;
     });
 
@@ -139,7 +111,6 @@ export function updateNotice(data, img) {
 
 // 공지사항 삭제
 export function deleteNotice(data) {
-  console.log("액션 데이터: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_DELETE_NOTICE,
@@ -152,11 +123,9 @@ export function deleteNotice(data) {
     },
   })
     .then((response) => {
-      console.log("공지사항 삭제 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("공지사항 삭제 에러", err);
       return false;
     });
 
@@ -179,11 +148,9 @@ export function getNoticeDetail(data) {
     },
   })
     .then((response) => {
-      console.log("공지사항 상세보기 성공: ", response);
       return response.data;
     })
     .catch((err) => {
-      console.log("공지사항 상세보기 에러", err);
       return false;
     });
 

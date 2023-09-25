@@ -24,11 +24,9 @@ export function getCommunity() {
     data: {},
   })
     .then((response) => {
-      console.log("커뮤니티 성공: ", response);
       return response.data;
     })
     .catch((err) => {
-      console.log("커뮤니티 에러", err);
       return err.response.status;
     });
 
@@ -40,7 +38,6 @@ export function getCommunity() {
 
 // 일정 생성
 export function createPlan(data) {
-  console.log("일정생성 액션: ", data, data.date.value.format("YYYY-MM-DD"));
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_CREATE_PLAN,
@@ -54,11 +51,9 @@ export function createPlan(data) {
     },
   })
     .then((response) => {
-      console.log("일정 생성 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("일정 생성 에러", err);
       return err.response.status;
     });
 
@@ -70,7 +65,6 @@ export function createPlan(data) {
 
 // 일정 수정
 export function updatePlan(data) {
-  console.log("일정수정 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_UPDATE_PLAN,
@@ -85,11 +79,9 @@ export function updatePlan(data) {
     },
   })
     .then((response) => {
-      console.log("일정 수정 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("일정 수정 에러", err);
       return err.response.status;
     });
 
@@ -101,7 +93,6 @@ export function updatePlan(data) {
 
 // 일정 삭제
 export function deletePlan(data) {
-  console.log("일정삭제 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_DELETE_PLAN,
@@ -114,11 +105,9 @@ export function deletePlan(data) {
     },
   })
     .then((response) => {
-      console.log("일정 삭제 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("일정 삭제 에러", err);
       return err.response.status;
     });
 
@@ -130,7 +119,6 @@ export function deletePlan(data) {
 
 // 게시글 생성
 export function createPost(data) {
-  console.log("게시글 생성 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_CREATE_POST,
@@ -143,11 +131,9 @@ export function createPost(data) {
     },
   })
     .then((response) => {
-      console.log("게시글 생성 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("게시글 생성 에러", err);
       return err.response.status;
     });
 
@@ -159,7 +145,6 @@ export function createPost(data) {
 
 // 게시글 수정
 export function updatePost(data) {
-  console.log("게시글 수정 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_UPDATE_POST,
@@ -173,11 +158,9 @@ export function updatePost(data) {
     },
   })
     .then((response) => {
-      console.log("게시글 수정 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("게시글 수정 에러", err);
       return err.response.status;
     });
 
@@ -189,7 +172,6 @@ export function updatePost(data) {
 
 // 게시글 삭제
 export function deletePost(data) {
-  console.log("게시글 삭제 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_DELETE_POST,
@@ -202,11 +184,9 @@ export function deletePost(data) {
     },
   })
     .then((response) => {
-      console.log("게시글 삭제 성공: ", response);
       return true;
     })
     .catch((err) => {
-      console.log("게시글 삭제 에러", err);
       return err.response.status;
     });
 
@@ -218,7 +198,6 @@ export function deletePost(data) {
 
 // 게시글 공감
 export function like(data) {
-  console.log("게시글 공감 액션: ", data);
   const request = axios({
     method: "POST",
     url: process.env.REACT_APP_LIKE,
@@ -231,11 +210,9 @@ export function like(data) {
     },
   })
     .then((response) => {
-      console.log("게시글 공감 성공: ", response);
       return response.data;
     })
     .catch((err) => {
-      console.log("게시글 공감 에러", err);
       return err.response.status;
     });
 

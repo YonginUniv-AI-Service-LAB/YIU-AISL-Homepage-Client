@@ -9,6 +9,7 @@ import {
   deletePost,
   like,
 } from "../../store/actions/community_actions";
+import { refresh } from "../../store/actions/main_actions";
 
 import {
   Card,
@@ -151,7 +152,6 @@ const CommunityPost = (props) => {
           value: data.contents,
         },
       }));
-      console.log("form: ", form);
       showModal();
     } else {
       setForm((prevState) => ({
@@ -169,16 +169,12 @@ const CommunityPost = (props) => {
           value: "",
         },
       }));
-      console.log("form: ", form);
       showModal();
     }
   };
 
   // 텍스트인풋 업데이트
   const onChange = (e) => {
-    console.log("===============================");
-    console.log(e.target.id, e.target.value);
-
     setForm((prevState) => ({
       ...prevState,
       [e.target.id]: {
@@ -197,27 +193,20 @@ const CommunityPost = (props) => {
       let rules = form["contents"].rules;
       let valid = ValidationRules(form["contents"].value, rules, form);
       form["contents"].valid = valid;
-      console.log("valid: ", form["contents"].valid);
       if (form["contents"].valid === false || form["contents"].value === "") {
         checkValid = false;
       }
     } else {
       for (let i in form) {
-        console.log("=====", i, form[i].value, "=====");
-        console.log("rules: ", form[i].rules);
         let rules = form[i].rules;
         let valid = ValidationRules(form[i].value, rules, form);
         form[i].valid = valid;
-        console.log("valid: ", form[i].valid);
         if (form[i].valid === false || form[i].value === "") {
           checkValid = false;
           falseForm.push(i);
         }
       }
     }
-
-    console.log("checkValid: ", checkValid);
-    console.log("falseForm: ", falseForm);
 
     if (checkValid) {
       submitForm();
@@ -228,13 +217,13 @@ const CommunityPost = (props) => {
 
   // 유효성 검사 확인 완료 =>  API요청
   const submitForm = () => {
-    console.log(type);
     switch (type) {
       case "create":
         dispatch(createPost(form))
           .then((res) => {
             if (res.payload === true) {
               completeMsg("게시글이 생성되었습니다!");
+              props.refreshData();
               setIsModalOpen(false);
             } else ResFunc(res.payload);
           })
@@ -247,6 +236,7 @@ const CommunityPost = (props) => {
           .then((res) => {
             if (res.payload === true) {
               completeMsg("게시글이 수정되었습니다!");
+              props.refreshData();
               setIsModalOpen(false);
             } else ResFunc(res.payload);
           })
@@ -259,6 +249,7 @@ const CommunityPost = (props) => {
           .then((res) => {
             if (res.payload === true) {
               completeMsg("게시글이 삭제되었습니다!");
+              props.refreshData();
               setIsModalOpen(false);
             } else ResFunc(res.payload);
           })
@@ -332,7 +323,7 @@ const CommunityPost = (props) => {
         ) : null}
       </div>
 
-      {props.no == true ? (
+      {props.no === true ? (
         <NoData text={"글이 없습니다"} />
       ) : (
         <VirtualList
@@ -343,20 +334,37 @@ const CommunityPost = (props) => {
         >
           {(item) =>
             props.date == item.createdAt.substring(0, 10) ? (
-              <List.Item key={item.key} className={styles.post_container}>
-                <Row align={"middle"} justify={"space-between"}>
-                  <Col span={sessionStorage.getItem("master") == 2 ? 22 : 24}>
+              <div className={styles.post_container}>
+                <div>
+                  <div>
                     <div
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
                         fontWeight: "bold",
+                        alignItems: "center",
                         marginLeft: 5,
                         paddingTop: 20,
                       }}
                     >
                       <span>{item.writer}</span>
                       {/* <span>{item.createdAt.substring(0, 10)}</span> */}
+                      {sessionStorage.getItem("name") == item.writer ? (
+                        <Dropdown
+                          menu={{
+                            onClick: () => setData(item),
+                            items,
+                          }}
+                          placement="bottom"
+                        >
+                          <Button
+                            className={styles.community_btn}
+                            type="text"
+                            icon={<MoreOutlined />}
+                            style={{ textAlign: "center" }}
+                          ></Button>
+                        </Dropdown>
+                      ) : null}
                     </div>
                     <p
                       style={{
@@ -391,9 +399,9 @@ const CommunityPost = (props) => {
                         &nbsp;&nbsp;&nbsp;{item.likers.length}
                       </span>
                     )}
-                  </Col>
+                  </div>
                   {/* <Col span={1} /> */}
-                  <Col span={2} style={{ paddingLeft: 10 }}>
+                  {/* <div style={{ paddingLeft: 10 }}>
                     {sessionStorage.getItem("name") == item.writer ? (
                       <Dropdown
                         menu={{
@@ -410,9 +418,9 @@ const CommunityPost = (props) => {
                         ></Button>
                       </Dropdown>
                     ) : null}
-                  </Col>
-                </Row>
-              </List.Item>
+                  </div> */}
+                </div>
+              </div>
             ) : (
               <></>
             )

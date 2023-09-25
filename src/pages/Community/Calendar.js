@@ -50,7 +50,7 @@ const CommunityCalendar = (props) => {
 
   // [사용X] mode = "month"
   const dateCellRender = (current, info) => {
-    console.log("dateCellRender 함수의 value: ", current.date(), info);
+    // console.log("dateCellRender 함수의 value: ", current.date(), info);
   };
 
   // 달력에 데이터 업데이트

@@ -6,6 +6,7 @@ import {
   createProject,
   updateProject,
 } from "../../store/actions/project_actions";
+import { refresh } from "../../store/actions/main_actions";
 import { useLocation } from "react-router-dom";
 
 import { Form, Input, Upload, message, Modal } from "antd";
@@ -67,7 +68,7 @@ const ProjectForm = () => {
       rules: {
         isRequired: false,
       },
-      valid: false,
+      valid: true,
     },
   });
 
@@ -80,7 +81,7 @@ const ProjectForm = () => {
     const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
     const filename = url.split("/").pop(); // url 구조에 맞게 수정할 것
     const metadata = { type: `image/${ext}` };
-    console.log("이미지 변환 결과: ", new File([data], filename, metadata));
+    // console.log("이미지 변환 결과: ", new File([data], filename, metadata));
     let file = new File([data], filename, metadata);
     let arr = [];
     arr.push(file);
@@ -91,9 +92,7 @@ const ProjectForm = () => {
   };
 
   useEffect(() => {
-    console.log("받은 데이터: ", location.state.data);
     if (location.state.type === "update") {
-      console.log("받은 이미지 url: ", location.state.data.img);
       convertURLtoFile(location.state.data.img);
     }
   }, []);
@@ -154,7 +153,7 @@ const ProjectForm = () => {
   };
 
   const handleChange = ({ fileList: newFileList }) => {
-    console.log("newFileList: ", newFileList);
+    // console.log("newFileList: ", newFileList);
     setFileList(newFileList);
   };
 
@@ -173,9 +172,6 @@ const ProjectForm = () => {
 
   // 텍스트인풋 업데이트
   const onChange = (e) => {
-    console.log("===============================");
-    console.log(e.target.id, e.target.value);
-
     setForm((prevState) => ({
       ...prevState,
       [e.target.id]: {
@@ -191,20 +187,14 @@ const ProjectForm = () => {
     let falseForm = [];
 
     for (let i in form) {
-      console.log("=====", i, form[i].value, "=====");
-      console.log("rules: ", form[i].rules);
       let rules = form[i].rules;
       let valid = ValidationRules(form[i].value, rules, form);
       form[i].valid = valid;
-      console.log("valid: ", form[i].valid);
-      if (form[i].valid === false || form[i].value === "") {
+      if (form[i].valid === false) {
         checkValid = false;
         falseForm.push(i);
       }
     }
-
-    console.log("checkValid: ", checkValid);
-    console.log("falseForm: ", falseForm);
 
     if (checkValid) {
       submitForm();
@@ -214,14 +204,13 @@ const ProjectForm = () => {
   };
 
   const convertImageToFile = (image, fileName) => {
-    console.log("이걸 바꿀거야: ", image, fileName);
+    // console.log("이걸 바꿀거야: ", image, fileName);
     const file = new File([image], fileName, { type: image.type });
     return file;
   };
 
   // 유효성 검사 확인 완료 =>  API요청
   const submitForm = () => {
-    console.log(location.state.type);
     let status = false;
     switch (location.state.type) {
       case "create":

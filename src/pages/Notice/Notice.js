@@ -61,7 +61,6 @@ const Notice = () => {
 
   return (
     <div style={{ marginBottom: 100 }}>
-      {console.log("notice: ", axios.defaults.headers.common.Authorization)}
       <PageTitle title="Notice" />
       <div
         className={styles.table_container}

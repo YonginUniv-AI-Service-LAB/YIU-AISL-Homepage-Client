@@ -12,7 +12,7 @@ import styles from "./main.module.css";
 import { colors } from "../../assets/colors";
 
 const onPanelChange = (value, mode) => {
-  console.log(value.format("YYYY-MM-DD"), mode);
+  // console.log(value.format("YYYY-MM-DD"), mode);
 };
 
 const ContainerHeight = 330;

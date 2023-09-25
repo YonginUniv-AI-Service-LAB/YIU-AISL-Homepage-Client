@@ -8,6 +8,7 @@ import {
   getProjectDetail,
   deleteProject,
 } from "../../store/actions/project_actions";
+import { refresh } from "../../store/actions/main_actions";
 
 import {
   Divider,
@@ -60,7 +61,7 @@ const ProjectDetail = () => {
     const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
     const filename = url.split("/").pop(); // url 구조에 맞게 수정할 것
     const metadata = { type: `image/${ext}` };
-    console.log("이미지: ", new File([data], filename, metadata));
+    // console.log("이미지: ", new File([data], filename, metadata));
     return new File([data], filename, metadata);
   };
 
@@ -117,17 +118,16 @@ const ProjectDetail = () => {
   };
 
   const utcToKst = (date) => {
-    console.log(new Date());
+    // console.log(new Date());
     let time_diff = 9 * 60 * 60 * 1000;
     let cur_date_korea = new Date(date + time_diff);
-    console.log("cur_date_korea: ", cur_date_korea);
+    // console.log("cur_date_korea: ", cur_date_korea);
     return cur_date_korea;
   };
 
   return (
     <div>
       {contextHolder}
-      {console.log("현재: ", location.state)}
       <div style={{ marginBottom: 100 }}>
         <PageTitle title="Project" />
         {data != undefined ? (
@@ -197,10 +197,7 @@ const ProjectDetail = () => {
                 <Image
                   // width={"100%"}
                   height={"50%"}
-                  src={`${data.img}`.replace(
-                    "aiservicelab.yongin.ac.kr/public",
-                    "localhost:3000"
-                  )}
+                  src={data.img}
                   // src={altImg}
                 />
               )}

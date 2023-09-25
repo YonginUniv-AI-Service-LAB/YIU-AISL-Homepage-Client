@@ -8,13 +8,14 @@
 
 .plan_item {
   text-align: start;
-  width: 95%;
+  /* width: ; */
   height: auto;
   margin-bottom: 1em;
   background-color: #e4edf5;
   border-radius: 10px;
   padding-left: 1em;
-  padding-right: 1em;
+  /* padding-right: 1em; */
+  margin-right: 0.5em;
   font-weight: bold;
 }
 
@@ -28,11 +29,12 @@
 
 .post_container {
   /* border: 1px #868e96 solid; */
-  width: 95%;
+  /* width: 95%; */
   background-color: #fcece7;
   border-radius: 10px;
   padding-left: 1em;
   padding-right: 1em;
+  margin-right: 0.5em;
   margin-bottom: 1em;
 }
 

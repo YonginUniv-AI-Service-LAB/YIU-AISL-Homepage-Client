@@ -108,11 +108,9 @@ export function getAllUser() {
     data: {},
   })
     .then((response) => {
-      console.log("유저 조회 성공: ", response);
       return response.data;
     })
     .catch((err) => {
-      console.log("유저 조회 에러", err);
       return err.response.status;
     });
 
@@ -134,11 +132,9 @@ export function getWaitingUser() {
     data: {},
   })
     .then((response) => {
-      console.log("대기중인 유저 조회 성공: ", response);
       return response.data;
     })
     .catch((err) => {
-      console.log("대기중인 유저 조회 에러", err);
       return err.response.status;
     });
 
@@ -200,7 +196,7 @@ export function refuseUser(data) {
   };
 }
 
-// 랩실 멤버 승인 철회
+// 마스터 권한 승인
 export function giveAuth(data) {
   const request = axios({
     method: "POST",
@@ -210,7 +206,7 @@ export function giveAuth(data) {
       Authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
     },
     data: {
-      userid: data.userid,
+      userid: data,
     },
   })
     .then((response) => {

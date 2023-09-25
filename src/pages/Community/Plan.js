@@ -8,6 +8,7 @@ import {
   updatePlan,
   deletePlan,
 } from "../../store/actions/community_actions";
+import { refresh } from "../../store/actions/main_actions";
 
 import {
   Card,
@@ -153,7 +154,6 @@ const CommunityPlan = (props) => {
           value: data.contents,
         },
       }));
-      console.log("form: ", form);
       showModal();
     } else {
       setForm((prevState) => ({
@@ -171,16 +171,12 @@ const CommunityPlan = (props) => {
           value: "",
         },
       }));
-      console.log("form: ", form);
       showModal();
     }
   };
 
   // 텍스트인풋 업데이트
   const onChange = (e) => {
-    console.log("===============================");
-    console.log(e.target.id, e.target.value);
-
     setForm((prevState) => ({
       ...prevState,
       [e.target.id]: {
@@ -196,20 +192,14 @@ const CommunityPlan = (props) => {
     let falseForm = [];
 
     for (let i in form) {
-      console.log("=====", i, form[i].value, "=====");
-      console.log("rules: ", form[i].rules);
       let rules = form[i].rules;
       let valid = ValidationRules(form[i].value, rules, form);
       form[i].valid = valid;
-      console.log("valid: ", form[i].valid);
       if (form[i].valid === false || form[i].value === "") {
         checkValid = false;
         falseForm.push(i);
       }
     }
-
-    console.log("checkValid: ", checkValid);
-    console.log("falseForm: ", falseForm);
 
     if (checkValid) {
       submitForm();
@@ -226,6 +216,7 @@ const CommunityPlan = (props) => {
           .then((res) => {
             if (res.payload === true) {
               completeMsg("일정이 생성되었습니다!");
+              props.refreshData();
               setIsModalOpen(false);
             } else ResFunc(res.payload);
           })
@@ -238,6 +229,7 @@ const CommunityPlan = (props) => {
           .then((res) => {
             if (res.payload === true) {
               completeMsg("일정이 수정되었습니다!");
+              props.refreshData();
               setIsModalOpen(false);
             } else ResFunc(res.payload);
           })
@@ -250,6 +242,7 @@ const CommunityPlan = (props) => {
           .then((res) => {
             if (res.payload === true) {
               completeMsg("일정이 삭제되었습니다!");
+              props.refreshData();
               setIsModalOpen(false);
             } else ResFunc(res.payload);
           })
@@ -260,7 +253,6 @@ const CommunityPlan = (props) => {
       default:
         break;
     }
-    dispatch(getCommunity());
   };
 
   const ResFunc = (res) => {
@@ -307,8 +299,7 @@ const CommunityPlan = (props) => {
           />
         ) : null}
       </div>
-
-      {props.no == true ? (
+      {props.no === true ? (
         <NoData text={"일정이 없습니다"} />
       ) : (
         <VirtualList
@@ -319,17 +310,22 @@ const CommunityPlan = (props) => {
         >
           {(item) =>
             props.date == item.date.substring(0, 10) ? (
-              <List.Item
+              <div
                 key={item.key}
                 actions={() => setForm(item)}
                 className={styles.plan_item}
               >
-                <Row align={"middle"} justify={"space-between"}>
-                  <Col span={sessionStorage.getItem("master") == 2 ? 23 : 24}>
-                    <p>{item.contents}</p>
-                  </Col>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <p style={{ fontSize: 14 }}>{item.contents}</p>
                   {sessionStorage.getItem("master") == 2 ? (
-                    <Col span={1}>
+                    <div>
                       <Dropdown
                         menu={{
                           onClick: () => setData(item),
@@ -342,29 +338,12 @@ const CommunityPlan = (props) => {
                           type="text"
                           icon={<MoreOutlined />}
                           style={{ textAlign: "center" }}
-                        ></Button>
+                        />
                       </Dropdown>
-                    </Col>
+                    </div>
                   ) : null}
-                </Row>
-                {/* {sessionStorage.getItem("master") == 2 ? (
-                        <Dropdown
-                          menu={{
-                            onClick: () => setData(item),
-                            items,
-                          }}
-                          placement="bottom"
-                        >
-                          <Button type="text" className={styles.plan_item}>
-                            <b>{item.contents}</b>
-                          </Button>
-                        </Dropdown>
-                      ) : (
-                        <Button type="text" className={styles.plan_item}>
-                          <b>{item.contents}</b>
-                        </Button>
-                      )} */}
-              </List.Item>
+                </div>
+              </div>
             ) : (
               <></>
             )

@@ -1,4 +1,4 @@
-import { GET_MAIN, LOGIN, LOGOUT, JOIN } from "../types";
+import { GET_MAIN, LOGIN, LOGOUT, JOIN, REFRESH } from "../types";
 import { take } from "lodash";
 // import {data_community} from '../../assets/data/community';
 
@@ -18,7 +18,6 @@ export default function (state = {}, action) {
         project: take(action.payload.project, 3) || [],
       };
     case JOIN:
-      console.log("리듀서: ", action.payload);
       return {
         ...state,
         join: action.payload || false,
@@ -32,6 +31,11 @@ export default function (state = {}, action) {
       return {
         ...state,
         logout: action.payload || false,
+      };
+    case REFRESH:
+      return {
+        ...state,
+        refresh: action.payload || false,
       };
     default:
       return state;

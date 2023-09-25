@@ -8,6 +8,7 @@ import {
   getNoticeDetail,
   deleteNotice,
 } from "../../store/actions/notice_actions";
+import { refresh } from "../../store/actions/main_actions";
 
 import {
   Divider,
@@ -59,7 +60,7 @@ const NoticeDetail = () => {
     const ext = url.split(".").pop(); // url 구조에 맞게 수정할 것
     const filename = url.split("/").pop(); // url 구조에 맞게 수정할 것
     const metadata = { type: `image/${ext}` };
-    console.log("이미지: ", new File([data], filename, metadata));
+    // console.log("이미지: ", new File([data], filename, metadata));
     return new File([data], filename, metadata);
   };
 
@@ -116,10 +117,10 @@ const NoticeDetail = () => {
   };
 
   const utcToKst = (date) => {
-    console.log(new Date());
+    // console.log(new Date());
     let time_diff = 9 * 60 * 60 * 1000;
     let cur_date_korea = new Date(date + time_diff);
-    console.log("cur_date_korea: ", cur_date_korea);
+    // console.log("cur_date_korea: ", cur_date_korea);
     return cur_date_korea;
   };
 
@@ -164,7 +165,7 @@ const NoticeDetail = () => {
             <Row justify="space-between" className={styles.notice_info}>
               <Col span={12}>
                 <h3 className={styles.notice_info_left}>
-                  {console.log(utcToKst(data.createdAt))}
+                  {/* {console.log(utcToKst(data.createdAt))} */}
                   <span>{data.createdAt.substring(0, 10)}</span>&nbsp;
                   <span>{data.createdAt.substring(11, 19)}</span>
                   <span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>
@@ -193,10 +194,7 @@ const NoticeDetail = () => {
                 <Image
                   // width={"100%"}
                   height={"50%"}
-                  src={`${data.img}`.replace(
-                    "aiservicelab.yongin.ac.kr/public",
-                    "localhost:3000"
-                  )}
+                  src={data.img}
                   // src={altImg}
                 />
               )}

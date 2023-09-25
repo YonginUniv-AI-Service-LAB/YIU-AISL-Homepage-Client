@@ -11,7 +11,7 @@ import {
   Modal,
   message,
 } from "antd";
-import { MinusOutlined } from "@ant-design/icons";
+import { MinusOutlined, KeyOutlined } from "@ant-design/icons";
 
 // 리덕스
 import { useDispatch, useSelector } from "react-redux";
@@ -20,7 +20,9 @@ import {
   enterUser,
   refuseUser,
   getWaitingUser,
+  giveAuth,
 } from "../../store/actions/user_actions";
+import { refresh } from "../../store/actions/main_actions";
 
 import PageTitle from "../../components/PageTitle/PageTitle";
 
@@ -91,6 +93,19 @@ const Users = () => {
       });
   };
 
+  const funcGiveAuth = (userid) => {
+    dispatch(giveAuth(userid))
+      .then((res) => {
+        if (res.payload === true) {
+          dispatch(getAllUser());
+          dispatch(getWaitingUser());
+        } else ResFunc(res.payload);
+      })
+      .catch((err) => {
+        errorMsg(`잠시 후에 다시 시도해주세요.`);
+      });
+  };
+
   const ResFunc = (res) => {
     switch (res) {
       case 400:
@@ -142,20 +157,31 @@ const Users = () => {
                         // borderRadius: 50,
                       }}
                     >
-                      {item.master == 0 ? "준" : item.master == 1 ? "정" : "마"}
+                      {item.master == 0
+                        ? "준회원"
+                        : item.master == 1
+                        ? "정회원"
+                        : "마스터"}
                     </span>
                     {item.name}
                   </span>
                   <br />
                   <span style={{ color: colors.grey_mid }}>{item.email}</span>
                 </div>
-                {item.email === "bmh2038@naver.com" ||
-                item.master == 0 ? null : (
-                  <Button
-                    color="#868e96"
-                    icon={<MinusOutlined />}
-                    onClick={() => funcRefuseUser(item.userid)}
-                  />
+                {item.master === 2 || item.master === 0 ? null : (
+                  <div>
+                    <Button
+                      color="#868e96"
+                      icon={<KeyOutlined />}
+                      onClick={() => funcGiveAuth(item.userid)}
+                      style={{ marginRight: 10 }}
+                    />
+                    <Button
+                      color="#868e96"
+                      icon={<MinusOutlined />}
+                      onClick={() => funcRefuseUser(item.userid)}
+                    />
+                  </div>
                 )}
               </div>
             );

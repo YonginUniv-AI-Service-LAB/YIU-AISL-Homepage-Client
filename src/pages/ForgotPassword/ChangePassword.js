@@ -13,12 +13,8 @@ import ValidationRules from "../../utils/ValidationRules";
 import TextInput from "../../components/TextInput/TextInput";
 import Large_SubmitButton from "../../components/Button/Large_SubmitButton";
 
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
+const onFinish = (values) => {};
+const onFinishFailed = (errorInfo) => {};
 
 const ChangePassword = (props) => {
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 992 });
@@ -31,7 +27,6 @@ const ChangePassword = (props) => {
   const [complete, setComplete] = useState(false);
 
   const errorMsg = (data) => {
-    console.log("왜 안되냐?", data);
     messageApi.open({
       type: "error",
       content: data,
@@ -79,9 +74,6 @@ const ChangePassword = (props) => {
 
   // 텍스트인풋 업데이트
   const onChange = (e) => {
-    console.log("===============================");
-    console.log(e.target.id, e.target.value);
-
     setForm((prevState) => ({
       ...prevState,
       [e.target.id]: {
@@ -93,7 +85,6 @@ const ChangePassword = (props) => {
 
   // 텍스트인풋-셀렉트(question) 업데이트
   const onChangeSelect = (data) => {
-    console.log(data);
     const nextForm = {
       ...form,
       question: {
@@ -102,8 +93,6 @@ const ChangePassword = (props) => {
       },
     };
     setForm(nextForm);
-
-    console.log(form.question);
   };
 
   // 유효성 검사
@@ -112,19 +101,14 @@ const ChangePassword = (props) => {
     let falseForm = [];
 
     for (let i in form) {
-      console.log("=====", i, form[i].value, "=====");
-      console.log("rules: ", form[i].rules);
       let rules = form[i].rules;
       let valid = ValidationRules(form[i].value, rules, form);
       form[i].valid = valid;
-      console.log("valid: ", form[i].valid);
       if (form[i].valid === false || form[i].value === "") {
         checkValid = false;
         falseForm.push(i);
       }
     }
-    console.log("checkValid: ", checkValid);
-    console.log("falseForm: ", falseForm);
 
     if (checkValid) submitForm();
     else {
@@ -136,7 +120,6 @@ const ChangePassword = (props) => {
   const submitForm = () => {
     dispatch(changePwd(form))
       .then((res) => {
-        console.log("res: ", res);
         switch (res.payload) {
           case true:
             props.toLoginPage();

@@ -93,7 +93,6 @@ const Login = () => {
   const submitForm = () => {
     dispatch(login(form))
       .then((res) => {
-        console.log("res: ", res);
         switch (res.payload) {
           case true:
             navigate("/");

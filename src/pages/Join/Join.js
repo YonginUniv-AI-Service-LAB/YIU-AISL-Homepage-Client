@@ -35,7 +35,6 @@ const Join = () => {
 
   // 에러메세지 함수
   const errorMsg = (data) => {
-    console.log("왜 안되냐?", data);
     messageApi.open({
       type: "error",
       content: data,
@@ -99,9 +98,6 @@ const Join = () => {
 
   // 텍스트인풋 업데이트
   const onChange = (e) => {
-    console.log("===============================");
-    console.log(e.target.id, e.target.value);
-
     setForm((prevState) => ({
       ...prevState,
       [e.target.id]: {
@@ -113,7 +109,6 @@ const Join = () => {
 
   // 텍스트인풋-셀렉트(question) 업데이트
   const onChangeSelect = (data) => {
-    console.log(data);
     const nextForm = {
       ...form,
       question: {
@@ -122,8 +117,6 @@ const Join = () => {
       },
     };
     setForm(nextForm);
-
-    console.log(form.question);
   };
 
   // 유효성 검사
@@ -132,19 +125,14 @@ const Join = () => {
     let falseForm = [];
 
     for (let i in form) {
-      console.log(i, form[i].value);
       let rules = form[i].rules;
       let valid = ValidationRules(form[i].value, rules, form);
       form[i].valid = valid;
-      console.log("=====", form[i].valid, "=====");
       if (form[i].valid === false || form[i].value === "") {
         checkValid = false;
         falseForm.push(i);
       }
     }
-
-    console.log("checkValid: ", checkValid);
-    console.log("falseForm: ", falseForm);
 
     if (checkValid === true) submitForm();
     else {
@@ -154,10 +142,8 @@ const Join = () => {
 
   // 유효성 검사 확인 완료 => API요청
   const submitForm = () => {
-    console.log("통과");
     dispatch(join(form))
       .then((res) => {
-        console.log("res: ", res);
         switch (res.payload) {
           case true:
             setPageChange(true);

@@ -84,9 +84,6 @@ const ForgotPassword = (props) => {
 
   // 텍스트인풋 업데이트
   const onChange = (e) => {
-    console.log("===============================");
-    console.log(e.target.id, e.target.value);
-
     setForm((prevState) => ({
       ...prevState,
       [e.target.id]: {
@@ -98,7 +95,6 @@ const ForgotPassword = (props) => {
 
   // 텍스트인풋-셀렉트(question) 업데이트
   const onChangeSelect = (data) => {
-    console.log(data);
     const nextForm = {
       ...form,
       question: {
@@ -107,8 +103,6 @@ const ForgotPassword = (props) => {
       },
     };
     setForm(nextForm);
-
-    console.log(form.question);
   };
 
   // 유효성 검사
@@ -120,7 +114,6 @@ const ForgotPassword = (props) => {
       let rules = form[i].rules;
       let valid = ValidationRules(form[i].value, rules, form);
       form[i].valid = valid;
-      console.log("valid: ", form[i].valid);
       if (form[i].valid === false || form[i].value === "") {
         checkValid = false;
         falseForm.push(i);
@@ -137,7 +130,6 @@ const ForgotPassword = (props) => {
   const submitForm = () => {
     dispatch(findPwd(form))
       .then((res) => {
-        console.log("res: ", res);
         switch (res.payload) {
           case true:
             setComplete(true);

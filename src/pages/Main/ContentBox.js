@@ -31,11 +31,12 @@ const ContentBox = (props) => {
       title={<h2>{props.title}</h2>}
       style={{ height: 550 }}
       // extra={<a href={props.onClick}>더보기</a>}
-      extra={
-        <Button type="link" onClick={props.onClick}>
-          더보기
-        </Button>
-      }
+      // extra={
+      //   <Button type="link" onClick={props.onClick}>
+      //     더보기
+      //   </Button>
+      // }
+      onClick={props.onClick}
     >
       <CardBody>
         {/* <CardTitle

@@ -43,7 +43,6 @@ const Professor = (props) => {
 
   useEffect(() => {
     const result = aisl_professors.find((e) => e.id === id);
-    console.log("result: ", result);
     setProfessor(result);
   }, []);
 

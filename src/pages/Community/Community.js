@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Row, Col } from "antd";
 import dayjs from "dayjs";
@@ -22,7 +22,9 @@ const Community = (props) => {
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const isNotMobile = useMediaQuery({ minWidth: 768 });
 
-  const [selectedValue, setSelectedValue] = useState(() => dayjs(new Date()));
+  const mounted = useRef(false);
+
+  const [selectedValue, setSelectedValue] = useState(dayjs(new Date()));
   const [calendarData, setCalendarDate] = useState([]);
   const [noPlan, setNoPlan] = useState(true);
   const [noPost, setNoPost] = useState(true);
@@ -34,20 +36,18 @@ const Community = (props) => {
 
   // 데이터 불러오기
   useEffect(() => {
-    dispatch(getCommunity())
-      .then((res) => {
-        dispatch(getCommunity());
-      })
-      .catch((err) => {});
+    dispatch(getCommunity());
   }, []);
 
   // plan, post 데이터 변경될 때 getList 함수 통해서 분류 정리
   useEffect(() => {
-    if (plan != undefined && post != undefined) {
-      checkNoData();
+    if (!mounted.current) {
+      mounted.current = true;
+    } else {
+      // checkNoData();
       getList();
+      setSelectedValue(dayjs(new Date()));
     }
-    console.log("발동!");
   }, [plan, post]);
 
   // 선택한 날짜 바뀔 때 마다 오른쪽 Plan, Post 데이터 있는지 없는지 확인
@@ -104,14 +104,18 @@ const Community = (props) => {
     setCalendarDate(result); // 데이터 최종 업데이트
   };
 
+  const refreshData = () => {
+    dispatch(getCommunity());
+  };
+
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", marginBottom: 100 }}>
       <PageTitle title="Community" />
       <h2 className={styles.page_date}>{`${selectedValue?.format(
         "YYYY-MM-DD"
       )}`}</h2>
 
-      {plan != undefined && post != undefined ? (
+      {post != undefined && plan != undefined ? (
         <div
           style={{
             display: "grid",
@@ -135,6 +139,7 @@ const Community = (props) => {
               date={`${selectedValue?.format("YYYY-MM-DD")}`}
               data={plan}
               no={noPlan}
+              refreshData={() => refreshData()}
             />
 
             {/* 오른쪽 섹션 사이의 중간 여백 */}
@@ -145,7 +150,7 @@ const Community = (props) => {
               date={`${selectedValue?.format("YYYY-MM-DD")}`}
               data={post}
               no={noPost}
-              rerender={() => dispatch(getCommunity())}
+              refreshData={() => refreshData()}
             />
           </div>
         </div>

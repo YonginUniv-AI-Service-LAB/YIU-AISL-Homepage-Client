@@ -9,12 +9,12 @@ import {
   LIKE,
 } from "../types";
 
-export default function (state = {}, action) {
+export default function (state = [], action) {
   switch (action.type) {
     case GET_COMMUNITY:
-      console.log("리듀서: ", action.payload);
       return {
         ...state,
+        community: action.payload || [],
         plan: action.payload.plan || [],
         post: action.payload.post || [],
       };

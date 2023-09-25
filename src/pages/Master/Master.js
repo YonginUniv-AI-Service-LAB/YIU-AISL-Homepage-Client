@@ -38,7 +38,6 @@ const Master = () => {
 
   return (
     <div style={{ marginBottom: 100 }}>
-      {console.log(location.state)}
       <PageTitle title="Master" />
       <Tabs
         defaultActiveKey={1}

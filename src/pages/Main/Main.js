@@ -113,10 +113,11 @@ const Main = (props) => {
 
         <MainProject
           moveProject={() => navigate("project")}
+          moveProjectDetail={(projectid) =>
+            navigate("/project/detail", { state: projectid })
+          }
           data_project={project}
         />
-
-        {console.log("project: ", project)}
       </Container>
     </div>
   );
