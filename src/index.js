@@ -27,8 +27,8 @@ const createStoreWithMiddleware = createStore(
   composeEnhancers(applyMiddleware(promiseMiddleware))
 );
 
-// axios.defaults.baseURL = process.env.REACT_APP_API_URL;
-axios.defaults.baseURL = "http://localhost:3000";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+// axios.defaults.baseURL = "http://localhost:3000";
 // axios.defaults.baseURL = process.env.REACT_APP_DEV_IN_SCHOOL;
 axios.defaults.withCredentials = true;
 // axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
